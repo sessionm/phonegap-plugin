@@ -13,32 +13,33 @@ Setup Steps
 5. Add the sessionm.js javascript file to your in the appropriate place.
 6. Add the following to your root level config.xml:
 
-```xml
-<feature name="SessionMPlugin">
-    <param name="ios-package" value="SessionMPhoneGapPlugin"/>
-</feature>
-<access origin="https://*.sessionm.com" /> 
-```
+    ```xml
+    <feature name="SessionMPlugin">
+        <param name="ios-package" value="SessionMPhoneGapPlugin"/>
+    </feature>
+    <access origin="https://*.sessionm.com" /> 
+    ```
+
 7. Add a script tag to your index.html: 
 
-```html
-<script type="text/javascript" src="js/sessionm.js"></script>
-```
+    ```html
+    <script type="text/javascript" src="js/sessionm.js"></script>
+    ```
 8. Start a session:
 
-```javascript
-window.plugins.sessionm.startSession('your-key-from-above-here');
-```
+    ```javascript
+    window.plugins.sessionm.startSession('your-key-from-above-here');
+    ```
 9. To log an action call:
 
-```javascript
-window.plugins.sessionm.logAction('myAction');
-```
+    ```javascript
+    window.plugins.sessionm.logAction('myAction');
+    ```
 10. To present the portal call:
 
-```javascript
-window.plugins.sessionm.presentActivity(2);
-```
+    ```javascript
+    window.plugins.sessionm.presentActivity(2);
+    ```
 
 
 ### Android Setup
