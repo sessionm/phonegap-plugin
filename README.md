@@ -21,21 +21,21 @@ Setup Steps
 
 6. Add a script tag to your index.html: 
 
-```
+```html
 <script type="text/javascript" src="js/sessionm.js"></script>
 ```
 
 7. Start a session:
 
-```
-window.plugins.sessionm.startSession('your-key-from-above-here');
 ```javascript
+window.plugins.sessionm.startSession('your-key-from-above-here');
+```
 
 8. To log an action call:
 
-```
+```javscript
 window.plugins.sessionm.logAction('myAction');
-```javascript
+```
 
 9. To present the portal call:
 
