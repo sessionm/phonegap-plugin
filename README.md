@@ -18,29 +18,25 @@ Setup Steps
 </feature>
 <access origin="https://*.sessionm.com" /> 
 ```
-
 6. Add a script tag to your index.html: 
 
 ```html
 <script type="text/javascript" src="js/sessionm.js"></script>
 ```
-
 7. Start a session:
 
 ```javascript
 window.plugins.sessionm.startSession('your-key-from-above-here');
 ```
-
 8. To log an action call:
 
-```javscript
+```javascript
 window.plugins.sessionm.logAction('myAction');
 ```
-
 9. To present the portal call:
 
 ```javascript
-windows.plugins.session.presentActivity(2);
+window.plugins.sessionm.presentActivity(2);
 ```
 
 
