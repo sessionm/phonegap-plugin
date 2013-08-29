@@ -11,28 +11,39 @@ Setup Steps
 3. Download the SDK and add it to your phone gap project.
 4. Add the SessionMPhoneGapPlugin.h and SessionMPhoneGapPlugin.m to the plugin directory of your project.
 5. Add the following to your root level config.xml:
+
 ```xml
 <feature name="SessionMPlugin">
     <param name="ios-package" value="SessionMPhoneGapPlugin"/>
 </feature>
 <access origin="https://*.sessionm.com" /> 
 ```
+
 6. Add a script tag to your index.html: 
+
 ```
 <script type="text/javascript" src="js/sessionm.js"></script>
 ```
+
 7. Start a session:
+
 ```
 window.plugins.sessionm.startSession('your-key-from-above-here');
 ```javascript
+
 8. To log an action call:
+
 ```
 window.plugins.sessionm.logAction('myAction');
 ```javascript
+
 9. To present the portal call:
+
 ```javascript
 windows.plugins.session.presentActivity(2);
 ```
+
+
 ### Android Setup
 
 Coming Soon
