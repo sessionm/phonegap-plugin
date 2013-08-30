@@ -93,7 +93,7 @@
   };
 
   SessionM.prototype.notifyCustomAchievementDismissed = function(event, successCallback, failureCallback) {
-    return cordova.exec(successCallback, failureCallback, 'SessionMPlugin', 'notifyCustomAchievementDismissed', [event]);
+    return cordova.exec(successCallback, failureCallback, 'SessionMPlugin', 'notifyCustomAchievementCancelled', [event]);
   };
 
   SessionM.prototype.notifyCustomAchievementClaimed = function(event, successCallback, failureCallback) {
