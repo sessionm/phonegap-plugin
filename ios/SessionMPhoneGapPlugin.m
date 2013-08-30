@@ -323,7 +323,8 @@
                                     @"name" : achievement.name,
                                     @"message" : achievement.message,
                                     @"points" : [NSString stringWithFormat:@"%d", achievement.mpointValue],
-                                    @"isCustom" : [NSNumber numberWithBool:achievement.isCustom] };
+                                    @"isCustom" : [NSNumber numberWithBool:achievement.isCustom],
+                                    @"action" : achievement.action };
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:callbackDict];
     [pluginResult setKeepCallbackAsBool:YES];
     
@@ -368,7 +369,7 @@
     NSDictionary *callbackDict = @{ @"optedOut": [NSNumber numberWithBool:user.isOptedOut],
                                     @"unclaimedAchievementCount" : [NSNumber numberWithInt:user.unclaimedAchievementCount],
                                     @"unclaimedAchievementValue" : [NSNumber numberWithInt:user.unclaimedAchievementValue],
-                                    @"pointBalance" :  [NSNumber numberWithInt:user.pointBalance] };
+                                    @"pointBalance" :  [NSNumber numberWithInt:user.pointBalance]};
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:callbackDict];
     [pluginResult setKeepCallbackAsBool:YES];
     
