@@ -167,7 +167,7 @@
     [self writeJavascript:javaScript];
 }
 
-- (void) setUpdateUserCallabck:(CDVInvokedUrlCommand*)command
+- (void) setUpdateUserCallback:(CDVInvokedUrlCommand*)command
 {
     CDVPluginResult* pluginResult = nil;
     NSString* javaScript = nil;
