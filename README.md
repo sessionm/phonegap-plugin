@@ -12,39 +12,91 @@ Setup Steps
 2. Create an iOS app and get the key.
 3. Download the SDK and add it to your phone gap project.
 4. Install the SessionM Plugin
-    ```sh
+    ```bash
     cordova plugin add <sessionm-phonegapPlugin-folder>
+    ```    
     OR
+    ```bash
     cordova plugin add https://github.com/sessionm/phonegap-plugin
+    ```
+    Run the prepare command to make sure plugins are all set.
+    ```bash
     cordova prepare
     ```
-6. Add the following to your root level config.xml allow access to the following URL:
+5. Add the following to your root level config.xml allow access to the following URL:
 
     ```xml
     <access origin="https://*.sessionm.com" />
     ```
 
-7. Add a script tag to your index.html:
+6. Add a script tag to your index.html:
 
     ```html
 
     ```
-8. Start a session:
+7. Start a session:
 
     ```javascript
     sessionm.phonegap.startSession('your-key-from-above-here');
     ```
-9. To log an action call:
+8. To log an action call:
 
     ```javascript
     sessionm.phonegap.logAction('myAction');
     ```
-10. To present the portal call:
+9. To present the portal call:
 
     ```javascript
     sessionm.phonegap.presentActivity(2);
     ```
 
 ### Android Setup
+### Installation
+1. Go to http://developer.sessionm.com and setup an account.
+2. Create an Android app and get the key.
+3. Add the key and permissions to AndroidManifest.xml.
+   
+   ```xml
+   <uses-permission android:name="android.permission.INTERNET" />
+   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-Coming Soon
+   ...
+   
+   <application>
+   <meta-data
+   	android:name="com.sessionm.appid"
+   	android:value="your-key-from-above-here" />
+   </application>
+   ```
+4. Download the sessionM SDK and add it to your phone gap project.
+5. Install the SessionM Plugin
+    
+    ```bash
+    cordova plugin add https://github.com/sessionm/phonegap-plugin
+    ```
+    ```bash
+    cordova prepare
+    ```
+
+### Usage
+1. To start a session, put the following javascript in index.js.
+
+    ```javascript
+    onDeviceReady: function() {
+        app.receivedEvent('deviceready');
+    	sessionm.phonegap.startSession('your-key-from-above-here');
+    }
+    ```
+
+2. To log an action call:
+
+    ```javascript
+    sessionm.phonegap.logAction('myAction');
+    ```
+
+3. To present the portal call:
+
+    ```javascript
+    sessionm.phonegap.presentActivity(2);
+    ```
+
