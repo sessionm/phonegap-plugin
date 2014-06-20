@@ -12,15 +12,12 @@ Setup Steps
 2. Create an iOS app and get the key.
 3. Download the SDK and add it to your phone gap project.
 4. Install the SessionM Plugin
-    ```bash
-    cordova plugin add <sessionm-phonegapPlugin-folder>
-    ```    
-    OR
-    ```bash
-    cordova plugin add https://github.com/sessionm/phonegap-plugin
-    ```
-    Run the prepare command to make sure plugins are all set.
-    ```bash
+
+   ```bash
+   cordova plugin add https://github.com/sessionm/phonegap-plugin
+   ```
+    
+   ```bash
     cordova prepare
     ```
 5. Add the following to your root level config.xml allow access to the following URL:
@@ -28,27 +25,22 @@ Setup Steps
     ```xml
     <access origin="https://*.sessionm.com" />
     ```
-
-6. Add a script tag to your index.html:
-
-    ```html
-
     ```
-7. Start a session:
+6. Start a session:
 
     ```javascript
     sessionm.phonegap.startSession('your-key-from-above-here');
     ```
-8. To log an action call:
+7. To log an action call:
 
-    ```javascript
-    sessionm.phonegap.logAction('myAction');
-    ```
-9. To present the portal call:
+   ```javascript
+   sessionm.phonegap.logAction('myAction');
+   ```
+8. To present the portal call:
 
-    ```javascript
-    sessionm.phonegap.presentActivity(2);
-    ```
+   ```javascript
+   sessionm.phonegap.presentActivity(2);
+   ```
 
 ### Android Setup
 ### Installation
