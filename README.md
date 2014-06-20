@@ -2,6 +2,8 @@ SessionM PhoneGap SDK
 ===============
 This plugin allows you to add SessionM achievements to your phonegap app for iOS and Android.
 
+Compatibility: Cordova (PhoneGap) v3.5 or above
+
 Setup Steps
 ---------------
 
@@ -9,38 +11,39 @@ Setup Steps
 1. Go to http://developer.sessionm.com and setup an account.
 2. Create an iOS app and get the key.
 3. Download the SDK and add it to your phone gap project.
-4. Add the SessionMPhoneGapPlugin.h and SessionMPhoneGapPlugin.m to the plugin directory of your project.
-5. Add the sessionm.js javascript file to your in the appropriate place.
-6. Add the following to your root level config.xml:
+4. Install the SessionM Plugin
+    ```sh
+    cordova plugin add <sessionm-phonegapPlugin-folder>
+    OR
+    cordova plugin add https://github.com/sessionm/phonegap-plugin
+    cordova prepare
+    ```
+6. Add the following to your root level config.xml allow access to the following URL:
 
     ```xml
-    <feature name="SessionMPlugin">
-        <param name="ios-package" value="SessionMPhoneGapPlugin"/>
-    </feature>
-    <access origin="https://*.sessionm.com" /> 
+    <access origin="https://*.sessionm.com" />
     ```
 
-7. Add a script tag to your index.html: 
+7. Add a script tag to your index.html:
 
     ```html
-    <script type="text/javascript" src="js/sessionm.js"></script>
+
     ```
 8. Start a session:
 
     ```javascript
-    window.plugins.sessionm.startSession('your-key-from-above-here');
+    sessionm.phonegap.startSession('your-key-from-above-here');
     ```
 9. To log an action call:
 
     ```javascript
-    window.plugins.sessionm.logAction('myAction');
+    sessionm.phonegap.logAction('myAction');
     ```
 10. To present the portal call:
 
     ```javascript
-    window.plugins.sessionm.presentActivity(2);
+    sessionm.phonegap.presentActivity(2);
     ```
-
 
 ### Android Setup
 
