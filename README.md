@@ -91,4 +91,49 @@ Setup Steps
     ```javascript
     sessionm.phonegap.presentActivity(2);
     ```
+4. To present the unclaimed Achievement Count
+   Create a DIV or a Label Element like in the HTML example below.
+
+    ```xml
+   <body>
+   ...
+       
+      <label id="theCount">Uncliamed achievement Count: 0</label>
+   
+   ...
+   </body>
+   ``` 
+   Write a javasScript Method like below to update the value when you need.
+     
+   ```javascript
+   function myUnclaimedAchievementCount(){
+                sessionm.phonegap.getUnclaimedAchievementCount(function callback(data) {
+                                                               var msg = 'Uncliamed achievement Count: ' + data.unclaimedAchievementCount;
+                                                               document.getElementById('theCount').innerHTML = msg;
+                                                               });}
+   ```
+
+5. To present the unclaimed Achievement Value
+
+Create a DIV or a Label Element like in the HTML example below.
+
+    ```xml
+   <body>
+   ...
+        
+      <label id="theValue">mPOINTS Value: --</label>
+   
+   ...
+   </body>
+   ``` 
+   Write a javasScript Method like below to update the value when you need.
+  
+   ```javascript
+   function myUnclaimedAchievementValue){
+                sessionm.phonegap.getUnclaimedAchievementValue(function callback(data) {
+                                                               var msg = 'mPOINTS Value: ' + data.unclaimedAchievementValue;
+                                                               document.getElementById('theValue').innerHTML = msg;
+                                                               });}
+   ```
+
 

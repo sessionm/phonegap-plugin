@@ -41,7 +41,7 @@
     } else {
         NSString* appId = [command.arguments objectAtIndex:0];
         NSLog(@"Starting SessionM Session with key %@", appId);
-        [SessionM sharedInstance].logLevel = SMLogLevelDebug;
+        [SessionM sharedInstance].logLevel = SMLogLevelInfo;
         [[SessionM sharedInstance] startSessionWithAppID:appId];
         [SessionM sharedInstance].delegate = self;
         // Comment the line below to stop auto presenting activities
@@ -94,6 +94,44 @@
         self.shouldAutoPresent = [autoPresentMode boolValue];
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     }
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+- (void) getUnclaimedAchievementCount: (CDVInvokedUrlCommand *)command {
+    
+    NSString *unclaimedAchievementCount = [NSString stringWithFormat:@"%d", [SessionM sharedInstance].user.unclaimedAchievementCount];
+ 
+    NSDictionary *jsonObj = [ [NSDictionary alloc]
+                             initWithObjectsAndKeys :
+                             unclaimedAchievementCount, @"unclaimedAchievementCount",
+                             @"true", @"success",
+                             nil
+                             ];
+    
+    CDVPluginResult *pluginResult = [ CDVPluginResult
+                                     resultWithStatus    : CDVCommandStatus_OK
+                                     messageAsDictionary : jsonObj
+                                     ];
+    
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+- (void) getUnclaimedAchievementValue: (CDVInvokedUrlCommand *)command {
+    
+    NSString *unclaimedAchievementValue = [NSString stringWithFormat:@"%d", [SessionM sharedInstance].user.unclaimedAchievementValue];
+    
+    NSDictionary *jsonObj = [ [NSDictionary alloc]
+                             initWithObjectsAndKeys :
+                             unclaimedAchievementValue, @"unclaimedAchievementValue",
+                             @"true", @"success",
+                             nil
+                             ];
+    
+    CDVPluginResult *pluginResult = [ CDVPluginResult
+                                     resultWithStatus    : CDVCommandStatus_OK
+                                     messageAsDictionary : jsonObj
+                                     ];
+    
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
