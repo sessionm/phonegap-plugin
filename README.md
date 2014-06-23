@@ -114,10 +114,9 @@ Setup Steps
    ```
 
 5. To present the unclaimed Achievement Value
+   Create a DIV or a Label Element like in the HTML example below.
 
-Create a DIV or a Label Element like in the HTML example below.
-
-    ```xml
+   ```xml
    <body>
    ...
         
