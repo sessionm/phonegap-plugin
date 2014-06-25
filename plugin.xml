@@ -2,7 +2,7 @@
 
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
            id="com.sessionm.phonegap"
-      version="0.1.1">
+      version="0.1.2">
 
     <name>SessionM</name>
     <description>PhoneGap SessionM Plugin</description>
