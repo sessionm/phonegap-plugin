@@ -139,14 +139,15 @@ Setup Steps
 
    ```javascript
    onDeviceReady: function() {
-   app.receivedEvent('deviceready');
+      app.receivedEvent('deviceready');
       sessionm.phonegap.startSession();
       sessionm.phonegap.listenDidPresentActivity(function(data) {
          /* your code here*/
       });
-   	sessionm.phonegap.listenDidDismissActivity(function(data) {                     /* your code here*/
-   	   console.log('Activity dismissed!');
+   	sessionm.phonegap.listenDidDismissActivity(function(data) {
+      	/* your code here*/
+      	console.log('Activity dismissed!');
    	}); 
-    },
+   },
    ```
 
