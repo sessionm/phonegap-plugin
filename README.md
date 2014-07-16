@@ -135,4 +135,18 @@ Setup Steps
                                                                });}
    ```
 
+6. To set up listeners in Android, call the proper method just below the startSession();. Like:
+
+   ```javascript
+   onDeviceReady: function() {
+   app.receivedEvent('deviceready');
+      sessionm.phonegap.startSession();
+      sessionm.phonegap.listenDidPresentActivity(function(data) {
+         /* your code here*/
+      });
+   	sessionm.phonegap.listenDidDismissActivity(function(data) {                     /* your code here*/
+   	   console.log('Activity dismissed!');
+   	}); 
+    },
+   ```
 
