@@ -147,7 +147,13 @@ Setup Steps
    	sessionm.phonegap.listenDidDismissActivity(function(data) {
       	/* your code here*/
       	console.log('Activity dismissed!');
+   	});
+   	sessionm.phonegap.listenFailures(function(data) {
+   	   /* your code here*/
    	}); 
+   	
+   	...
+   	
    },
    ```
 
