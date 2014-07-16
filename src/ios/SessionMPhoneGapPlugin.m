@@ -259,7 +259,7 @@
     [self writeJavascript:javaScript];
 }
 
-- (void) setWillDissmissActivityCallback:(CDVInvokedUrlCommand*)command
+- (void) setWillDismissActivityCallback:(CDVInvokedUrlCommand*)command
 {
     CDVPluginResult* pluginResult = nil;
     NSString* javaScript = nil;
@@ -272,7 +272,7 @@
     [self writeJavascript:javaScript];
 }
 
-- (void) setDidDissmissActivityCallback:(CDVInvokedUrlCommand*)command
+- (void) setDidDismissActivityCallback:(CDVInvokedUrlCommand*)command
 {
     CDVPluginResult* pluginResult = nil;
     NSString* javaScript = nil;

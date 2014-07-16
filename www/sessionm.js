@@ -54,11 +54,11 @@
     return cordova.exec(callback, null, 'SessionMPlugin', 'setFailureCallback', []);
   };
  
-  SessionMPlugin.prototype.listenActivityUnavailable = function(callback) {
+  SessionMPlugin.prototype.listentActivityUnavailable = function(callback) {
     return cordova.exec(callback, null, 'SessionMPlugin', 'setActivityUnavailableCallback', []);
   };
 
-  SessionMPlugin.prototype.listenWillPresentActivity = function(callback) {
+  SessionMPlugin.prototype.listentWillPresentActivity = function(callback) {
     return cordova.exec(callback, null, 'SessionMPlugin', 'setWillPresentActivityCallback', []);
   };
 
@@ -67,11 +67,11 @@
   };
 
   SessionMPlugin.prototype.listenWillDismissActivity = function(callback) {
-    return cordova.exec(callback, null, 'SessionMPlugin', 'setWillDissmissActivityCallback', []);
+    return cordova.exec(callback, null, 'SessionMPlugin', 'setWillDismissActivityCallback', []);
   };
 
   SessionMPlugin.prototype.listenDidDismissActivity = function(callback) {
-    return cordova.exec(callback, null, 'SessionMPlugin', 'setDidDissmissActivityCallback', []);
+    return cordova.exec(callback, null, 'SessionMPlugin', 'setDidDismissActivityCallback', []);
   };
 
   SessionMPlugin.prototype.listenWillStartPlayingMedia = function(callback) {
