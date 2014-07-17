@@ -9,12 +9,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import test.com.sessionm.app.AppActivity;
-import test.com.sessionm.unit.ActivityListenerImpl;
-
 import android.util.Log;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import com.sessionm.api.AchievementActivity;
 import com.sessionm.api.AchievementActivity.AchievementDismissType;
