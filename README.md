@@ -89,7 +89,7 @@ Setup Steps
 3. To present the portal call:
 
     ```javascript
-    sessionm.phonegap.presentActivity(2);
+    sessionm.phonegap.presentActivity('PORTAL');
     ```
 4. To present the unclaimed Achievement Count
    Create a DIV or a Label Element like in the HTML example below.
