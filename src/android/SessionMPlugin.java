@@ -1,4 +1,4 @@
-package com.sessionm.cordova.sessionm;
+package com.sessionm.phonegap;
 
 import java.util.Map;
 
@@ -89,26 +89,25 @@ public class SessionMPlugin extends CordovaPlugin implements SessionListener,
             }
         } else if (action.equals("presentActivity")) {
             if (args.length() == 1) {
-                int activityNumber = args.getInt(0);
+                String presentType = args.getString(0);
                 ActivityType selectedType = null;
                 // Translate to enum type.
-                if (activityNumber == 1) {
+                if (presentType.equals("ACHIEVEMENT"))
                     selectedType = ActivityType.ACHIEVEMENT;
-                } else if (activityNumber == 2) {
+                else if (presentType.equals("PORTAL"))
                     selectedType = ActivityType.PORTAL;
-                } else if (activityNumber == 3) {
+                else if (presentType.equals("INTERSTITIAL"))
                     selectedType = ActivityType.INTERSTITIAL;
-                }
                 if (selectedType != null
                         && SessionM.getInstance().getSessionState() != SessionM.State.STOPPED) {
                     SessionM.getInstance().presentActivity(selectedType);
                     callbackContext.success();
                 } else {
                     callbackContext.error(String.format(
-                            "Invalid activity type: %d", activityNumber));
+                            "Invalid present type: %s", presentType));
                 }
             } else {
-                callbackContext.error("Expected a single int argument.");
+                callbackContext.error("Expected a single string argument.");
             }
         } else if (action.equals("dismissActivity") && sessionM != null) {
             sessionM.dismissActivity();
