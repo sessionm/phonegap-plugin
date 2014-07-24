@@ -39,7 +39,7 @@ Setup Steps
 8. To present the portal call:
 
    ```javascript
-   sessionm.phonegap.presentActivity(2);
+   sessionm.phonegap.presentActivity('PORTAL');
    ```
 
 ### Android Setup
