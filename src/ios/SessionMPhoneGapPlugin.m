@@ -388,8 +388,8 @@
 
 - (void)sessionM:(SessionM *)sessionM didFailWithError:(NSError *)error
 {
-    if(!self.stateTransitionCallbackId) {
-        return;
+    if(!self.failureCallbackId) { 
+        return; 
     }
     NSLog(@"didFailWithError: %@", error);
     NSDictionary *failureMessage = @{@"error" : [NSString stringWithFormat:@"%@", error]};
