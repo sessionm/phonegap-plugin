@@ -37,7 +37,7 @@ public class SessionMPlugin extends CordovaPlugin implements SessionListener,
     private CallbackContext userActionCallback;
     private AchievementActivity achievementActivity;
     private boolean autoPresentMode = true;
-    private com.sessionm.api.ext.SessionM sessionM;
+    private com.sessionm.api.SessionM sessionM;
 
     @Override
     public boolean execute(final String action, final JSONArray args,
@@ -69,8 +69,7 @@ public class SessionMPlugin extends CordovaPlugin implements SessionListener,
             // as a listener.
             if (sessionM == null) {
                 // String appID = args.getString(0);
-                sessionM = com.sessionm.api.ext.SessionM.getInstance();
-                sessionM.setExpandedPresentationMode(true);
+                sessionM = com.sessionm.api.SessionM.getInstance();
                 sessionM.setActivityListener(this);
                 sessionM.setSessionListener(this);
                 // sessionM.setAppKey(appID);
