@@ -41,7 +41,7 @@ public class SessionMPlugin extends CordovaPlugin implements SessionListener,
 
     @Override
     public boolean execute(final String action, final JSONArray args,
-            final CallbackContext callbackContext) throws JSONException {
+                           final CallbackContext callbackContext) throws JSONException {
         cordova.getThreadPool().execute(new Runnable() {
 
             @Override
@@ -62,7 +62,7 @@ public class SessionMPlugin extends CordovaPlugin implements SessionListener,
     }
 
     private synchronized void executeInternal(String action, JSONArray args,
-            final CallbackContext callbackContext) throws JSONException {
+                                              final CallbackContext callbackContext) throws JSONException {
         if (action.equals("startSession")) {
             // Really this is a no-op
             // Doesn't actually start the session but will initialize the plugin
@@ -242,12 +242,12 @@ public class SessionMPlugin extends CordovaPlugin implements SessionListener,
 
     /**
      * @Override public boolean shouldAutopresentActivity(SessionM instance) {
-     *           return autoPresentMode; }
+     * return autoPresentMode; }
      */
     // true for now
     @Override
     public boolean shouldPresentAchievement(SessionM instance,
-            AchievementData data) {
+                                            AchievementData data) {
         return true;
     }
 
@@ -289,29 +289,35 @@ public class SessionMPlugin extends CordovaPlugin implements SessionListener,
         stateTransitionCallback.sendPluginResult(result);
     }
 
-    /**
-     * @Override public void onUnclaimedAchievement(SessionM instance,
-     *           AchievementData achievement) { if (unclaimedAchievementCallback
-     *           == null) { return; } if (Log.isLoggable(TAG, Log.DEBUG)) {
-     *           Log.d(TAG,
-     *           String.format("onUnclaimedAchievement called state: %s",
-     *           achievement)); } achievementActivity = new
-     *           AchievementActivity(achievement); JSONObject achievementJSON =
-     *           new JSONObject(); try { achievementJSON.put("iconURL",
-     *           achievement.getAchievementIconURL());
-     *           achievementJSON.put("name", achievement.getName());
-     *           achievementJSON.put("points", achievement.getMpointValue());
-     *           achievementJSON.put("isCustom", achievement.isCustom());
-     *           achievementJSON.put("action", achievement.getName());
-     *           achievementJSON.put("message", achievement.getMessage()); }
-     *           catch (JSONException e) { if (Log.isLoggable(TAG, Log.ERROR)) {
-     *           Log.e(TAG, String.format("Error creating achievement JSON. ",
-     *           e)); } return; }
-     * 
-     *           PluginResult result = new PluginResult(PluginResult.Status.OK,
-     *           achievementJSON); result.setKeepCallback(true);
-     *           unclaimedAchievementCallback.sendPluginResult(result); }
-     */
+    @Override
+    public void onUnclaimedAchievement(SessionM instance, AchievementData achievement) {
+        if (unclaimedAchievementCallback == null) {
+            return;
+        }
+        if (Log.isLoggable(TAG, Log.DEBUG)) {
+            Log.d(TAG, String.format("onUnclaimedAchievement called state: %s", achievement));
+        }
+        achievementActivity = new AchievementActivity(achievement);
+        JSONObject achievementJSON = new JSONObject();
+        try {
+            achievementJSON.put("iconURL", achievement.getAchievementIconURL());
+            achievementJSON.put("name", achievement.getName());
+            achievementJSON.put("points", achievement.getMpointValue());
+            achievementJSON.put("isCustom", achievement.isCustom());
+            achievementJSON.put("action", achievement.getName());
+            achievementJSON.put("message", achievement.getMessage());
+        } catch (JSONException e) {
+            if (Log.isLoggable(TAG, Log.ERROR)) {
+                Log.e(TAG, String.format("Error creating achievement JSON. ", e));
+            }
+            return;
+        }
+
+        PluginResult result = new PluginResult(PluginResult.Status.OK, achievementJSON);
+        result.setKeepCallback(true);
+        unclaimedAchievementCallback.sendPluginResult(result);
+    }
+
     @Override
     public void onUserUpdated(SessionM instance, User user) {
         if (updateUserCallback == null) {
@@ -370,17 +376,18 @@ public class SessionMPlugin extends CordovaPlugin implements SessionListener,
 
     /**
      * @Override public void onUnavailable(SessionM instance) { if
-     *           (activityUnavailableCallback == null) { return; } if
-     *           (Log.isLoggable(TAG, Log.DEBUG)) { Log.d(TAG,
-     *           "onUnavailable called"); }
-     * 
-     *           PluginResult result = new PluginResult(PluginResult.Status.OK);
-     *           result.setKeepCallback(true);
-     *           activityUnavailableCallback.sendPluginResult(result); }
+     * (activityUnavailableCallback == null) { return; } if
+     * (Log.isLoggable(TAG, Log.DEBUG)) { Log.d(TAG,
+     * "onUnavailable called"); }
+     * <p/>
+     * PluginResult result = new PluginResult(PluginResult.Status.OK);
+     * result.setKeepCallback(true);
+     * activityUnavailableCallback.sendPluginResult(result); }
      */
+
     @Override
     public void onUserAction(SessionM instance, UserAction action,
-            Map<String, String> data) {
+                             Map<String, String> data) {
         if (userActionCallback == null) {
             return;
         }
@@ -406,7 +413,6 @@ public class SessionMPlugin extends CordovaPlugin implements SessionListener,
                 userActionJSON);
         result.setKeepCallback(true);
         userActionCallback.sendPluginResult(result);
-
     }
 
     @Override
