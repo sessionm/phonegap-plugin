@@ -72,6 +72,7 @@ public class SessionMPlugin extends CordovaPlugin implements SessionListener,
                 sessionM = com.sessionm.api.SessionM.getInstance();
                 sessionM.setActivityListener(this);
                 sessionM.setSessionListener(this);
+                sessionM.setExpandedPresentationMode(true);
                 // sessionM.setAppKey(appID);
                 SessionM.getInstance().onActivityStart(cordova.getActivity());
                 callbackContext.success();
