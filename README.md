@@ -8,9 +8,9 @@ Setup Steps
 ---------------
 
 ### iOS Setup
-1. Go to http://developer.sessionm.com and setup an account.
+1. Go to [SessionM Dev Portal](http://developer.sessionm.com) and setup an account.
 2. Create an iOS app and get the key.
-3. Download the SDK and add it to your phone gap project.
+3. Download the [ios SDK](http://www.sessionm.com/documentation/downloads.php) and add it to your phone gap project. Please follow the [ios documentation](http://www.sessionm.com/documentation/ios-integration.php) until all frameworks are added.
 4. Install the SessionM Plugin
 
    ```bash
@@ -24,7 +24,6 @@ Setup Steps
 
     ```xml
     <access origin="https://*.sessionm.com" />
-    ```
     ```
 6. Start a session:
 
@@ -44,8 +43,8 @@ Setup Steps
 
 ### Android Setup
 ### Installation
-1. Go to http://developer.sessionm.com and setup an account.
-2. Create an Android app and get the key.
+1. Go to [SessionM Dev Portal](http://developer.sessionm.com) and setup an account.
+2. Create an android app and get the key.
 3. Add the key and permissions to AndroidManifest.xml.
    
    ```xml
@@ -60,7 +59,7 @@ Setup Steps
    	android:value="your-key-from-above-here" />
    </application>
    ```
-4. Download the sessionM SDK and add it to your phone gap project.
+4. Download the [android SDK](http://www.sessionm.com/documentation/downloads.php) and add it to your phone gap project.
 5. Install the SessionM Plugin
     
     ```bash
@@ -91,69 +90,49 @@ Setup Steps
     ```javascript
     sessionm.phonegap.presentActivity('PORTAL');
     ```
-4. To present the unclaimed Achievement Count
-   Create a DIV or a Label Element like in the HTML example below.
 
-    ```xml
-   <body>
-   ...
-       
-      <label id="theCount">Uncliamed achievement Count: 0</label>
-   
-   ...
-   </body>
-   ``` 
-   Write a javasScript Method like below to update the value when you need.
-     
+4. To set up listeners in Android, call the proper method just below the startSession();. Like:
+
    ```javascript
-   function myUnclaimedAchievementCount(){
-                sessionm.phonegap.getUnclaimedAchievementCount(function callback(data) {
-                                                               var msg = 'Uncliamed achievement Count: ' + data.unclaimedAchievementCount;
-                                                               document.getElementById('theCount').innerHTML = msg;
-                                                               });}
-   ```
+   onDeviceReady: function() {
+      app.receivedEvent('deviceready');
+      sessionm.phonegap.startSession("382e91ef41df2e74ecd963fd04b68a186a6b41e0");
+      sessionm.phonegap.listenDidPresentActivity(function(data) {console.log('mPOINTS Portal Presented.');});
+      sessionm.phonegap.listenDidDismissActivity(function(data) {console.log('mPOINTS Portal Dismissed.');});
+      sessionm.phonegap.listenFailures(function(data) {console.log('SessionM Failure!')});
+      //Update html when user status updates
+      sessionm.phonegap.listenUpdateUser(function(data) {
+         app.updateUserText(data);
+         app.updateBadgeCount(data);
+      })
+   	...
+   },
+   
+   updateBadgeCount: function(data){
+      var msg = '' + data.unclaimedAchievementCount;
+      document.getElementById('badgeCount').innerHTML = msg;
+   },
 
-5. To present the unclaimed Achievement Value
-   Create a DIV or a Label Element like in the HTML example below.
+   updateUserText: function(data){
+      //Get user total point balance
+      document.getElementById('userBalance').innerHTML = 'User Balance: ' + data.pointBalance;
+      //Get user unclaimed achievement count
+      document.getElementById('unclaimedCount').innerHTML = 'Unclaimed Achievement Count: ' + data.unclaimedAchievementCount;
+      //Get if user is opted out
+      document.getElementById('isOptOut').innerHTML = 'User Opted Out: ' + data.optedOut;
+   },
+   ```
+   In index.html, create a DIV or a Label Element like in the HTML example below.
 
    ```xml
    <body>
    ...
         
-      <label id="theValue">mPOINTS Value: --</label>
+      <label id="userBalance">mPOINTS Value: --</label>
+      <label id="unclaimedCount">mPOINTS Value: --</label>
+      <label id="isOptOut">mPOINTS Value: --</label>
    
    ...
    </body>
-   ``` 
-   Write a javasScript Method like below to update the value when you need.
-  
-   ```javascript
-   function myUnclaimedAchievementValue){
-                sessionm.phonegap.getUnclaimedAchievementValue(function callback(data) {
-                                                               var msg = 'mPOINTS Value: ' + data.unclaimedAchievementValue;
-                                                               document.getElementById('theValue').innerHTML = msg;
-                                                               });}
-   ```
-
-6. To set up listeners in Android, call the proper method just below the startSession();. Like:
-
-   ```javascript
-   onDeviceReady: function() {
-      app.receivedEvent('deviceready');
-      sessionm.phonegap.startSession();
-      sessionm.phonegap.listenDidPresentActivity(function(data) {
-         /* your code here*/
-      });
-   	sessionm.phonegap.listenDidDismissActivity(function(data) {
-      	/* your code here*/
-      	console.log('Activity dismissed!');
-   	});
-   	sessionm.phonegap.listenFailures(function(data) {
-   	   /* your code here*/
-   	}); 
-   	
-   	...
-   	
-   },
    ```
 
