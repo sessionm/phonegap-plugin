@@ -1,6 +1,6 @@
-SessionM PhoneGap SDK
+SessionM Cordova (PhoneGap) SDK v0.1.3
 ===============
-This plugin allows you to add SessionM achievements to your phonegap app for iOS and Android.
+This plugin allows you to add SessionM achievements to your Cordova (PhoneGap) app for iOS and Android.
 
 Compatibility: Cordova (PhoneGap) v3.5 or above
 
