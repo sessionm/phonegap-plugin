@@ -16,6 +16,10 @@
     <!-- android -->
     <platform name="android">
         
+        <framework src="com.sessionm.sdk:sessionm-sdk:2.0.0" />
+        <framework src="com.squareup.okhttp:okhttp:2.6.0" />
+        <framework src="com.google.code.gson:gson:2.6.2" />
+
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="SessionMPlugin">
                 <param name="android-package" value="com.sessionm.phonegap.SessionMPlugin"/>

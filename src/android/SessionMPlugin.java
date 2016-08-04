@@ -70,11 +70,12 @@ public class SessionMPlugin extends CordovaPlugin implements SessionListener,
             if (sessionM == null) {
                 // String appID = args.getString(0);
                 sessionM = com.sessionm.api.SessionM.getInstance();
+                sessionM.setApplicationContext(cordova.getActivity().getApplicationContext());
                 sessionM.setActivityListener(this);
                 sessionM.setSessionListener(this);
                 sessionM.setExpandedPresentationMode(true);
-                // sessionM.setAppKey(appID);
                 SessionM.getInstance().onActivityStart(cordova.getActivity());
+                sessionM.setExpandedPresentationMode(false);
                 callbackContext.success();
             } else {
                 callbackContext.error("Already started!");
@@ -252,7 +253,7 @@ public class SessionMPlugin extends CordovaPlugin implements SessionListener,
     }
 
     @Override
-    public FrameLayout viewGroupForActivity(SessionM instance) {
+    public FrameLayout viewGroupForActivity() {
         return null;
     }
 
@@ -345,6 +346,10 @@ public class SessionMPlugin extends CordovaPlugin implements SessionListener,
         PluginResult result = new PluginResult(PluginResult.Status.OK, userJSON);
         result.setKeepCallback(true);
         updateUserCallback.sendPluginResult(result);
+    }
+
+    @Override
+    public void onNotificationMessage(SessionM sessionM, NotificationMessage notificationMessage) {
     }
 
     // ActivityListener
