@@ -1,4 +1,4 @@
-SessionM Cordova (PhoneGap) SDK v0.1.3
+SessionM Cordova (PhoneGap) SDK v1.0.0
 ===============
 This plugin allows you to add SessionM achievements to your Cordova (PhoneGap) app for iOS and Android.
 
@@ -96,8 +96,8 @@ Setup Steps
    onDeviceReady: function() {
       app.receivedEvent('deviceready');
       sessionm.phonegap.startSession("382e91ef41df2e74ecd963fd04b68a186a6b41e0");
-      sessionm.phonegap.listenDidPresentActivity(function(data) {console.log('mPOINTS Portal Presented.');});
-      sessionm.phonegap.listenDidDismissActivity(function(data) {console.log('mPOINTS Portal Dismissed.');});
+      sessionm.phonegap.listenDidPresentActivity(function(data) {console.log('mPlus Rewards Portal Presented.');});
+      sessionm.phonegap.listenDidDismissActivity(function(data) {console.log('mPlus Rewards Portal Dismissed.');});
       sessionm.phonegap.listenFailures(function(data) {console.log('SessionM Failure!')});
       //Update html when user status updates
       sessionm.phonegap.listenUpdateUser(function(data) {
@@ -127,9 +127,9 @@ Setup Steps
    <body>
    ...
         
-      <label id="userBalance">mPOINTS Value: --</label>
-      <label id="unclaimedCount">mPOINTS Value: --</label>
-      <label id="isOptOut">mPOINTS Value: --</label>
+      <label id="userBalance">mPlus Rewards Value: --</label>
+      <label id="unclaimedCount">mPlus Rewards Value: --</label>
+      <label id="isOptOut">mPlus Rewards Value: --</label>
    
    ...
    </body>
