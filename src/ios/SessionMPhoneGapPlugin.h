@@ -5,7 +5,7 @@
 
 #import <Foundation/Foundation.h>
 #import <Cordova/CDV.h>
-#import "SessionM.h"
+#import <SessionMFramework/SessionM.h>
 
 @interface SessionMPhoneGapPlugin : CDVPlugin<SessionMDelegate> {
     

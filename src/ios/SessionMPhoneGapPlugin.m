@@ -183,158 +183,134 @@
 - (void) setStateTransitionCallback:(CDVInvokedUrlCommand*)command
 {
     CDVPluginResult* pluginResult = nil;
-    NSString* javaScript = nil;
     
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_NO_RESULT];
     [pluginResult setKeepCallbackAsBool:YES];
     self.stateTransitionCallbackId = command.callbackId;
-    
-    javaScript = [pluginResult toSuccessCallbackString:command.callbackId];
-    [self writeJavascript:javaScript];
+
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
 }
 
 
 - (void) setUnclaimedAchievementCallback:(CDVInvokedUrlCommand*)command
 {
     CDVPluginResult* pluginResult = nil;
-    NSString* javaScript = nil;
     
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_NO_RESULT];
     [pluginResult setKeepCallbackAsBool:YES];
     self.unclaimedAchievementCallbackId = command.callbackId;
     
-    javaScript = [pluginResult toSuccessCallbackString:command.callbackId];
-    [self writeJavascript:javaScript];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
 }
 
 - (void) setUpdateUserCallback:(CDVInvokedUrlCommand*)command
 {
     CDVPluginResult* pluginResult = nil;
-    NSString* javaScript = nil;
     
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_NO_RESULT];
     [pluginResult setKeepCallbackAsBool:YES];
     self.updateUserCallbackId = command.callbackId;
     
-    javaScript = [pluginResult toSuccessCallbackString:command.callbackId];
-    [self writeJavascript:javaScript];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
 }
 
 - (void) setActivityUnavailableCallback:(CDVInvokedUrlCommand*)command
 {
     CDVPluginResult* pluginResult = nil;
-    NSString* javaScript = nil;
     
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_NO_RESULT];
     [pluginResult setKeepCallbackAsBool:YES];
     self.activityUnavailableCallbackId = command.callbackId;
     
-    javaScript = [pluginResult toSuccessCallbackString:command.callbackId];
-    [self writeJavascript:javaScript];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
 }
 
 - (void) setWillPresentActivityCallback:(CDVInvokedUrlCommand*)command
 {
     CDVPluginResult* pluginResult = nil;
-    NSString* javaScript = nil;
     
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_NO_RESULT];
     [pluginResult setKeepCallbackAsBool:YES];
     self.willPresentActivityCallbackId = command.callbackId;
     
-    javaScript = [pluginResult toSuccessCallbackString:command.callbackId];
-    [self writeJavascript:javaScript];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
 }
 
 - (void) setDidPresentActivityCallback:(CDVInvokedUrlCommand*)command
 {
     CDVPluginResult* pluginResult = nil;
-    NSString* javaScript = nil;
     
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_NO_RESULT];
     [pluginResult setKeepCallbackAsBool:YES];
     self.didDismissActivityCallbackId = command.callbackId;
     
-    javaScript = [pluginResult toSuccessCallbackString:command.callbackId];
-    [self writeJavascript:javaScript];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
 }
 
 - (void) setWillDismissActivityCallback:(CDVInvokedUrlCommand*)command
 {
     CDVPluginResult* pluginResult = nil;
-    NSString* javaScript = nil;
     
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_NO_RESULT];
     [pluginResult setKeepCallbackAsBool:YES];
     self.willDismissActivityCallbackId = command.callbackId;
     
-    javaScript = [pluginResult toSuccessCallbackString:command.callbackId];
-    [self writeJavascript:javaScript];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
 }
 
 - (void) setDidDismissActivityCallback:(CDVInvokedUrlCommand*)command
 {
     CDVPluginResult* pluginResult = nil;
-    NSString* javaScript = nil;
     
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_NO_RESULT];
     [pluginResult setKeepCallbackAsBool:YES];
     self.didDismissActivityCallbackId = command.callbackId;
     
-    javaScript = [pluginResult toSuccessCallbackString:command.callbackId];
-    [self writeJavascript:javaScript];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
 }
 
 - (void) setWillStartPlayingMediaForActivityCallback:(CDVInvokedUrlCommand*)command
 {
     CDVPluginResult* pluginResult = nil;
-    NSString* javaScript = nil;
     
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_NO_RESULT];
     [pluginResult setKeepCallbackAsBool:YES];
     self.willStartPlayingMediaForActivityCallbackId = command.callbackId;
     
-    javaScript = [pluginResult toSuccessCallbackString:command.callbackId];
-    [self writeJavascript:javaScript];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
 }
 
 - (void) setDidFinishPlayingMediaForActivityCallback:(CDVInvokedUrlCommand*)command
 {
     CDVPluginResult* pluginResult = nil;
-    NSString* javaScript = nil;
     
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_NO_RESULT];
     [pluginResult setKeepCallbackAsBool:YES];
     self.didFinishPlayingMediaForActivityCallbackId = command.callbackId;
     
-    javaScript = [pluginResult toSuccessCallbackString:command.callbackId];
-    [self writeJavascript:javaScript];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
 }
 
 - (void) setUserActionCallback:(CDVInvokedUrlCommand*)command
 {
     CDVPluginResult* pluginResult = nil;
-    NSString* javaScript = nil;
     
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_NO_RESULT];
     [pluginResult setKeepCallbackAsBool:YES];
     self.userActionCallbackId = command.callbackId;
     
-    javaScript = [pluginResult toSuccessCallbackString:command.callbackId];
-    [self writeJavascript:javaScript];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
 }
 
 - (void) setFailureCallback:(CDVInvokedUrlCommand*)command
 {
     CDVPluginResult* pluginResult = nil;
-    NSString* javaScript = nil;
     
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_NO_RESULT];
     [pluginResult setKeepCallbackAsBool:YES];
     self.failureCallbackId = command.callbackId;
     
-    javaScript = [pluginResult toSuccessCallbackString:command.callbackId];
-    [self writeJavascript:javaScript];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
 }
 
 #pragma mark - SessionMDelegate
@@ -368,8 +344,7 @@
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:callbackDict];
     [pluginResult setKeepCallbackAsBool:YES];
     
-    NSString* javascript = [pluginResult toSuccessCallbackString:self.unclaimedAchievementCallbackId];
-    [self writeJavascript:javascript];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:self.unclaimedAchievementCallbackId];
 }
 
 - (void)sessionM:(SessionM *)sessionM didTransitionToState:(SessionMState)state
@@ -382,8 +357,7 @@
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:state];
     [pluginResult setKeepCallbackAsBool:YES];
     
-    NSString* javascript = [pluginResult toSuccessCallbackString:self.stateTransitionCallbackId];
-    [self writeJavascript:javascript];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:self.stateTransitionCallbackId];
 }
 
 - (void)sessionM:(SessionM *)sessionM didFailWithError:(NSError *)error
@@ -396,8 +370,7 @@
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:failureMessage];
     [pluginResult setKeepCallbackAsBool:YES];
     
-    NSString* javascript = [pluginResult toSuccessCallbackString:self.failureCallbackId];
-    [self writeJavascript:javascript];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:self.failureCallbackId];
 }
 
 - (void)sessionM:(SessionM *)sessionM didUpdateUser:(SMUser *)user
@@ -413,8 +386,7 @@
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:callbackDict];
     [pluginResult setKeepCallbackAsBool:YES];
     
-    NSString* javascript = [pluginResult toSuccessCallbackString:self.updateUserCallbackId];
-    [self writeJavascript:javascript];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:self.updateUserCallbackId];
 }
 
 - (BOOL)sessionM:(SessionM *)sessionM shouldAutopresentActivity:(SMActivityType)type
@@ -431,8 +403,7 @@
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:type];
     [pluginResult setKeepCallbackAsBool:YES];
     
-    NSString* javascript = [pluginResult toSuccessCallbackString:self.activityUnavailableCallbackId];
-    [self writeJavascript:javascript];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:self.activityUnavailableCallbackId];
 }
 
 - (void)sessionM:(SessionM *)sessionM willPresentActivity:(SMActivity *)activity
@@ -444,8 +415,7 @@
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:activity.activityType];
     [pluginResult setKeepCallbackAsBool:YES];
     
-    NSString* javascript = [pluginResult toSuccessCallbackString:self.willPresentActivityCallbackId];
-    [self writeJavascript:javascript];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:self.willPresentActivityCallbackId];
 }
 
 - (void)sessionM:(SessionM *)sessionM didPresentActivity:(SMActivity *)activity
@@ -457,8 +427,7 @@
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:activity.activityType];
     [pluginResult setKeepCallbackAsBool:YES];
     
-    NSString* javascript = [pluginResult toSuccessCallbackString:self.didPresentActivityCallbackId];
-    [self writeJavascript:javascript];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:self.didPresentActivityCallbackId];
 }
 
 - (void)sessionM:(SessionM *)sessionM didDismissActivity:(SMActivity *)activity
@@ -470,8 +439,7 @@
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:activity.activityType];
     [pluginResult setKeepCallbackAsBool:YES];
     
-    NSString* javascript = [pluginResult toSuccessCallbackString:self.didDismissActivityCallbackId];
-    [self writeJavascript:javascript];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:self.didDismissActivityCallbackId];
 }
 
 - (void)sessionM:(SessionM *)sessionM willDismissActivity:(SMActivity *)activity
@@ -483,8 +451,7 @@
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:activity.activityType];
     [pluginResult setKeepCallbackAsBool:YES];
     
-    NSString* javascript = [pluginResult toSuccessCallbackString:self.willDismissActivityCallbackId];
-    [self writeJavascript:javascript];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:self.willDismissActivityCallbackId];
 }
 
 - (void)sessionM:(SessionM *)sessionM willStartPlayingMediaForActivity:(SMActivity *)activity
@@ -496,8 +463,7 @@
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:activity.activityType];
     [pluginResult setKeepCallbackAsBool:YES];
     
-    NSString* javascript = [pluginResult toSuccessCallbackString:self.willStartPlayingMediaForActivityCallbackId];
-    [self writeJavascript:javascript];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:self.willStartPlayingMediaForActivityCallbackId];
 }
 
 - (void)sessionM:(SessionM *)sessionM didFinishPlayingMediaForActivity:(SMActivity *)activity
@@ -509,8 +475,7 @@
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:activity.activityType];
     [pluginResult setKeepCallbackAsBool:YES];
     
-    NSString* javascript = [pluginResult toSuccessCallbackString:self.didFinishPlayingMediaForActivityCallbackId];
-    [self writeJavascript:javascript];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:self.didFinishPlayingMediaForActivityCallbackId];
 }
 
 - (void)sessionM:(SessionM *)sessionM user:(SMUser *)user didPerformAction:(SMActivityUserAction)action forActivity:(SMActivity *)activity withData:(NSDictionary *)data
@@ -526,8 +491,7 @@
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:dict];
     [pluginResult setKeepCallbackAsBool:YES];
     
-    NSString* javascript = [pluginResult toSuccessCallbackString:self.userActionCallbackId];
-    [self writeJavascript:javascript];
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:self.userActionCallbackId];
 }
 
 
