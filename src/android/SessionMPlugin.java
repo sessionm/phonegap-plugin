@@ -22,6 +22,7 @@ import com.sessionm.api.SessionM;
 import com.sessionm.api.SessionM.ActivityType;
 import com.sessionm.api.SessionM.State;
 import com.sessionm.api.User;
+import com.sessionm.api.message.notification.data.NotificationMessage;
 
 public class SessionMPlugin extends CordovaPlugin implements SessionListener,
         ActivityListener {

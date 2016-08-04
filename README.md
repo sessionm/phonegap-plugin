@@ -59,8 +59,7 @@ Setup Steps
    	android:value="your-key-from-above-here" />
    </application>
    ```
-4. Download the [android SDK](http://www.sessionm.com/documentation/downloads.php) and add it to your phone gap project.
-5. Install the SessionM Plugin
+4. Install the SessionM Plugin
     
     ```bash
     cordova plugin add https://github.com/sessionm/phonegap-plugin
