@@ -1,0 +1,24 @@
+def packageName = getPackageName()
+
+android {
+    defaultConfig {
+        applicationId packageName
+    }
+}
+
+repositories {
+    maven { url 'http://maven.sessionm.com/public' }
+}
+
+dependencies {
+    compile 'com.sessionm.sdk:sessionm-sdk:2.0.0'
+    compile 'com.google.code.gson:gson:2.6.2'
+    compile 'com.squareup.okhttp:okhttp:2.6.0'
+}
+
+def getPackageName() {
+    def config = file("res/xml/config.xml").getText()
+    def xml = new XmlParser(false, false).parseText(config)
+    def id = xml.attribute("id")
+    return id.replaceAll('-','_')
+}
