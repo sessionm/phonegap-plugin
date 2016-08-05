@@ -8,10 +8,10 @@ Setup Steps
 ---------------
 
 ### iOS Setup
+### Installation
 1. Go to [SessionM Dev Portal](http://developer.sessionm.com) and setup an account.
 2. Create an iOS app and get the key.
-3. Download the [ios SDK](http://www.sessionm.com/documentation/downloads.php) and add it to your phone gap project. Please follow the [ios documentation](http://www.sessionm.com/documentation/ios-integration.php) until all frameworks are added.
-4. Install the SessionM Plugin
+3. Install the SessionM Plugin
 
    ```bash
    cordova plugin add https://github.com/sessionm/phonegap-plugin
@@ -20,22 +20,28 @@ Setup Steps
    ```bash
     cordova prepare
     ```
-5. Add the following to your root level config.xml allow access to the following URL:
+
+You should be able to see SessionMFramework.framework in both "Linked Frameworks and Libraries" and "Embedded Binaries" in General tab.
+
+Note: If you don't see SessionMFramework.framework in "Embedded Binaries", please manually add SessionMFramework.framework to "Embedded Binaries" in General tab.
+
+###Usage
+1. Add the following to your root level config.xml allow access to the following URL:
 
     ```xml
     <access origin="https://*.sessionm.com" />
     ```
-6. Start a session:
+2. Start a session:
 
     ```javascript
     sessionm.phonegap.startSession('your-key-from-above-here');
     ```
-7. To log an action call:
+3. To log an action call:
 
    ```javascript
    sessionm.phonegap.logAction('myAction');
    ```
-8. To present the portal call:
+4. To present the portal call:
 
    ```javascript
    sessionm.phonegap.presentActivity('PORTAL');
@@ -67,7 +73,6 @@ Setup Steps
     ```bash
     cordova prepare
     ```
-Note: embed option is not really working as expected. Before running the app, please manually add SessionMFramework.framework to "Embedded Binaries" in General tab.
 
 ### Usage
 1. To start a session, put the following javascript in index.js.
