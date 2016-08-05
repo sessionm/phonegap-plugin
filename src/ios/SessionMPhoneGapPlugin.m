@@ -188,7 +188,7 @@
     [pluginResult setKeepCallbackAsBool:YES];
     self.stateTransitionCallbackId = command.callbackId;
 
-    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 
@@ -200,7 +200,7 @@
     [pluginResult setKeepCallbackAsBool:YES];
     self.unclaimedAchievementCallbackId = command.callbackId;
     
-    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 - (void) setUpdateUserCallback:(CDVInvokedUrlCommand*)command
@@ -211,7 +211,7 @@
     [pluginResult setKeepCallbackAsBool:YES];
     self.updateUserCallbackId = command.callbackId;
     
-    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 - (void) setActivityUnavailableCallback:(CDVInvokedUrlCommand*)command
@@ -222,7 +222,7 @@
     [pluginResult setKeepCallbackAsBool:YES];
     self.activityUnavailableCallbackId = command.callbackId;
     
-    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 - (void) setWillPresentActivityCallback:(CDVInvokedUrlCommand*)command
@@ -233,7 +233,7 @@
     [pluginResult setKeepCallbackAsBool:YES];
     self.willPresentActivityCallbackId = command.callbackId;
     
-    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 - (void) setDidPresentActivityCallback:(CDVInvokedUrlCommand*)command
@@ -244,7 +244,7 @@
     [pluginResult setKeepCallbackAsBool:YES];
     self.didDismissActivityCallbackId = command.callbackId;
     
-    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 - (void) setWillDismissActivityCallback:(CDVInvokedUrlCommand*)command
@@ -255,7 +255,7 @@
     [pluginResult setKeepCallbackAsBool:YES];
     self.willDismissActivityCallbackId = command.callbackId;
     
-    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 - (void) setDidDismissActivityCallback:(CDVInvokedUrlCommand*)command
@@ -266,7 +266,7 @@
     [pluginResult setKeepCallbackAsBool:YES];
     self.didDismissActivityCallbackId = command.callbackId;
     
-    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 - (void) setWillStartPlayingMediaForActivityCallback:(CDVInvokedUrlCommand*)command
@@ -277,7 +277,7 @@
     [pluginResult setKeepCallbackAsBool:YES];
     self.willStartPlayingMediaForActivityCallbackId = command.callbackId;
     
-    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 - (void) setDidFinishPlayingMediaForActivityCallback:(CDVInvokedUrlCommand*)command
@@ -288,7 +288,7 @@
     [pluginResult setKeepCallbackAsBool:YES];
     self.didFinishPlayingMediaForActivityCallbackId = command.callbackId;
     
-    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 - (void) setUserActionCallback:(CDVInvokedUrlCommand*)command
@@ -299,7 +299,7 @@
     [pluginResult setKeepCallbackAsBool:YES];
     self.userActionCallbackId = command.callbackId;
     
-    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 - (void) setFailureCallback:(CDVInvokedUrlCommand*)command
@@ -310,7 +310,7 @@
     [pluginResult setKeepCallbackAsBool:YES];
     self.failureCallbackId = command.callbackId;
     
-    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 #pragma mark - SessionMDelegate
@@ -344,7 +344,7 @@
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:callbackDict];
     [pluginResult setKeepCallbackAsBool:YES];
     
-    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:self.unclaimedAchievementCallbackId];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:self.unclaimedAchievementCallbackId];
 }
 
 - (void)sessionM:(SessionM *)sessionM didTransitionToState:(SessionMState)state
@@ -357,7 +357,7 @@
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:state];
     [pluginResult setKeepCallbackAsBool:YES];
     
-    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:self.stateTransitionCallbackId];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:self.stateTransitionCallbackId];
 }
 
 - (void)sessionM:(SessionM *)sessionM didFailWithError:(NSError *)error
@@ -370,7 +370,7 @@
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:failureMessage];
     [pluginResult setKeepCallbackAsBool:YES];
     
-    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:self.failureCallbackId];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:self.failureCallbackId];
 }
 
 - (void)sessionM:(SessionM *)sessionM didUpdateUser:(SMUser *)user
@@ -386,7 +386,7 @@
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:callbackDict];
     [pluginResult setKeepCallbackAsBool:YES];
     
-    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:self.updateUserCallbackId];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:self.updateUserCallbackId];
 }
 
 - (BOOL)sessionM:(SessionM *)sessionM shouldAutopresentActivity:(SMActivityType)type
@@ -403,7 +403,7 @@
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:type];
     [pluginResult setKeepCallbackAsBool:YES];
     
-    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:self.activityUnavailableCallbackId];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:self.activityUnavailableCallbackId];
 }
 
 - (void)sessionM:(SessionM *)sessionM willPresentActivity:(SMActivity *)activity
@@ -415,7 +415,7 @@
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:activity.activityType];
     [pluginResult setKeepCallbackAsBool:YES];
     
-    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:self.willPresentActivityCallbackId];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:self.willPresentActivityCallbackId];
 }
 
 - (void)sessionM:(SessionM *)sessionM didPresentActivity:(SMActivity *)activity
@@ -427,7 +427,7 @@
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:activity.activityType];
     [pluginResult setKeepCallbackAsBool:YES];
     
-    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:self.didPresentActivityCallbackId];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:self.didPresentActivityCallbackId];
 }
 
 - (void)sessionM:(SessionM *)sessionM didDismissActivity:(SMActivity *)activity
@@ -439,7 +439,7 @@
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:activity.activityType];
     [pluginResult setKeepCallbackAsBool:YES];
     
-    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:self.didDismissActivityCallbackId];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:self.didDismissActivityCallbackId];
 }
 
 - (void)sessionM:(SessionM *)sessionM willDismissActivity:(SMActivity *)activity
@@ -451,7 +451,7 @@
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:activity.activityType];
     [pluginResult setKeepCallbackAsBool:YES];
     
-    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:self.willDismissActivityCallbackId];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:self.willDismissActivityCallbackId];
 }
 
 - (void)sessionM:(SessionM *)sessionM willStartPlayingMediaForActivity:(SMActivity *)activity
@@ -463,7 +463,7 @@
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:activity.activityType];
     [pluginResult setKeepCallbackAsBool:YES];
     
-    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:self.willStartPlayingMediaForActivityCallbackId];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:self.willStartPlayingMediaForActivityCallbackId];
 }
 
 - (void)sessionM:(SessionM *)sessionM didFinishPlayingMediaForActivity:(SMActivity *)activity
@@ -475,7 +475,7 @@
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:activity.activityType];
     [pluginResult setKeepCallbackAsBool:YES];
     
-    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:self.didFinishPlayingMediaForActivityCallbackId];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:self.didFinishPlayingMediaForActivityCallbackId];
 }
 
 - (void)sessionM:(SessionM *)sessionM user:(SMUser *)user didPerformAction:(SMActivityUserAction)action forActivity:(SMActivity *)activity withData:(NSDictionary *)data
@@ -491,7 +491,7 @@
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:dict];
     [pluginResult setKeepCallbackAsBool:YES];
     
-    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:self.userActionCallbackId];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:self.userActionCallbackId];
 }
 
 
