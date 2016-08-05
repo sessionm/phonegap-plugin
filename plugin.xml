@@ -59,6 +59,6 @@
         <header-file src="src/ios/SessionMPhoneGapPlugin.h" />
         <source-file src="src/ios/SessionMPhoneGapPlugin.m" />
 
-        <framework src="lib/ios/SessionMFramework.framework" custom="true" />
+        <framework src="lib/ios/SessionMFramework.framework" custom="true" embed="true"/>
     </platform>
 </plugin>
