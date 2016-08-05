@@ -10,8 +10,7 @@ Setup Steps
 ### iOS Setup
 1. Go to [SessionM Dev Portal](http://developer.sessionm.com) and setup an account.
 2. Create an iOS app and get the key.
-3. Download the [ios SDK](http://www.sessionm.com/documentation/downloads.php) and add it to your phone gap project. Please follow the [ios documentation](http://www.sessionm.com/documentation/ios-integration.php) until all frameworks are added.
-4. Install the SessionM Plugin
+3. Install the SessionM Plugin
 
    ```bash
    cordova plugin add https://github.com/sessionm/phonegap-plugin
@@ -20,6 +19,9 @@ Setup Steps
    ```bash
     cordova prepare
     ```
+
+You should be able to see SessionMFramework.framework in "Linked Frameworks and Libraries".
+
 Note: embed option is not really working as expected. Before running the app, please manually add SessionMFramework.framework to "Embedded Binaries" in General tab.
 
 5. Add the following to your root level config.xml allow access to the following URL:
