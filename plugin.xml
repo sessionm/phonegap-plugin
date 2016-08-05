@@ -13,6 +13,8 @@
 	<clobbers target="sessionm.phonegap" />
     </js-module>
 
+    <hook type="after_platform_add" src="hooks/addEmbedded.js" />
+
     <!-- android -->
     <platform name="android">
         
