@@ -67,6 +67,7 @@ Setup Steps
     ```bash
     cordova prepare
     ```
+Note: embed option is not really working as expected. Before running the app, please manually add SessionMFramework.framework to "Embedded Binaries" in General tab.
 
 ### Usage
 1. To start a session, put the following javascript in index.js.
