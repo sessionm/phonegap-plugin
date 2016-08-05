@@ -20,9 +20,9 @@ Setup Steps
     cordova prepare
     ```
 
-You should be able to see SessionMFramework.framework in "Linked Frameworks and Libraries".
+You should be able to see SessionMFramework.framework in both "Linked Frameworks and Libraries" and "Embedded Binaries" in General tab.
 
-Note: embed option is not really working as expected. Before running the app, please manually add SessionMFramework.framework to "Embedded Binaries" in General tab.
+Note: If you don't see SessionMFramework.framework in "Embedded Binaries", please manually add SessionMFramework.framework to "Embedded Binaries" in General tab.
 
 5. Add the following to your root level config.xml allow access to the following URL:
 
