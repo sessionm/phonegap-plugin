@@ -8,6 +8,7 @@ Setup Steps
 ---------------
 
 ### iOS Setup
+### Installation
 1. Go to [SessionM Dev Portal](http://developer.sessionm.com) and setup an account.
 2. Create an iOS app and get the key.
 3. Install the SessionM Plugin
@@ -24,22 +25,23 @@ You should be able to see SessionMFramework.framework in both "Linked Frameworks
 
 Note: If you don't see SessionMFramework.framework in "Embedded Binaries", please manually add SessionMFramework.framework to "Embedded Binaries" in General tab.
 
-5. Add the following to your root level config.xml allow access to the following URL:
+###Usage
+1. Add the following to your root level config.xml allow access to the following URL:
 
     ```xml
     <access origin="https://*.sessionm.com" />
     ```
-6. Start a session:
+2. Start a session:
 
     ```javascript
     sessionm.phonegap.startSession('your-key-from-above-here');
     ```
-7. To log an action call:
+3. To log an action call:
 
    ```javascript
    sessionm.phonegap.logAction('myAction');
    ```
-8. To present the portal call:
+4. To present the portal call:
 
    ```javascript
    sessionm.phonegap.presentActivity('PORTAL');
