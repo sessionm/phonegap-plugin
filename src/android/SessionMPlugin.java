@@ -1,5 +1,6 @@
 package com.sessionm.phonegap;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.cordova.CallbackContext;
@@ -69,12 +70,36 @@ public class SessionMPlugin extends CordovaPlugin implements SessionListener,
             // Doesn't actually start the session but will initialize the plugin
             // as a listener.
             if (sessionM == null) {
-                // String appID = args.getString(0);
                 sessionM = com.sessionm.api.SessionM.getInstance();
                 sessionM.setApplicationContext(cordova.getActivity().getApplicationContext());
                 sessionM.setActivityListener(this);
                 sessionM.setSessionListener(this);
                 sessionM.setExpandedPresentationMode(true);
+                SessionM.getInstance().onActivityStart(cordova.getActivity());
+                sessionM.setExpandedPresentationMode(false);
+                callbackContext.success();
+            } else {
+                callbackContext.error("Already started!");
+            }
+        } else if (action.equals("startCustomSession")) {
+            if (sessionM == null) {
+                String serverURL = args.getString(0);
+                String appID = args.getString(1);
+                if (serverURL == null || serverURL.isEmpty()) {
+                    callbackContext.error("Expected a valid server url.");
+                    return;
+                }
+                if (appID == null || appID.isEmpty()) {
+                    callbackContext.error("Expected a valid app key.");
+                    return;
+                }
+                sessionM = com.sessionm.api.SessionM.getInstance();
+                sessionM.setApplicationContext(cordova.getActivity().getApplicationContext());
+                sessionM.setActivityListener(this);
+                sessionM.setSessionListener(this);
+                sessionM.setExpandedPresentationMode(true);
+                sessionM.setServerType(SessionM.SERVER_TYPE_CUSTOM, serverURL);
+                sessionM.setAppKey(appID);
                 SessionM.getInstance().onActivityStart(cordova.getActivity());
                 sessionM.setExpandedPresentationMode(false);
                 callbackContext.success();
@@ -146,6 +171,36 @@ public class SessionMPlugin extends CordovaPlugin implements SessionListener,
             JSONObject ret = new JSONObject();
             ret.put("optedOut", sessionM.getUser().isOptedOut());
             callbackContext.success(ret);
+        } else if (action.equals("logInUserWithEmail") && sessionM != null) {
+            if (args.length() == 2 && sessionM != null) {
+                String email = args.getString(0);
+                String password = args.getString(1);
+                sessionM.logInUserWithEmail(email, password);
+                callbackContext.success();
+            } else {
+                callbackContext.error("Expected an email and password argument.");
+            }
+        } else if (action.equals("signUpUserWithData") && sessionM != null) {
+            if (args.length() == 5 && sessionM != null) {
+                String email = args.getString(0);
+                String password = args.getString(1);
+                String yearOfBirth = args.getString(2);
+                String gender = args.getString(3);
+                String zipcode = args.getString(4);
+                Map<String, String> dataMap = new HashMap<String, String>();
+                dataMap.put(SessionM.USER_DATA_EMAIL_KEY, email);
+                dataMap.put(SessionM.USER_DATA_PASSWORD_KEY, password);
+                dataMap.put(SessionM.USER_DATA_BIRTH_YEAR_KEY, yearOfBirth);
+                dataMap.put(SessionM.USER_DATA_GENDER_KEY, gender);
+                dataMap.put(SessionM.USER_DATA_ZIP_CODE_KEY, zipcode);
+                sessionM.signUpUserWithData(dataMap);
+                callbackContext.success();
+            } else {
+                callbackContext.error("Expected an hash map argument.");
+            }
+        } else if (action.equals("logOutUser") && sessionM != null) {
+            sessionM.logOutUser();
+            callbackContext.success();
         } else if (action.equals("setUnclaimedAchievementCallback")) {
             unclaimedAchievementCallback = callbackContext;
             PluginResult res = new PluginResult(PluginResult.Status.NO_RESULT);
@@ -326,10 +381,23 @@ public class SessionMPlugin extends CordovaPlugin implements SessionListener,
             return;
         }
         if (Log.isLoggable(TAG, Log.DEBUG)) {
-            Log.d(TAG,
-                    String.format("onUserUpdated called with user: %s", user));
+            Log.d(TAG, String.format("onUserUpdated called with user: %s", user));
         }
+
         JSONObject userJSON = new JSONObject();
+        //Call error callback if enrollment failed
+        if (instance.getEnrollmentResult().equals(SessionM.EnrollmentResultType.FAILURE)) {
+            try {
+                userJSON.put("errorMessage", sessionM.getResponseErrorMessage());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            PluginResult result = new PluginResult(PluginResult.Status.OK, userJSON);
+            result.setKeepCallback(true);
+            updateUserCallback.sendPluginResult(result);
+            return;
+        }
+
         try {
             userJSON.put("optedOut", user.isOptedOut());
             userJSON.put("unclaimedAchievementCount",

@@ -1,9 +1,14 @@
+cordova.define("sessionm-cordova-plugin.sessionm", function(require, exports, module) {
 // SessionM Phonegap Plugin 
 
   function SessionMPlugin(){
  
   SessionMPlugin.prototype.startSession = function(appId, successCallback, failureCallback) {
     return cordova.exec(successCallback, failureCallback, 'SessionMPlugin', 'startSession', [appId]);
+  };
+
+  SessionMPlugin.prototype.startCustomSession = function(serverURL, appID, callback) {
+    return cordova.exec(callback, null, 'SessionMPlugin', 'startCustomSession', [serverURL, appID]);
   };
 
   SessionMPlugin.prototype.logAction = function(event, successCallback, failureCallback) {
@@ -36,6 +41,18 @@
  
   SessionMPlugin.prototype.getOptedOutState = function(callback) {
     return cordova.exec(callback, null, 'SessionMPlugin', 'getOptedOutState', []);
+  };
+
+  SessionMPlugin.prototype.logInUserWithEmail = function(email, password, callback) {
+    return cordova.exec(callback, null, 'SessionMPlugin', 'logInUserWithEmail', [email, password]);
+  };
+
+  SessionMPlugin.prototype.signUpUserWithData = function(email, password, yearOfBirth, gender, zipcode, callback) {
+    return cordova.exec(callback, null, 'SessionMPlugin', 'signUpUserWithData', [email, password, yearOfBirth, gender, zipcode]);
+  };
+
+  SessionMPlugin.prototype.logOutUser = function(callback) {
+    return cordova.exec(callback, null, 'SessionMPlugin', 'logOutUser', []);
   };
  
   SessionMPlugin.prototype.listenUnclaimedAchievement = function(callback) {
@@ -99,3 +116,5 @@
   };
 }
 module.exports = new SessionMPlugin();
+
+});
