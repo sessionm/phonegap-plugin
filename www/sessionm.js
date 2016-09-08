@@ -1,4 +1,3 @@
-cordova.define("sessionm-cordova-plugin.sessionm", function(require, exports, module) {
 // SessionM Phonegap Plugin 
 
   function SessionMPlugin(){
@@ -116,5 +115,3 @@ cordova.define("sessionm-cordova-plugin.sessionm", function(require, exports, mo
   };
 }
 module.exports = new SessionMPlugin();
-
-});
