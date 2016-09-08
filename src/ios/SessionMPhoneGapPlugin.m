@@ -52,6 +52,29 @@
 
 }
 
+- (void) startCustomSession:(CDVInvokedUrlCommand*)command
+{
+    
+    CDVPluginResult* pluginResult;
+    
+    if(command.arguments.count < 2) {
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_INVALID_ACTION];
+    } else {
+        NSString* serverURL = [command.arguments objectAtIndex:0];
+        NSString* appId = [command.arguments objectAtIndex:1];
+        NSLog(@"Starting SessionM Session with server %@ key %@", serverURL, appId);
+        [SessionM sharedInstance].logLevel = SMLogLevelInfo;
+        SM_SET_SERVER_URL(serverURL);
+        [[SessionM sharedInstance] startSessionWithAppID:appId];
+        [SessionM sharedInstance].delegate = self;
+        // Comment the line below to stop auto presenting activities
+        self.shouldAutoPresent = YES;
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    }
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    
+}
+
 - (void) logAction:(CDVInvokedUrlCommand*)command
 {
     CDVPluginResult* pluginResult;
@@ -131,6 +154,60 @@
                                      resultWithStatus    : CDVCommandStatus_OK
                                      messageAsDictionary : jsonObj
                                      ];
+    
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+- (void) logInUserWithEmail:(CDVInvokedUrlCommand*)command
+{
+    CDVPluginResult* pluginResult;
+    
+    if(command.arguments.count < 2) {
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_INVALID_ACTION];
+    } else {
+        NSString* email = [command.arguments objectAtIndex:0];
+        NSString* password = [command.arguments objectAtIndex:1];
+        NSLog(@"Log in user: email %@", email);
+        [[SessionM sharedInstance] logInUserWithEmail:email password:password];
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    }
+    
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+- (void) signUpUserWithData:(CDVInvokedUrlCommand*)command
+{
+    CDVPluginResult* pluginResult;
+    
+    if(command.arguments.count < 5) {
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_INVALID_ACTION];
+    } else {
+        NSMutableDictionary *userData = [NSMutableDictionary dictionary];
+        NSString* email = [command.arguments objectAtIndex:0];
+        NSString* password = [command.arguments objectAtIndex:1];
+        NSString* yearOfBirth = [command.arguments objectAtIndex:2];
+        NSString* gender = [command.arguments objectAtIndex:3];
+        NSString* zipcode = [command.arguments objectAtIndex:4];
+
+        [userData setObject:email forKey:SMUserDataEmailKey];
+        [userData setObject:password forKey:SMUserDataPasswordKey];
+        [userData setObject:yearOfBirth forKey:SMUserDataBirthYearKey];
+        [userData setObject:gender forKey:SMUserDataGenderKey];
+        [userData setObject:zipcode forKey:SMUserDataZipcodeKey];
+        NSLog(@"Sign up user: email %@ year of birth %@ gender %@ zipcode %@", email, yearOfBirth, gender, zipcode);
+        [[SessionM sharedInstance] signUpUserWithData:userData];
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    }
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+- (void) logOutUser:(CDVInvokedUrlCommand*)command
+{
+    CDVPluginResult* pluginResult;
+
+    NSLog(@"Log out user");
+    [[SessionM sharedInstance] logOutUser];
+    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
@@ -383,6 +460,22 @@
                                     @"unclaimedAchievementCount" : [NSNumber numberWithInt:user.unclaimedAchievementCount],
                                     @"unclaimedAchievementValue" : [NSNumber numberWithInt:user.unclaimedAchievementValue],
                                     @"pointBalance" :  [NSNumber numberWithInt:user.pointBalance]};
+    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:callbackDict];
+    [pluginResult setKeepCallbackAsBool:YES];
+    
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:self.updateUserCallbackId];
+}
+
+- (void)sessionM:(SessionM *)sessionM didUpdateUserRegistrationResult:(SMUserRegistrationResultType)result errorMessages:(NSArray *)errorMessages
+{
+    if(!self.updateUserCallbackId) {
+        return;
+    }
+    NSDictionary *callbackDict;
+    if (sessionM.userRegistrationResult == SMUserRegistrationResultTypeFailure) {
+        if ([errorMessages count] > 1)
+            callbackDict = @{ @"errorMessage": [errorMessages objectAtIndex:1]};
+    }
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:callbackDict];
     [pluginResult setKeepCallbackAsBool:YES];
     
