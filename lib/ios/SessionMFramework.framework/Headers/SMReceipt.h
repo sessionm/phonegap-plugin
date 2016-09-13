@@ -2,7 +2,7 @@
 //  SMReceipt.h
 //  SessionM
 //
-//  Copyright (c) 2016 SessionM. All rights reserved.
+//  Copyright © 2016 SessionM. All rights reserved.
 //
 
 #ifndef __SM_RECEIPT__
@@ -13,18 +13,19 @@
 /*!
  @typedef SMReceiptStatus
  @abstract Receipt upload status.
+
+ @constant SMReceiptStatusUnknown Upload status is unknown.
+ @constant SMReceiptStatusPending Upload is pending review.
+ @constant SMReceiptStatusValid Upload was approved.
+ @constant SMReceiptStatusInvalid Upload was rejected.
+ @constant SMReceiptStatusIncomplete Multiple image upload is partially finished.
  */
 typedef enum SMReceiptStatus {
-    /*! Upload status is unknown */
-    SMReceiptStatusUnknown,                              /* unknown */
-    /*! Upload is pending review. */
-    SMReceiptStatusPending,                              /* pending */
-    /*! Upload was approved. */
-    SMReceiptStatusValid,                                /* valid */
-    /*! Upload was rejected. */
-    SMReceiptStatusInvalid,                              /* invalid */
-    /*! Multiple image upload is partially finished. */
-    SMReceiptStatusIncomplete                            /* incomplete */
+    SMReceiptStatusUnknown,
+    SMReceiptStatusPending,
+    SMReceiptStatusValid,
+    SMReceiptStatusInvalid,
+    SMReceiptStatusIncomplete
 } SMReceiptStatus;
 
 
@@ -37,7 +38,7 @@ typedef enum SMReceiptStatus {
 /*!
  @property resultID
  @abstract Unique ID for result.
- @discussion This ID will be equal to //apple_ref/occ/instp/SMTranscation/recordModelID in the corresponding transaction record.
+ @discussion This ID will be equal to @link //apple_ref/occ/instp/SMTransaction/recordModelID @/link in the corresponding transaction record.
  */
 @property(nonatomic, strong, readonly) NSString *resultID;
 /*!
@@ -65,7 +66,10 @@ typedef enum SMReceiptStatus {
  @abstract Amount of points user earned for uploading the receipt.
  */
 @property(nonatomic, assign, readonly) int points;
-
+/*!
+ @property extras
+ @abstract Any data values that do not have an associated class property.
+ */
 @property(nonatomic, strong, readonly) NSDictionary *extras;
 
 @end
@@ -140,12 +144,12 @@ typedef enum SMReceiptStatus {
 @property(nonatomic, strong, readonly) NSArray<NSString *> *imageURLs;
 /*!
  @property createdTime
- @abstract Denotes when receipt data was created.
+ @abstract Indicates when receipt data was created.
  */
 @property(nonatomic, strong, readonly) NSString *createdTime;
 /*!
  @property updatedTime
- @abstract Denotes when receipt data was last updated.
+ @abstract Indicates when receipt data was last updated.
  */
 @property(nonatomic, strong, readonly) NSString *updatedTime;
 /*!
@@ -175,6 +179,10 @@ typedef enum SMReceiptStatus {
  @abstract The date on which the receipt was issued.
  */
 @property(nonatomic, strong, readonly) NSString *receiptDate;
+/*!
+ @property extras
+ @abstract Any data values that do not have an associated class property.
+ */
 @property(nonatomic, strong, readonly) NSDictionary *extras;
 
 /*!

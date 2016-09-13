@@ -2,44 +2,61 @@
 //  SMOrder.h
 //  SessionM
 //
-//  Copyright (c) 2016 SessionM. All rights reserved.
+//  Copyright © 2016 SessionM. All rights reserved.
 //
 
 #ifndef __SM_ORDER__
 #define __SM_ORDER__
 
-#import <Foundation/Foundation.h>
 #import "SMAddress.h"
 
 /*!
  @typedef SMOrderStatus
- @abstract Order status.
+ @abstract Order redemption status.
+
+ @constant SMOrderStatusUnknown Order status is unknown.
+ @constant SMOrderStatusApproved Order is approved.
+ @constant SMOrderStatusRejected Order redemption was rejected by Customer Care Team (e.g. due to Terms of Service violation).
+ @constant SMOrderStatusPending Order is pending review.
+ @constant SMOrderStatusRedemptionError Error was received while attempting to redeem order.
  */
 typedef enum SMOrderStatus {
-    /*! Order status is unknown. */
-    SMOrderStatusUnknown,                                                                                /* unknown */
-    /*! Order is approved. */
-    SMOrderStatusApproved,                                                                               /* approved */
-    /*! Order redemption was rejected by Customer Care Team (e.g. due to Terms of Service violation). */
-    SMOrderStatusRejected,                                                                               /* rejected */
-    /*! Order is pending review. */
-    SMOrderStatusPending,                                                                                /* pending_approval */
-    /*! Error was received while attempting to redeem order. */
-    SMOrderStatusRedemptionError                                                                         /* redemption_error */
+    SMOrderStatusUnknown,
+    SMOrderStatusApproved,
+    SMOrderStatusRejected,
+    SMOrderStatusPending,
+    SMOrderStatusRedemptionError
 } SMOrderStatus;
 
 
+/*!
+ @class SMOrderUser
+ @abstract Defines the data associated with a user who made an offer order.
+ */
 @interface SMOrderUser : NSObject
 
+/*!
+ @property userID
+ @abstract ID of user who made the order.
+ */
 @property(nonatomic, strong, readonly) NSString *userID;
+/*!
+ @property availablePoints
+ @abstract User's current loyalty points balance.
+ */
 @property(nonatomic, assign, readonly) int availablePoints;
+/*!
+ @property testPoints
+ @abstract The number of loyalty points that the user has earned from apps that are in development mode.
+ */
 @property(nonatomic, assign, readonly) int testPoints;
 
 @end
 
+
 /*!
  @class SMOrder
- @abstract Defines the data associated with a reward order made by the user.
+ @abstract Defines the data associated with an offer order made by a user.
  */
 @interface SMOrder : NSObject
 
@@ -50,47 +67,47 @@ typedef enum SMOrderStatus {
 @property(nonatomic, strong, readonly) NSString *orderID;
 /*!
  @property offerID
- @abstract ID of offer associated with order.
+ @abstract ID of offer that was redeemed.
  */
 @property(nonatomic, strong, readonly) NSString *offerID;
 /*!
- @property userID
- @abstract ID of user associated with order.
+ @property user
+ @abstract Data associated with the user who made the order.
  */
 @property(nonatomic, strong, readonly) SMOrderUser *user;
 /*!
  @property quantity
- @quantity associated with order.
+ @abstract Amount of items redeemed in the order.
  */
 @property(nonatomic, assign, readonly) int quantity;
 /*!
  @property points
- @points associated with order.
+ @abstract Amount of points spent in the order.
  */
 @property(nonatomic, assign, readonly) int points;
 /*!
  @property createdTime
- @created time of Order associated with order.
+ @abstract Indicates when the order was created.
  */
 @property(nonatomic, strong, readonly) NSString *createdTime;
 /*!
  @property name
- @name of item associated with order.
+ @abstract Name of offer redeemed in the order.
  */
 @property(nonatomic, strong, readonly) NSString *name;
 /*!
  @property logoURL
- @logo icon URL associated with order.
+ @abstract URL to image associated with the offer redeemed in the order.
  */
 @property(nonatomic, strong, readonly) NSString *logoURL;
 /*!
  @property descriptionText
- @description text associated with order.
+ @abstract Description of offer redeemed in the order.
  */
 @property(nonatomic, strong, readonly) NSString *descriptionText;
 /*!
  @property shippingAddress
- @Shipping Address associated with order.
+ @abstract Where physical items will be shipped after the order is processed.
  */
 @property(nonatomic, strong, readonly) SMAddress *shippingAddress;
 /*!
@@ -100,16 +117,33 @@ typedef enum SMOrderStatus {
 @property(nonatomic, strong, readonly) NSDictionary *data;
 /*!
  @property status
- @abstract Order status.
+ @abstract Order redemption status.
  */
 @property(nonatomic, assign, readonly) SMOrderStatus status;
+/*!
+ @property extras
+ @abstract Any data values that do not have an associated class property.
+ */
+@property(nonatomic, strong, readonly) NSDictionary *extras;
 
+/*!
+ @abstract Converts current order status to the corresponding string value.
+ @result <code>NSString</code> value.
+ */
 - (NSString *)stringForCurrentStatus;
 
+/*!
+ @abstract Converts specified string value to the corresponding @link SMOrderStatus @/link enum value.
+ @param string String to convert.
+ @result @link SMOrderStatus @/link enum value.
+ */
 + (SMOrderStatus)statusForString:(NSString *)string;
+/*!
+ @abstract Converts specified @link SMOrderStatus @/link enum value to the corresponding string value.
+ @param status Status to convert.
+ @result <code>NSString</code> value.
+ */
 + (NSString *)stringForStatus:(SMOrderStatus)status;
-
-@property(nonatomic, strong, readonly) NSDictionary *extras;
 
 @end
 

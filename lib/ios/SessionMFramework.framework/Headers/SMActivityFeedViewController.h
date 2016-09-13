@@ -2,7 +2,7 @@
 //  SMActivityFeedViewController.h
 //  SessionM
 //
-//  Copyright (c) 2016 SessionM. All rights reserved.
+//  Copyright © 2016 SessionM. All rights reserved.
 //
 
 #ifndef __SM_ACTIVITY_FEED_VIEW_CONTROLLER__
@@ -24,19 +24,19 @@
  @property tableView
  @abstract The table view in which the activity feed is presented.
  */
-@property(strong, nonatomic) UITableView *tableView;
+@property(nonatomic, strong) UITableView *tableView;
 
 /*!
  @abstract Initializes an instance of this class with the specified frame and style.
- @param frame - Frame in which the activity feed will be presented.
- @param style - The section grouping style.
- @result SMActivityFeedViewController instance with the specified frame and style.
+ @param frame Frame in which the activity feed will be presented.
+ @param style The section grouping style.
+ @result <code>SMActivityFeedViewController</code> instance with the specified frame and style.
  */
 - (instancetype)initWithFrame:(CGRect)frame andStyle:(UITableViewStyle)style;
 /*!
  @abstract Gets the message data corresponding to the specified index path.
- @param indexPath - An index path in the activity feed.
- @result SMFeedMessage at the specified index path.
+ @param indexPath An index path in the activity feed.
+ @result @link SMFeedMessage @/link instance at the specified index path.
  */
 - (SMFeedMessage *)messageAtIndexPath:(NSIndexPath *)indexPath;
 

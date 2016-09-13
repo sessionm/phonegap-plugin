@@ -2,7 +2,7 @@
 //  SMLoyaltyCardsManager.h
 //  SessionM
 //
-//  Copyright (c) 2016 SessionM. All rights reserved.
+//  Copyright © 2016 SessionM. All rights reserved.
 //
 
 #ifndef __SM_LOYALTY_CARDS_MANAGER__
@@ -11,6 +11,49 @@
 #import "SMLoyaltyCard.h"
 #import "SMLoyaltyCardTransaction.h"
 #import "SMBaseDelegate.h"
+
+/*!
+ @const SM_LCL_MANAGER_REQUEST_DID_FAIL_NOTIFICATION
+ @abstract Notifies observers that an API request failed.
+ @discussion An @link SMError @/link object containing information about why the request failed can be accessed from the notification's <code>userInfo</code> property with the @link SM_MANAGER_NOTIFICATION_DATA_KEY @/link key.
+ */
+extern NSString *const SM_LCL_MANAGER_REQUEST_DID_FAIL_NOTIFICATION;
+/*!
+ @const SM_LCL_MANAGER_VALIDATION_DID_FAIL_NOTIFICATION
+ @abstract Notifies observers that a Loyalty Cards API validation failed.
+ @discussion An @link SMError @/link object containing information about why the validation failed can be accessed from the notification's <code>userInfo</code> property with the @link SM_MANAGER_NOTIFICATION_DATA_KEY @/link key.
+ */
+extern NSString *const SM_LCL_MANAGER_VALIDATION_DID_FAIL_NOTIFICATION;
+
+/*!
+ @const SM_LCL_MANAGER_REQUEST_DID_FETCH_LOYALTY_CARDS_NOTIFICATION
+ @abstract Notifies observers that linked loyalty cards were fetched.
+ @discussion An <code>NSArray</code> of @link SMLoyaltyCard @/link objects can be accessed from the notification's <code>userInfo</code> property with the @link SM_MANAGER_NOTIFICATION_DATA_KEY @/link key.
+ */
+extern NSString *const SM_LCL_MANAGER_REQUEST_DID_FETCH_LOYALTY_CARDS_NOTIFICATION;
+/*!
+ @const SM_LCL_MANAGER_REQUEST_DID_FETCH_LOYALTY_CARDS_TRANSACTIONS_NOTIFICATION
+ @abstract Notifies observers that loyalty card transactions were fetched.
+ @discussion An <code>NSArray</code> of @link SMLoyaltyCardTransaction @/link objects can be accessed from the notification's <code>userInfo</code> property with the @link SM_MANAGER_NOTIFICATION_DATA_KEY @/link key.
+ */
+extern NSString *const SM_LCL_MANAGER_REQUEST_DID_FETCH_LOYALTY_CARDS_TRANSACTIONS_NOTIFICATION;
+/*!
+ @const SM_LCL_MANAGER_REQUEST_DID_FETCH_RETAILERS_NOTIFICATION
+ @abstract Notifies observers that available retailers were fetched.
+ @discussion An <code>NSArray</code> of @link SMRetailer @/link objects can be accessed from the notification's <code>userInfo</code> property with the @link SM_MANAGER_NOTIFICATION_DATA_KEY @/link key.
+ */
+extern NSString *const SM_LCL_MANAGER_REQUEST_DID_FETCH_RETAILERS_NOTIFICATION;
+/*!
+ @const SM_LCL_MANAGER_REQUEST_DID_LINK_LOYALTY_NOTIFICATION
+ @abstract Notifies observers that a loyalty card was linked to a user's account.
+ @discussion An <code>NSString</code> object containing the card number of the linked loyalty card can be accessed from the notification's <code>userInfo</code> property with the @link SM_MANAGER_NOTIFICATION_DATA_KEY @/link key.
+ */
+extern NSString *const SM_LCL_MANAGER_REQUEST_DID_LINK_LOYALTY_NOTIFICATION;
+/*!
+ @const SM_LCL_MANAGER_REQUEST_DID_UNLINK_LOYALTY_NOTIFICATION
+ @abstract Notifies observers that a loyalty card was unlinked from a user's account.
+ */
+extern NSString *const SM_LCL_MANAGER_REQUEST_DID_UNLINK_LOYALTY_NOTIFICATION;
 
 /*!
  @protocol SMLoyaltyCardsDelegate
@@ -24,34 +67,66 @@
  @abstract Notifies delegate that the current user's linked loyalty cards were fetched.
  @discussion This method is called in response to @link fetchLinkedCards @/link.
  @param cards The linked loyalty cards.
+ @deprecated Use block methods instead.
  */
-- (void)didFetchLoyaltyCards:(NSArray<SMLoyaltyCard *> *)cards;
+- (void)didFetchLoyaltyCards:(NSArray<SMLoyaltyCard *> *)cards __attribute__((deprecated("Use block methods instead")));
 /*!
  @abstract Notifies delegate that the current user's loyalty card transactions were fetched.
  @discussion This method is called in response to @link fetchLoyaltyCardTransactions @/link.
- @param transactions The user's cards transactions.
+ @param transactions The user's transactions.
+ @deprecated Use block methods instead.
  */
-- (void)didFetchLoyaltyCardTransactions:(NSArray<SMLoyaltyCardTransaction *> *)transactions;
+- (void)didFetchLoyaltyCardTransactions:(NSArray<SMLoyaltyCardTransaction *> *)transactions __attribute__((deprecated("Use block methods instead")));
 /*!
  @abstract Notifies delegate that a loyalty card was linked.
  @discussion This method is called in response to @link linkLoyaltyCardNumber:retailer: @/link.
  @param cardNumber The card number of the linked loyalty card.
+ @deprecated Use block methods instead.
  */
-- (void)didLinkLoyaltyCard:(NSString *)cardNumber;
+- (void)didLinkLoyaltyCard:(NSString *)cardNumber __attribute__((deprecated("Use block methods instead")));
 /*!
  @abstract Notifies delegate that a loyalty card was unlinked.
  @discussion This method is called in response to @link unlinkLoyaltyCardID: @/link.
+ @deprecated Use block methods instead.
  */
-- (void)didUnlinkLoyaltyCard;
+- (void)didUnlinkLoyaltyCard __attribute__((deprecated("Use block methods instead")));
 
 /*!
  @abstract Notifies delegate that the available retailers were fetched.
  @discussion This method is called in response to @link fetchRetailers @/link and @link fetchRetailersWithZipCode: @/link.
  @param retailers The available retailers.
+ @deprecated Use block methods instead.
  */
-- (void)didFetchRetailers:(NSArray<SMRetailer *> *)retailers;
+- (void)didFetchRetailers:(NSArray<SMRetailer *> *)retailers __attribute__((deprecated("Use block methods instead")));
 
 @end
+
+/*!
+ @typedef didFetchLoyaltyCards
+ @abstract Completion handler block type for @link fetchLinkedCardsWithCompletionHandler: @/link.
+ */
+typedef void (^didFetchLoyaltyCards)(NSArray<SMLoyaltyCard *> *cards, SMError *error);
+/*!
+ @typedef didFetchLoyaltyCardTransactions
+ @abstract Completion handler block type for @link fetchLoyaltyCardTransactionsWithCompletionHandler: @/link.
+ */
+typedef void (^didFetchLoyaltyCardTransactions)(NSArray<SMLoyaltyCardTransaction *> *transactions, SMError *error);
+/*!
+ @typedef didLinkLoyaltyCard
+ @abstract Completion handler block type for @link linkLoyaltyCardNumber:retailer:completionHandler: @/link.
+ */
+typedef void (^didLinkLoyaltyCard)(NSString *cardNumber, SMError *error);
+/*!
+ @typedef didUnlinkLoyaltyCard
+ @abstract Completion handler block type for @link unlinkLoyaltyCardID:completionHandler: @/link.
+ */
+typedef void (^didUnlinkLoyaltyCard)(SMError *error);
+
+/*!
+ @typedef didFetchRetailers
+ @abstract Completion handler block type for @link fetchRetailersWithCompletionHandler: @/link and @link fetchRetailersWithZipCode:completionHandler: @/link.
+ */
+typedef void (^didFetchRetailers)(NSArray<SMRetailer *> *retailers, SMError *error);
 
 
 /*!
@@ -68,51 +143,108 @@
 /*!
  @property loyaltyCards
  @abstract The current user's linked loyalty cards.
- @discussion This property is updated in response to a successful @link fetchLinkedCards @/link call.
+ @discussion This property is updated in response to a successful @link fetchLinkedCardsWithCompletionHandler: @/link call.
  */
 @property(nonatomic, strong, readonly) NSArray<SMLoyaltyCard *> *loyaltyCards;
 /*!
  @property retailers
  @abstract The retailers for which a user can link a loyalty card.
- @discussion This property is updated in response to a successful @link fetchRetailersWithZipCode: @/link call.
+ @discussion This property is updated in response to a successful @link fetchRetailersWithCompletionHandler: @/link or @link fetchRetailersWithZipCode:completionHandler: @/link call.
  */
-@property(nonatomic, strong, readonly) NSArray<SMRetailer *>    *retailers;
-
+@property(nonatomic, strong, readonly) NSArray<SMRetailer *> *retailers;
 /*!
- @abstract Makes a request to update @link loyaltyCards @/link with the current user's linked loyalty cards.
+ @property loyaltyCardTransactions
+ @abstract Purchase data parsed from transactions made with the current user's linked loyalty cards.
+ @discussion This property is updated in response to a successful @link fetchLoyaltyCardTransactionsWithCompletionHandler: @/link call.
+ */
+@property(nonatomic, strong, readonly) NSArray<SMLoyaltyCardTransaction *> *loyaltyCardTransactions;
+/*!
+ @abstract Makes a request to fetch the current user's linked loyalty cards.
  @discussion @link didFetchLoyaltyCards: @/link is called in response to this method.
+ @result <code>BOOL</code> indicating whether the request will be sent.
+ @deprecated Use @link fetchLinkedCardsWithCompletionHandler: @/link.
  */
-- (void)fetchLinkedCards;
+- (BOOL)fetchLinkedCards __attribute__((deprecated("Use fetchLinkedCardsWithCompletionHandler:")));
 /*!
- @abstract Makes a request to fetch transactions made with the current user's linked loyalty cards.
+ @abstract Makes a request to fetch the current user's linked loyalty cards.
+ @param onCompletion The block to execute after the request is processed.
+ @result <code>BOOL</code> indicating whether the request will be sent.
+ */
+- (BOOL)fetchLinkedCardsWithCompletionHandler:(didFetchLoyaltyCards)onCompletion;
+/*!
+ @abstract Makes a request to update @link loyaltyCardTransactions @/link with purchase data parsed from transactions made with the current user's linked loyalty cards.
  @discussion @link didFetchLoyaltyCardTransactions: @/link is called in response to this method.
+ @result <code>BOOL</code> indicating whether the request will be sent.
+ @deprecated Use @link fetchLoyaltyCardTransactionsWithCompletionHandler: @/link.
  */
--(void)fetchLoyaltyCardTransactions;
+- (BOOL)fetchLoyaltyCardTransactions __attribute__((deprecated("Use fetchLoyaltyCardTransactionsWithCompletionHandler:")));
 /*!
- @abstract Links a loyalty card issued by the specified retailer with the specified card number.
+ @abstract Makes a request to update @link loyaltyCardTransactions @/link with purchase data parsed from transactions made with the current user's linked loyalty cards.
+ @param onCompletion The block to execute after the request is processed.
+ @result <code>BOOL</code> indicating whether the request will be sent.
+ */
+- (BOOL)fetchLoyaltyCardTransactionsWithCompletionHandler:(didFetchLoyaltyCardTransactions)onCompletion;
+/*!
+ @abstract Makes a request to link a loyalty card issued by the specified retailer with the specified card number.
  @discussion @link didLinkLoyaltyCard: @/link is called in response to this method.
  @param cardNumber Loyalty card number.
  @param retailerID ID of retailer that issued the loyalty card.
+ @result <code>BOOL</code> indicating whether the request will be sent.
+ @deprecated Use @link linkLoyaltyCardNumber:retailer:completionHandler: @/link.
  */
-- (void)linkLoyaltyCardNumber:(NSString *)cardNumber retailer:(NSString *)retailerID;
+- (BOOL)linkLoyaltyCardNumber:(NSString *)cardNumber retailer:(NSString *)retailerID __attribute__((deprecated("Use linkLoyaltyCardNumber:retailer:completionHandler:")));
 /*!
- @abstract Unlinks the loyalty card with the specified loyalty card ID.
- @discussion @link didUnlinkLoyaltyCard @/link is called in response to this method.
- @param cardID The ID of the loyalty card to unlink.
+ @abstract Makes a request to link a loyalty card issued by the specified retailer with the specified card number.
+ @param cardNumber Loyalty card number.
+ @param retailerID ID of retailer that issued the loyalty card.
+ @param onCompletion The block to execute after the request is processed.
+ @result <code>BOOL</code> indicating whether the request will be sent.
  */
-- (void)unlinkLoyaltyCardID:(NSString *)cardID;
+- (BOOL)linkLoyaltyCardNumber:(NSString *)cardNumber retailer:(NSString *)retailerID completionHandler:(didLinkLoyaltyCard)onCompletion;
+/*!
+ @abstract Makes a request to unlink the loyalty card with the specified loyalty card ID.
+ @discussion @link //apple_ref/occ/intfm/SMLoyaltyCardsDelegate/didUnlinkLoyaltyCard @/link is called in response to this method.
+ @param cardID The ID of the loyalty card to unlink.
+ @result <code>BOOL</code> indicating whether the request will be sent.
+ @deprecated Use @link unlinkLoyaltyCardID:completionHandler: @/link.
+ */
+- (BOOL)unlinkLoyaltyCardID:(NSString *)cardID __attribute__((deprecated("Use unlinkLoyaltyCardID:completionHandler:")));
+/*!
+ @abstract Makes a request to unlink the loyalty card with the specified loyalty card ID.
+ @param cardID The ID of the loyalty card to unlink.
+ @param onCompletion The block to execute after the request is processed.
+ @result <code>BOOL</code> indicating whether the request will be sent.
+ */
+- (BOOL)unlinkLoyaltyCardID:(NSString *)cardID completionHandler:(didUnlinkLoyaltyCard)onCompletion;
 
 /*!
  @abstract Makes a request to update @link retailers @/link with retailers for which a user can link a loyalty card.
  @discussion @link didFetchRetailers: @/link is called in response to this method.
+ @result <code>BOOL</code> indicating whether the request will be sent.
+ @deprecated Use @link fetchRetailersWithCompletionHandler: @/link.
  */
-- (void)fetchRetailers;
+- (BOOL)fetchRetailers __attribute__((deprecated("Use fetchRetailersWithCompletionHandler:")));
+/*!
+ @abstract Makes a request to update @link retailers @/link with retailers for which a user can link a loyalty card.
+ @param onCompletion The block to execute after the request is processed.
+ @result <code>BOOL</code> indicating whether the request will be sent.
+ */
+- (BOOL)fetchRetailersWithCompletionHandler:(didFetchRetailers)onCompletion;
 /*!
  @abstract Makes a request to update @link retailers @/link with retailers in the specified zipcode for which a user can link a loyalty card.
  @discussion @link didFetchRetailers: @/link is called in response to this method.
  @param zipCode Zipcode in which to search for retailers (optional).
+ @result <code>BOOL</code> indicating whether the request will be sent.
+ @deprecated Use @link fetchRetailersWithZipCode:completionHandler: @/link.
  */
-- (void)fetchRetailersWithZipCode:(NSString *)zipCode;
+- (BOOL)fetchRetailersWithZipCode:(NSString *)zipCode __attribute__((deprecated("Use fetchRetailersWithZipCode:completionHandler:")));
+/*!
+ @abstract Makes a request to update @link retailers @/link with retailers in the specified zipcode for which a user can link a loyalty card.
+ @param zipCode Zipcode in which to search for retailers (optional).
+ @param onCompletion The block to execute after the request is processed.
+ @result <code>BOOL</code> indicating whether the request will be sent.
+ */
+- (BOOL)fetchRetailersWithZipCode:(NSString *)zipCode completionHandler:(didFetchRetailers)onCompletion;
 
 @end
 

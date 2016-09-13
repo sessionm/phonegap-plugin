@@ -2,7 +2,7 @@
 //  SMReceiptUploadViewController.h
 //  SessionM
 //
-//  Copyright (c) 2016 SessionM. All rights reserved.
+//  Copyright © 2016 SessionM. All rights reserved.
 //
 
 #ifndef __SM_RECEIPT_UPLOAD_VIEW_CONTROLLER__

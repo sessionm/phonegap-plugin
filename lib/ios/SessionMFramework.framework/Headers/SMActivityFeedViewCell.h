@@ -2,7 +2,7 @@
 //  SMActivityFeedViewCell.h
 //  SessionM
 //
-//  Copyright (c) 2016 SessionM. All rights reserved.
+//  Copyright © 2016 SessionM. All rights reserved.
 //
 
 #ifndef __SM_ACTIVITY_FEED_VIEW_CELL__
@@ -27,11 +27,16 @@
 #define DESCRIPTION_LABEL_COLOR [UIColor blackColor]
 #define CONTAINER_BACKGROUND_COLOR [UIColor whiteColor]
 
+/*!
+ @protocol SMActivityFeedViewCellDelegate
+ @abstract Defines callbacks for @link SMActivityFeedViewCell @/link methods.
+ */
 @protocol SMActivityFeedViewCellDelegate
 
--(void)reloadCellForFeedMessage:(SMFeedMessage *)message;
+- (void)reloadCellForFeedMessage:(SMFeedMessage *)message;
 
 @end
+
 
 /*!
  @class SMActivityFeedViewCell
@@ -51,18 +56,18 @@
 @property(nonatomic, assign) BOOL isSizingCell;
 /*!
  @property delegate
- @abstract SMActivityFeedViewCellDelegate object to tell to reload this cell after all images are loaded.
+ @abstract @link SMActivityFeedViewCellDelegate @/link object to tell to reload this cell after all images are loaded.
  */
 @property(nonatomic, strong) id<SMActivityFeedViewCellDelegate> delegate;
 
 /*!
  @abstract Asynchronously loads the icon and banner image for each message in the specified message list.
- @param messageList - Current message list.
+ @param messageList Current message list.
  */
 - (void)seedMessages:(NSArray*)messageList;
 /*!
  @abstract Returns the height of the cell (including content and margins).
- @result CGFloat cell height.
+ @result <code>CGFloat</code> cell height.
  */
 - (CGFloat)heightForCell;
 

@@ -2,7 +2,7 @@
 //  SMDefaultMessageView.h
 //  SessionM
 //
-//  Copyright (c) 2016 SessionM. All rights reserved.
+//  Copyright © 2016 SessionM. All rights reserved.
 //
 
 #ifndef __SM_DEFAULT_MESSAGE_VIEW__
@@ -16,6 +16,24 @@
  @discussion This class offers a standard implementation for presenting messages. In addition, it automatically notifies the SDK when a message view is presented or tapped.
  */
 @interface SMDefaultMessageView : SMMessageView
+
+/*!
+ @property headerLabel
+ @abstract Displays the header text for the associated message.
+ @discussion Will be initialized to the @link //apple_ref/occ/instp/SMMessage/header @/link property of the associated @link SMMessage @/link instance.
+ */
+@property(nonatomic, strong, readonly) UILabel *headerLabel;
+/*!
+ @property descriptionLabel
+ @abstract Displays the description text for the associated message.
+ @discussion Will be initialized to the @link //apple_ref/occ/instp/SMMessage/descriptionText @/link property of the associated @link SMMessage @/link instance.
+ */
+@property(nonatomic, strong, readonly) UILabel *descriptionLabel;
+/*!
+ @property dismissButton
+ @abstract Calls @link dismiss @/link when tapped.
+ */
+@property(nonatomic, strong, readonly) UIButton *dismissButton;
 
 /*!
  @abstract Presents the message and notifies the SDK of the presentation.

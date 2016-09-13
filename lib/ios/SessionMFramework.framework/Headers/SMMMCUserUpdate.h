@@ -2,13 +2,19 @@
 //  SMMMCUserUpdate.h
 //  SessionM
 //
+//  Copyright © 2016 SessionM. All rights reserved.
+//
 
 #ifndef __SM_MMC_USER_UPDATE__
 #define __SM_MMC_USER_UPDATE__
 
 #import <Foundation/Foundation.h>
-#import "SMMMCUser.h"
+#import <CoreLocation/CoreLocation.h>
 
+/*!
+ @class SMMMCUserUpdate
+ @abstract Defines the data associated with a user data update request.
+ */
 @interface SMMMCUserUpdate : NSObject
 /*!
  @property email
@@ -64,30 +70,33 @@
  @property latitude
  @abstract User's latitude.
  */
-@property(nonatomic, strong, readwrite) NSString *latitude;
+@property(nonatomic, assign, readwrite) CLLocationDegrees latitude;
 /*!
  @property longitude
  @abstract User's longitude.
  */
-@property(nonatomic, strong, readwrite) NSString *longitude;
+@property(nonatomic, assign, readwrite) CLLocationDegrees longitude;
 /*!
  @property externalID
- @abstract User's external id from other system.
+ @abstract Developer-defined ID associated with the user.
  */
 @property(nonatomic, strong, readwrite) NSString *externalID;
 /*!
  @property ipAddress
- @abstract User's ip address 0.0.0.0
+ @abstract User's IP address.
  */
 @property(nonatomic, strong, readwrite) NSString *ipAddress;
-
 /*!
  @property userProfile
  @abstract User's user profile.
  */
 @property(nonatomic, strong, readwrite) NSDictionary *userProfile;
-
+/*!
+ @property dictionary
+ @abstract Returns user data in a dictionary format.
+ */
 @property(nonatomic, strong, readonly)  NSDictionary *dictionary;
+
 @end
 
 #endif

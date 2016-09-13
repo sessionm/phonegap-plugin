@@ -2,7 +2,7 @@
 //  SMPortalButton.h
 //  SessionM
 //
-//  Copyright (c) 2016 SessionM. All rights reserved.
+//  Copyright © 2016 SessionM. All rights reserved.
 //
 
 #ifndef __SM_PORTAL_BUTTON__
@@ -13,13 +13,14 @@
 /*!
  @typedef SMPortalButtonBadgePosition
  @abstract Portal button badge position.
+
+ @constant SMPortalButtonBadgePositionLeft Badge will be positioned in the top left corner.
+ @constant SMPortalButtonBadgePositionRight Badge will be positioned in the top right corner (default value).
+ @constant SMPortalButtonBadgePositionCustom Custom badge position. Use the @link badgeCenter @/link property to position the badge.
  */
 typedef enum SMPortalButtonBadgePosition {
-    /*! Top left corner. */
     SMPortalButtonBadgePositionLeft,
-    /*! Top right corner. Default. */
     SMPortalButtonBadgePositionRight,
-    /*! Custom. Use badgeCenter property to position a badge. */
     SMPortalButtonBadgePositionCustom
 } SMPortalButtonBadgePosition;
 
@@ -32,8 +33,8 @@ typedef enum SMPortalButtonBadgePosition {
  */
 @interface SMPortalButton : UIView
 /*!
- Returns a button view with predefined size of 70 x 46. This method will return nil on unsupported platform.
- @result New SMPortalButton object
+ Returns a button view with predefined size of <code>70 x 46</code>. This method will return <code>nil</code> on unsupported platforms.
+ @result New <code>SMPortalButton</code> object
  */
 + (SMPortalButton *)buttonWithType:(UIButtonType)buttonType;
 /*!
@@ -48,29 +49,29 @@ typedef enum SMPortalButtonBadgePosition {
 @property(nonatomic) BOOL shouldDisplayBadge;
 /*!
  @property shouldDisableOnOptOut
- @discussion This property is used to determine whether the portal button will be disabled when the user is opted out. Default value is YES, but setting this property to NO is recommended if you want to allow users to opt back in through the portal button.
+ @discussion This property is used to determine whether the portal button will be disabled when the user is opted out. Default value is <code>YES</code>, but setting this property to <code>NO</code> is recommended if you want to allow users to opt back in through the portal button.
  */
 @property(nonatomic) BOOL shouldDisableOnOptOut;
 /*!
  @property badgePosition
+ @abstract Current badge position.
  */
 @property(nonatomic) SMPortalButtonBadgePosition badgePosition;
 /*!
  @property badgeCenter
- @discussion Setting this property takes effect only if badge position is SMPortalButtonPositionCustom.
- @deprecated Use badge property instead.
+ @discussion Setting this property takes effect only if badge position is @link SMPortalButtonBadgePositionCustom @/link.
  */
 @property(nonatomic) CGPoint badgeCenter;
 /*!
  @property badge
  @discussion Badge label is used to customize properties such as font, font size, the badge size, etc. Setting badge position to custom value
-    takes effect only if badge position is SMPortalButtonPositionCustom. After changing the badge property application should call @link layoutBadge @/link
+    takes effect only if badge position is @link SMPortalButtonBadgePositionCustom @/link. After changing the badge property application, call the @link layoutBadge @/link
     method to ensure that the badge circle is properly sized.
  */
 @property (nonatomic, strong, readonly) UILabel *badge;
 /*!
  @property presentingController
- @discussion UIViewController object to use as presenting controller for portal view controller. 
+ @discussion <code>UIViewController</code> object to use as presenting controller for portal view controller.
  */
 @property(nonatomic, strong) UIViewController *presentingController;
 

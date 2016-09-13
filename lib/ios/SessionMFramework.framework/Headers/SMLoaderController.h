@@ -2,7 +2,7 @@
 //  SMLoaderController.h
 //  SessionM
 //
-//  Copyright (c) 2016 SessionM. All rights reserved.
+//  Copyright © 2016 SessionM. All rights reserved.
 //
 
 #ifndef __SM_LOADER_CONTROLLER__
@@ -13,13 +13,14 @@
 /*!
  @typedef SMLoaderControllerLoadStatus
  @abstract Status of the current load.
+
+ @constant SMLoaderControllerLoadStatusLoading Indicates portal content is loading.
+ @constant SMLoaderControllerLoadStatusFailed Indicates session is online, but content could not be reached.
+ @constant SMLoaderControllerLoadStatusUnavailable Indicates content is unavailable (because session is not online, etc.).
  */
 typedef enum SMLoaderControllerLoadStatus {
-    /*! Indicates portal content is loading */
     SMLoaderControllerLoadStatusLoading = 100,
-    /*! Indicates session is online, but content could not be reached */
     SMLoaderControllerLoadStatusFailed = 101,
-    /*! Indicates content is unavailable (because session is not online, etc.) */
     SMLoaderControllerLoadStatusUnavailable = 102
 } SMLoaderControllerLoadStatus;
 

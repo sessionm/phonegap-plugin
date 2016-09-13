@@ -2,12 +2,12 @@
 //  SessionM.h
 //  SessionM
 //
-//  Copyright (c) 2016 SessionM. All rights reserved.
+//  Copyright © 2016 SessionM. All rights reserved.
 //
 
 #ifndef __SESSIONM__
 #define __SESSIONM__
-#define __SESSIONM_SDK_VERSION__ @"2.0.1"
+#define __SESSIONM_SDK_VERSION__ @"2.1.0"
 #define __SESSIONM_SDK_MIN_SUPPORTED_DEVICE_VERSION__ 8.0f
 
 #import <UIKit/UIKit.h>
@@ -17,6 +17,8 @@
 #import "SMNotificationMessage.h"
 #import "SMLoaderController.h"
 #import "SMCampaignsManager.h"
+#import "SMContentManager.h"
+#import "SMInboxManager.h"
 #import "SMIdentityManager.h"
 #import "SMLoyaltyCardsManager.h"
 #import "SMPlacesManager.h"
@@ -65,14 +67,14 @@
 /*!
  @typedef SessionMState
  @abstract Session state enum.
+
+ @constant SessionMStateStopped SessionM service is stopped.
+ @constant SessionMStateStartedOnline SessionM service is started and is working in online state, i.e. connected to the network.
+ @constant SessionMStateStartedOffline SessionM service is started and is working in offline state, i.e. without network connection. Unlike online state, some operations, e.g. activity display may not be available in this state. SessionM tries to reconnect automatically and will transition to @link SessionMStateStartedOnline @/link state once it is able to do so.
  */
 typedef enum SessionMState {
-    /*! SessionM service is stopped. */
     SessionMStateStopped,
-    /*! SessionM service is started and is working in online state, i.e. connected to the network. */
     SessionMStateStartedOnline,
-    /*! SessionM is started and is working in offline state, i.e. without network connection. Unlike online state, some operations, e.g. activity display may not be available in this state. SessionM tries to reconnect automatically and will transition to SessionMStateStartedOnline state
-     once it has successfully been able to do so. */
     SessionMStateStartedOffline
 } SessionMState;
 
@@ -80,18 +82,18 @@ typedef enum SessionMState {
 
 /*!
  @typedef SMActivityType
- @abstract Session M service UI activity type enum.
+ @abstract SessionM service UI activity type enum.
+
+ @constant SMActivityTypeAchievement Achievement notification UI activity.
+ @constant SMActivityTypePortal User portal UI activity.
+ @constant SMActivityTypeIntroduction SessionM service introduction UI activity.
+ @constant SMActivityTypeInterstitial Interstitial activity.
  */
 typedef enum SMActivityType {
-    /*! Achievement notification UI activity. */
     SMActivityTypeAchievement = 1,
-    /*! User portal UI activity. */
     SMActivityTypePortal,
-    /*! Deprecated. Session M service introduction UI activity.
-     @deprecated Introduction type is deprecated. Use SMActivityTypePortal instead.
-     */
+    /*! @deprecated <code>SMActivityTypeIntroduction</code> is deprecated. Use @link SMActivityTypePortal @/link instead. */
     SMActivityTypeIntroduction  __attribute__((deprecated)),
-    /*! Interstitial activity */
     SMActivityTypeInterstitial
 } SMActivityType;
 
@@ -99,36 +101,37 @@ typedef enum SMActivityType {
 
 /*!
  @typedef SMActivityUserAction
- @abstract User action within Session M UI activity. Identifies events such as user engaging with achievement prompt, etc.
+ @abstract User action within SessionM UI activity. Identifies events such as user engaging with achievement prompt, etc.
+
+ @constant SMAchievementViewAction User viewed an achievement.
+ @constant SMAchievementEngagedAction User engaged with achievement prompt.
+ @constant SMAchievementDismissedAction User dismissed an achievement.
+ @constant SMSponsorContentViewedAction User viewed sponsored content.
+ @constant SMSponsorContentEngagedAction User engaged with sponsored content.
+ @constant SMSponsorContentDismissedAction User dismissed sponsored content.
+ @constant SMPortalViewedAction User viewed a section of the user portal.
+ @constant SMSignInAction User signed into the user portal.
+ @constant SMSignOutAction User signed out of the user portal.
+ @constant SMRegisteredAction User registered in the user portal.
+ @constant SMPortalDismissedAction User dismissed the portal.
+ @constant SMRedeemedRewardAction User claimed a reward.
+ @constant SMCheckinCompletedAction User checked into an mPLUS Places location. Action dictionary data includes properties with the following keys: venue - venue name, lat - latitude, long - longitude, distance - distance from venue in meters.
+ @constant SMVirtualItemRewardAction Virtual item reward. Action dictionary data includes properties with the following keys: name - reward name, # - reward amount, token - ad ID.
  */
 typedef enum SMActivityUserAction {
-    /*! User viewed an achievement. */
     SMAchievementViewAction = 100,
-    /*! User engaged with achievement prompt. */
     SMAchievementEngagedAction = 101,
-    /*! User dismissed an achievement. */
     SMAchievementDismissedAction = 102,
-    /*! User viewed sponsored content. */
     SMSponsorContentViewedAction = 103,
-    /*! User engaged with sponsored content. */
     SMSponsorContentEngagedAction = 104,
-    /*! User dismissed sponsored content. */
     SMSponsorContentDismissedAction = 105,
-    /*! User viewed a section of the user portal. */
     SMPortalViewedAction = 106,
-    /*! User signed into the user portal. */
     SMSignInAction = 107,
-    /*! User signed out of the user portal. */
     SMSignOutAction = 108,
-    /*! User registered in the user portal. */
     SMRegisteredAction = 109,
-    /*! User dismissed the portal. */
     SMPortalDismissedAction = 110,
-    /*! User claimed a reward. */
     SMRedeemedRewardAction = 111,
-    /*! User checked into a mPlaces location. Action dictionary data includes properties with the following keys: venue - venue name, lat - latitude, long - longitude, distance - distance from venue in meters. */
     SMCheckinCompletedAction = 112,
-    /*! Virtual item reward. Action dictionary data includes properties with the following keys: name - reward name, # - reward amount, token - ad ID. */    
     SMVirtualItemRewardAction = 113
 } SMActivityUserAction;
 
@@ -137,11 +140,12 @@ typedef enum SMActivityUserAction {
 /*!
  @typedef SMActivityAutoDismissStyle
  @abstract Activity auto dismiss style.
+
+ @constant SMActivityAutoDismissStyleBackground Activity is automatically dismissed when application is backgrounded. This is the default.
+ @constant SMActivityAutoDismissStyleResignActive Activity is automatically dismissed when application loses focus which may be due to temporary interruptions such as notification or system alert or application backgrounding.
  */
 typedef enum SMActivityAutoDismissStyle {
-    /*! Activity is automatically dismissed when application is backgrounded. This is the default. */
-    SMActivityAutoDismissStyleBackground, 
-    /*! Activity is automatically dismissed when application loses focus which may be due to temporary interruptions such as notification or system alert or application backgrounding. */ 
+    SMActivityAutoDismissStyleBackground,
     SMActivityAutoDismissStyleResignActive
 } SMActivityAutoDismissStyle;
 
@@ -150,15 +154,16 @@ typedef enum SMActivityAutoDismissStyle {
 /*!
  @typedef SMServiceRegion
  @abstract SessionM service region.
+
+ @constant SMServiceRegionUnknown Value before service region is set or session is started.
+ @constant SMServiceRegionJapan Japan service region.
+ @constant SMServiceRegionUSA United States service region (default value if service region is not set before starting session).
+ @constant SMServiceRegionCustom Custom service region (use this value to set custom server URLs).
  */
 typedef enum SMServiceRegion {
-    /*! Value before service region is set or session is started */
     SMServiceRegionUnknown,
-    /*! Japan service region */
     SMServiceRegionJapan,
-    /*! United States service region (default value if service region is not set before starting session) */
     SMServiceRegionUSA,
-    /*! Custom service region (use this value to set custom server URLs) */
     SMServiceRegionCustom
 } SMServiceRegion;
 
@@ -167,21 +172,20 @@ typedef enum SMServiceRegion {
 /*!
  @typedef SMUserRegistrationResultType
  @abstract Result of most recent attempt to log a user in or out.
+
+ @constant SMUserRegistrationResultTypeUnavailable Service is unavailable or result is not yet available. This is the default value.
+ @constant SMUserRegistrationResultTypeSuccess Successfully processed user registration request.
+ @constant SMUserRegistrationResultTypeFailure Received network or processing error response from server for user registration request.
+ @constant SMUserRegistrationResultTypeServerFailure Received error response from server for user registration request.
+ @constant SMUserRegistrationResultTypeProcessingFailure Received error when processing the server response. Possible processing errors include receiving a blank password or an unknown email.
  */
 typedef enum SMUserRegistrationResultType {
-    /*! Service is unavailable or result is not yet available. This is the default value. */
     SMUserRegistrationResultTypeUnavailable,
-    /*! Successfully processed user registration request. */
     SMUserRegistrationResultTypeSuccess,
-    /*! Received network or processing error response from server for user registration request. */
     SMUserRegistrationResultTypeFailure,
-    /*! Received error response from server for user registration request.
-     @deprecated This value is deprecated. See @link SMUserRegistrationResultTypeFailure @/link.
-     */
+    /*! @deprecated <code>SMUserRegistrationResultTypeServerFailure</code> is deprecated. Use @link SMUserRegistrationResultTypeFailure @/link instead. */
     SMUserRegistrationResultTypeServerFailure __attribute__((deprecated)),
-    /*! Received error when processing the server response. Possible processing errors include receiving a blank password or an unknown email.
-     @deprecated This value is deprecated. See @link SMUserRegistrationResultTypeFailure @/link.
-     */
+    /*! @deprecated <code>SMUserRegistrationResultTypeProcessingFailure</code> is deprecated. Use @link SMUserRegistrationResultTypeFailure @/link instead. */
     SMUserRegistrationResultTypeProcessingFailure __attribute__((deprecated))
 } SMUserRegistrationResultType;
 
@@ -190,21 +194,22 @@ typedef enum SMUserRegistrationResultType {
 /*!
  @typedef SMPortalPage
  @abstract Page in portal that can be linked to from app.
+
+ @constant SMPortalPageHome Portal home feed.
+ @constant SMPortalPageAchievements User's achievements list.
+ @constant SMPortalPageFeatured Featured sweepstakes, rewards, and charities.
+ @constant SMPortalPageSweepstakes Sweepstakes page.
+ @constant SMPortalPageRewards Rewards page.
+ @constant SMPortalPageCharities Charities page.
+ @constant SMPortalPageSignUp Sign up page.
  */
 typedef enum SMPortalPage {
-    /*! Portal home feed */
     SMPortalPageHome,
-    /*! User's achievements list */
     SMPortalPageAchievements,
-    /*! Featured sweepstakes, rewards, and charities */
     SMPortalPageFeatured,
-    /*! Sweepstakes page */
     SMPortalPageSweepstakes,
-    /*! Rewards page */
     SMPortalPageRewards,
-    /*! Charities page */
     SMPortalPageCharities,
-    /*! Sign up page */
     SMPortalPageSignUp
 } SMPortalPage;
 
@@ -219,16 +224,17 @@ extern NSString * const SessionMErrorDomain;
 /*!
  @typedef SessionMSessionErrorType
  @abstract SessionM service error type.
+
+ @constant SessionMServiceUnavailable Indicates that SessionM service is not available, i.e. denied by SessionM service.
+ @constant SessionMIneligibleError Indicates that user is ineligible for SessionM service.
+ @constant SessionMInvalidAppIdError Indicates invalid application ID.
  */
 typedef enum SessionMSessionErrorType {
-    /*! Indicates that Session M service is not available, i.e. denied by SessionM service. */
     SessionMServiceUnavailable = 100,
-    /*! Deprecated. Indicates that user is ineligible for Session M service
-     * NOTE: Deprecated. SessionMServiceUnavailable code should be used instead.
-     */
-    SessionMIneligibleError = 101,
-    /*! Indicates invalid application ID */
-    SessionMInvalidAppIdError = 102
+    /*! @deprecated <code>SessionMIneligibleError</code> is deprecated. Use @link SessionMServiceUnavailable @/link instead. */
+    SessionMIneligibleError __attribute__((deprecated)) = 101,
+    /*! @deprecated <code>SessionMInvalidAppIdError</code> is deprecated. Use @link SessionMServiceUnavailable @/link instead. */
+    SessionMInvalidAppIdError __attribute__((deprecated)) = 102
 } SessionMSessionErrorType;
 
 
@@ -262,18 +268,18 @@ typedef enum SessionMSessionErrorType {
 - (void)sessionM:(SessionM *)sessionM didFailWithError:(NSError *)error;
 /*!
  @abstract Notifies that the @link userRegistrationResult @/link property has been updated.
- @discussion This method is called after the server response for a sign up, log in or log out request is processed. These requests can made by calling the @link signUpUserWithData: @/link, @link logInUserWithEmail:password: @/link and @link logOutUser @/link methods.
+ @discussion This method is called after the server response for a signup, login or token authentication request is processed. These requests can be made by calling the @link signUpUserWithData: @/link, @link logInUserWithEmail:password: @/link and @link authenticateWithToken:provider: @/link methods.
  @param sessionM SessionM service object.
- @param result SMUserRegistrationResultType the new value for the <code>userRegistrationResult</code> property.
+ @param result @link SMUserRegistrationResultType @/link the new value for the @link userRegistrationResult @/link property.
  @deprecated This method is deprecated. Use @link sessionM:didUpdateUserRegistrationResult:errorMessages: @/link instead.
  */
 - (void)sessionM:(SessionM *)sessionM didUpdateUserRegistrationResult:(SMUserRegistrationResultType)result __attribute__((deprecated));
 /*!
  @abstract Notifies that the @link userRegistrationResult @/link property has been updated.
- @discussion This method is called after the server response for a sign up, log in or log out request is processed. These requests can made by calling the @link signUpUserWithData: @/link, @link logInUserWithEmail:password: @/link and @link logOutUser @/link methods.
+ @discussion This method is called after the server response for a signup, login or token authentication request is processed. These requests can be made by calling the @link signUpUserWithData: @/link, @link logInUserWithEmail:password: @/link and @link authenticateWithToken:provider: @/link methods.
  @param sessionM SessionM service object.
- @param result SMUserRegistrationResultType the new value for the <code>userRegistrationResult</code> property.
- @param errorMessages NSArray of error messages (value will be nil for successful registration).
+ @param result @link SMUserRegistrationResultType @/link the new value for the @link userRegistrationResult @/link property.
+ @param errorMessages <code>NSArray</code> of error messages (value will be <code>nil</code> for successful registration).
  */
 - (void)sessionM:(SessionM *)sessionM didUpdateUserRegistrationResult:(SMUserRegistrationResultType)result errorMessages:(NSArray *)errorMessages;
 /*!
@@ -282,24 +288,24 @@ typedef enum SessionMSessionErrorType {
  By default, SessionM displays the achievement UI immediately after it is earned. Application can customize this behavior to defer the display until appropriate application state is reached.
  @param sessionM SessionM service object.
  @param achievement Achievement data object.
- @result Boolean indicating if achievement activity should be presented.
+ @result <code>BOOL</code> indicating if achievement activity should be presented.
  */
 - (BOOL)sessionM:(SessionM *)sessionM shouldAutopresentAchievement:(SMAchievementData *)achievement;
 /*!
- @abstract Returns UIView to use as a superview for SessionM view objects. 
+ @abstract Returns <code>UIView</code> object to use as a superview for SessionM view objects.
  @param sessionM SessionM service object.
  @param type Activity type.
- @result UIView object.
+ @result <code>UIView</code> object.
  */
 - (UIView *)sessionM:(SessionM *)session viewForActivity:(SMActivityType)type;
 /*!
- @abstract Returns UIViewController to use as a presenting controller for SessionM view controller.
- @discussion This method is only called when application's root view controller is nil. In this case SessionM tries to determine appropriate view controller in the view hierarchy to use as a 'presenting controller'. 
+ @abstract Returns <code>UIViewController</code> object to use as a presenting controller for SessionM view controller.
+ @discussion This method is only called when application's root view controller is <code>nil</code>. In this case SessionM tries to determine appropriate view controller in the view hierarchy to use as a 'presenting controller'.
  This method provides a mechanism for the application to explicitely specify which view controller should be used in this case. It is recommended that application implement this method when root view controller is not set.
- Note, that UIViewController based presentation is only applicable for full screen activities, e.g. user portal.
+ Note, that <code>UIViewController</code> based presentation is only applicable for full screen activities, e.g. user portal.
  @param sessionM SessionM service object.
  @param type Activity type.
- @result UIViewController object.
+ @result <code>UIViewController</code> object.
  */
  - (UIViewController *)sessionM:(SessionM *)session viewControllerForActivity:(SMActivityType)type;
 /*!
@@ -334,13 +340,6 @@ typedef enum SessionMSessionErrorType {
  */
 - (void)sessionM:(SessionM *)sessionM didUpdateUser:(SMUser *)user;
 /*!
- @abstract Notifies delegate that the list of in-app messages was updated.
- @discussion This method is called when an object is added to or removed from the @link messagesList @/link array.
- @param sessionM SessionM service object.
- @param messages Updated list of in-app messages.
- */
-- (void)sessionM:(SessionM *)sessionM didUpdateMessages:(NSArray *)messages;
-/*!
  @abstract Notifies that media (typically video) will start playing.
  @discussion Application should use this method to suspend its own media playback if any.
  @param sessionM SessionM service object.
@@ -360,17 +359,17 @@ typedef enum SessionMSessionErrorType {
  @param user User object.
  @param action User action type. 
  @param activity Activity object.
- @param data NSDictionary object with action specific data.
+ @param data <code>NSDictionary</code> object with action specific data.
  */
 - (void)sessionM:(SessionM *)sessionM user:(SMUser *)user didPerformAction:(SMActivityUserAction)action forActivity:(SMActivity *)activity withData:(NSDictionary *)data;
 /*!
- * @abstract Returns center point to use when presenting built-in achievement alert UIView.
- * @discussion Application can use this method to refine the positioning of achievement alert UIView. The default layout is specified in the developer portal as part of achievement configuration. 
+ * @abstract Returns center point to use when presenting built-in achievement alert <code>UIView</code>.
+ * @discussion Application can use this method to refine the positioning of achievement alert <code>UIView</code>. The default layout is specified in the developer portal as part of achievement configuration.
  * However, this method provides additional flexibility if application interface is dynamic and requires adjustments to alert positioning in order to ensure it does not cover important UI elements. 
  * @param sessionM SessionM service object.
  * @param activity Activity object.
- * @param size Activity UIView size.
- * @result CGPoint UIView center.
+ * @param size Activity <code>UIView</code> size.
+ * @result <code>CGPoint</code> <code>UIView</code> center.
  */
 - (CGPoint)sessionM:(SessionM *)sessionM centerForActivity:(SMActivity *)activity withSize:(CGSize)size;
 
@@ -383,12 +382,12 @@ typedef enum SessionMSessionErrorType {
  */
 - (void)sessionM:(SessionM *)sessionM activityUnavailable:(SMActivityType)type __attribute__((deprecated));
 /*!
- @abstract Deprecated. Notifies that unclaimed achievement is available or not, if nil, for presentation.
+ @abstract Deprecated. Notifies that unclaimed achievement is available or not, if <code>nil</code>, for presentation.
  @discussion This method should be used by application to customize an achievement presentation. SessionM service invokes this method when new achievement is earned or to notify about one of the previously earned
  unclaimed achievements. Achievement object supplied by this method is also available via SessionM @link unclaimedAchievement @/link property.
  This notification, in conjunction with @link unclaimedAchievement @/link property, allows application to present user achievements at convenient time during application lifecycle.
  @param sessionM SessionM service object.
- @param achievement Achievement data object or nil if no unclaimed achievement is available.
+ @param achievement Achievement data object or <code>nil</code> if no unclaimed achievement is available.
  @deprecated This method is deprecated. Use @link sessionM:shouldAutopresentAchievement: @/link to get notified about new achievements.
  */
 - (void)sessionM:(SessionM *)sessionM didUpdateUnclaimedAchievement:(SMAchievementData *)achievement __attribute__((deprecated));
@@ -396,7 +395,7 @@ typedef enum SessionMSessionErrorType {
  @abstract Deprecated. Indicates if newly earned achievement UI activity should be presented.
  @param sessionM SessionM service object.
  @param type Activity type.
- @result Boolean indicating if achievement activity should be presented.
+ @result <code>BOOL</code> indicating if achievement activity should be presented.
  @deprecated This method is deprecated - use @link sessionM:shouldAutopresentAchievement: @/link instead.
  */
 - (BOOL)sessionM:(SessionM *)sessionM shouldAutopresentActivity:(SMActivityType)type __attribute__((deprecated));
@@ -421,9 +420,9 @@ typedef enum SessionMSessionErrorType {
  @abstract Notifies the developer of the CLCircularRegions being monitored.
  @discussion When the SMLocationManager is told to monitor regions, it will call this method to send to the developer all the CLCircularRegions currently being monitored. This is purely for developer custom UI they may wish to display. Will never be called unless SessionMLocation library is used and region monitoring started.
  @param sessionM SessionM service object. 
- @param regions As NSArray of all CLCircularRegions being monitored.
+ @param regions As <code>NSArray</code> of all CLCircularRegions being monitored.
  */
-- (void)sessionM:(SessionM*)sessionM didStartMonitoringRegions:(NSArray*)regions;
+- (void)sessionM:(SessionM*)sessionM didStartMonitoringRegions:(NSArray<__kindof CLRegion *> *)regions;
 @end
 
 
@@ -431,13 +430,14 @@ typedef enum SessionMSessionErrorType {
 /*!
  @typedef SMLogLevel
  @abstract Log level.
+
+ @constant SMLogLevelOff Disables logging.
+ @constant SMLogLevelInfo Enables logging of key API events such as action logging, achievement display, etc.
+ @constant SMLogLevelDebug Enables logging of detailed information about SDK operations such as, for example, network activity in addition to basic API tracing. This level should be used when diagnosing SDK integration problems.
  */
 typedef enum SMLogLevel {
-    /*! Disables logging. */
     SMLogLevelOff,
-    /*! Enables logging of key API events such as action logging, achievement display, etc. */
     SMLogLevelInfo,
-    /*! Enables logging of detailed information about SDK operations such as, for example, network activity in addition to basic API tracing. This level should be used when diagnosing SDK integration problems. */
     SMLogLevelDebug
 } SMLogLevel;
 
@@ -445,41 +445,46 @@ typedef enum SMLogLevel {
 /*!
  @typedef SMLogCategory
  @abstract Log category.
+
+ @constant SMLogCategoryAll Receive logging for all categories.
+ @constant SMLogCategoryAPI Receive logging for key API activity.
+ @constant SMLogCategoryUI Receive logging for UI activity.
+ @constant SMLogCategoryNetwork Receive logging for network activity.
+ @constant SMLogCategorySession Receive logging for session state changes.
+ @constant SMLogCategoryCPI Receive logging for CPI activity.
  */
 typedef enum SMLogCategory {
-    /*! All categories */
     SMLogCategoryAll = 0xFF,
-    /*! API */
     SMLogCategoryAPI = 0x01,
-    /*! UI */
     SMLogCategoryUI = 0x02,
-    /*! Network */
     SMLogCategoryNetwork = 0x04,
-    /*! Session */
     SMLogCategorySession = 0x08,
-    /*! CPI */
-    SMLogCategoryCPI = 0x10
+    /*! @deprecated SMLogCategoryCPI is deprecated. */
+    SMLogCategoryCPI __attribute__((deprecated)) = 0x10
 } SMLogCategory;
 
 
 /*!
  @typedef SMLocationCoordinate2D
- @abstract Location coordinate enum.
+ @abstract Location coordinate struct.
+
+ @field latitude Coordinate latitude value.
+ @field longitude Coordinate longitude value.
  */
 typedef struct SMLocationCoordinate2D {
-	double latitude;
-	double longitude;
+	CLLocationDegrees latitude;
+	CLLocationDegrees longitude;
 } SMLocationCoordinate2D; 
 
 
 
 /*!
  @class SessionM
- @abstract Session M service interface. This is main class in Session M iOS SDK. It defines methods for all main operations such logging an action and displaying an achievement or a user portal, etc. 
+ @abstract SessionM service interface. This is main class in SessionM iOS SDK. It defines methods for all main operations such as logging an action and displaying an achievement or a user portal, etc.
  
  <b>Basic API usage</b>
 
- Following is the simplest way of integrating SessionM service within your application code. It assumes that you have registered your application in Session M developer portal and configured achievements. 
+ Following is the simplest way of integrating SessionM service within your application code. It assumes that you have registered your application in SessionM developer portal and configured achievements.
  <ol>
  <li>Start the service by calling @link SMStart @/link macro.</li>
  <li>Log action in appropriate places in your code log user action by calling @link SMAction @/link. When new achievement is earned it will be displayed automatically using the style chosen in the developer portal.</li>
@@ -489,7 +494,7 @@ typedef struct SMLocationCoordinate2D {
  
  For example, to override automatic achievement display do the following:
  <ol>
- <li>Implement @link SessionMDelegate @/link and, specifically, @link sessionM:shouldAutopresentAchievement: @/link method to get notified that new achievement is earned and is ready for display. Return NO to suppress achievement display.</li>
+ <li>Implement @link SessionMDelegate @/link and, specifically, @link sessionM:shouldAutopresentAchievement: @/link method to get notified that new achievement is earned and is ready for display. Return <code>NO</code> to suppress achievement display.</li>
  <li>At appropriate place in your application call @link presentActivity: @/link to display the achievement UI.</li>
  </ol>
  
@@ -500,12 +505,12 @@ typedef struct SMLocationCoordinate2D {
  
  Application is notified by SessionM UI display by implementing the following methods of @link SessionMDelegate @/link: @link sessionM:willPresentActivity: @/link, @link sessionM:didPresentActivity: @/link, @link sessionM:willDismissActivity: @/link and @link sessionM:didDismissActivity: @/link.
  
- To present the UI SessionM adds its UIView and/or UIViewControllers to application's view and view controller hierarchy. By default, the following algorithm is to find appropriate superview or presenting controller:
+ To present the UI SessionM adds its <code>UIView</code> and/or <code>UIViewController</code> objects to application's view and view controller hierarchy. By default, the following algorithm is to find appropriate superview or presenting controller:
  <ol>
- <li>Traverse UIViewController chain starting with root view controller and, if set, find top-most UIViewController object.</li>
- <li>If view controller cannot be determined in step 1, iterate through UIWindow subviews finding the top-most visible UIView. If not found, use key UIWindow object.</li>
+ <li>Traverse <code>UIViewController</code> chain starting with root view controller and, if set, find top-most <code>UIViewController</code> object.</li>
+ <li>If view controller cannot be determined in step 1, iterate through <code>UIWindow</code> subviews finding the top-most visible <code>UIView</code>. If not found, use key <code>UIWindow</code> object.</li>
  </ol>
- When SessionM presents a UIView it adds it to the UIView found in steps above. When SessionM presents a UIViewController it uses the controller found in step 1 or, if not available, adds its view to the view found in step 2.
+ When SessionM presents a <code>UIView</code> it adds it to the <code>UIView</code> found in steps above. When SessionM presents a <code>UIViewController</code> it uses the controller found in step 1 or, if not available, adds its view to the view found in step 2.
  
  Application can instruct SessionM to use specific view and controller objects by implementing the following @link SessionMDelegate @/link methods: @link sessionM:viewForActivity: @/link and @link sessionM:viewControllerForActivity: @/link.
 
@@ -544,18 +549,60 @@ typedef struct SMLocationCoordinate2D {
  
  To diagnose problems and ensure proper SDK integration SessionM service implements basic logging which can be controlled using @link logLevel @/link property. For basic output capturing all major SDK events use @link SMLogLevelInfo @/link level. 
  For more detailed, low level output use @link SMLogLevelDebug @/link level. 
- It is highly recommended to capture and provide debug output when reporting a problem Session M technical support.
+ It is highly recommended to capture and provide debug output when reporting a problem to SessionM technical support.
 */
 
 @interface SessionM : NSObject 
 
+/*!
+ @property campaignsManager
+ @abstract Singleton that interfaces with the SessionM Mobile Marketing Cloud Campaigns API.
+ */
 @property(nonatomic, strong, readonly) SMCampaignsManager    *campaignsManager;
+/*!
+ @property contentManager
+ @abstract Singleton that interfaces with the SessionM Mobile Marketing Cloud Content API.
+ */
+@property(nonatomic, strong, readonly) SMContentManager      *contentManager;
+/*!
+ @property identityManager
+ @abstract Singleton that interfaces with the SessionM Mobile Marketing Cloud Identity API.
+ */
 @property(nonatomic, strong, readonly) SMIdentityManager     *identityManager;
+/*!
+ @property inboxManager
+ @abstract Singleton that interfaces with the SessionM Mobile Marketing Cloud Inbox API.
+ */
+@property(nonatomic, strong, readonly) SMInboxManager        *inboxManager;
+/*!
+ @property loyaltyCardsManager
+ @abstract Singleton that interfaces with the SessionM Mobile Marketing Cloud Loyalty Card API.
+ */
 @property(nonatomic, strong, readonly) SMLoyaltyCardsManager *loyaltyCardsManager;
+/*!
+ @property placesManager
+ @abstract Singleton that interfaces with the SessionM Mobile Marketing Cloud Places API.
+ */
 @property(nonatomic, strong, readonly) SMPlacesManager       *placesManager;
+/*!
+ @property receiptsManager
+ @abstract Singleton that interfaces with the SessionM Mobile Marketing Cloud Image Validation API.
+ */
 @property(nonatomic, strong, readonly) SMReceiptsManager     *receiptsManager;
+/*!
+ @property referralsManager
+ @abstract Singleton that interfaces with the SessionM Mobile Marketing Cloud Referrals API.
+ */
 @property(nonatomic, strong, readonly) SMReferralsManager    *referralsManager;
+/*!
+ @property rewardsManager
+ @abstract Singleton that interfaces with the SessionM Mobile Marketing Cloud Rewards API.
+ */
 @property(nonatomic, strong, readonly) SMRewardsManager      *rewardsManager;
+/*!
+ @property transactionsManager
+ @abstract Singleton that interfaces with the SessionM Mobile Marketing Cloud Points Transactions API.
+ */
 @property(nonatomic, strong, readonly) SMTransactionsManager *transactionsManager;
 
 /*!
@@ -570,7 +617,7 @@ typedef struct SMLocationCoordinate2D {
 @property(nonatomic,readonly) SessionMState sessionState;
 /*!
  @property sessionID
- @abstract The current session ID. Returns nil if the session is not online.
+ @abstract The current session ID. Returns <code>nil</code> if the session is not online.
  */
 @property(nonatomic, readonly) NSString *sessionID;
 /*!
@@ -629,7 +676,7 @@ typedef struct SMLocationCoordinate2D {
 @property(nonatomic, strong) NSOperationQueue *operationQueue;
 /*!
  @property unclaimedAchievement
- @abstract Last earned unclaimed achievement object or nil if not available.  
+ @abstract Last earned unclaimed achievement object or <code>nil</code> if not available.
  */
 @property(nonatomic, readonly) SMAchievementData *unclaimedAchievement;
 /*!
@@ -658,17 +705,6 @@ typedef struct SMLocationCoordinate2D {
  */
 @property(nonatomic) BOOL shouldAutoUpdateAchievementsList;
 /*!
- @property shouldUpdateMessagesListOnSessionStart
- @abstract Determines whether @link messagesList @/link is updated on session start. The default value is <code>NO</code>. A request to update the messages list can be made at any time by calling @link updateMessagesList @/link.
- @deprecated This property is deprecated - please use @link shouldEnableMessages @/link instead.
- */
-@property(nonatomic) BOOL shouldUpdateMessagesListOnSessionStart __attribute__((deprecated));
-/*!
- @property shouldEnableMessages
- @abstract Determines whether @link messagesList @/link will be updated by SDK. The default value is <code>NO</code>.
- */
-@property(nonatomic) BOOL shouldEnableMessages;
-/*!
  @property currentLoaderController
  @abstract Current view controller presented when loading the portal.
  @discussion This property can be used to access the view that is displayed when loading portal content. Set the property using @link addCustomLoaderController: @/link to use a custom load screen. If @link removeCustomLoader @/link is called or if this property is not set manually, the standard load screen will be used.
@@ -676,27 +712,27 @@ typedef struct SMLocationCoordinate2D {
 @property(nonatomic, strong, readonly) SMLoaderController *currentLoaderController;
 /*!
  @property isDebugMode
- @abstract Returns whether the app scheme is Debug (the default value is NO).
+ @abstract Returns whether the app scheme is Debug (the default value is <code>NO</code>).
  @discussion Before starting a session, set this property based on the <code>DEBUG</code> preprocessor macro. This property is used to notify our servers whether the development or production environment should be used for the Apple Push Notification service.
  */
 @property(nonatomic) BOOL isDebugMode;
 /*!
  @property customLocale
- @abstract Determines the default locale to use when making API calls (<code>[NSLocale currentLocale]</code> is used as the default locale when this property is set to nil).
+ @abstract Determines the default locale to use when making API calls (<code>[NSLocale currentLocale]</code> is used as the default locale when this property is set to <code>nil</code>).
  @discussion This property can only be set when the session is stopped.
  */
 @property(nonatomic, strong, readwrite) NSLocale *customLocale;
 
 /*!
- @abstract Returns singleton SessionM service instance. If the server is not supported on the current platform (as indicated by isSupportedPlatform method) nil is returned.
+ @abstract Returns singleton SessionM service instance. If the server is not supported on the current platform (as indicated by @link isSupportedPlatform @/link) <code>nil</code> is returned.
  @result SessionM service object.
  */
 + (SessionM *)sharedInstance;
 /*!
- @abstract Returns YES if session M SDK supports this platform or OS version, NO - otherwise.
+ @abstract Returns <code>YES</code> if SessionM SDK supports this platform or OS version, <code>NO</code> - otherwise.
  @discussion Application can examine this property to determine if SessionM service is available on its platform. Currently, SessionM service is fully functional on iOS 6.0 and later.
  On older OS SessionM service is a no-op, i.e. methods can still safely be called but they do not do anything.
- @result Boolean indicating if platform is supported.
+ @result <code>BOOL</code> indicating if platform is supported.
  */
 + (BOOL)isSupportedPlatform;
 /*!
@@ -714,7 +750,7 @@ typedef struct SMLocationCoordinate2D {
 /*!
  @abstract Starts session with specified application ID. 
  @discussion This method is executed asynchronously with outcome communicated via @link sessionM:didTransitionToState: @/link or @link sessionM:didFailWithError: @/link delegate callbacks. 
- This method should be called as early as possible in the application lifecycle, typically in application:didFinishLaunchingWithOptions: method of UIApplicationDelegate.
+ This method should be called as early as possible in the application lifecycle, typically in <code>application:didFinishLaunchingWithOptions:</code> method of <code>UIApplicationDelegate</code>.
  @param appId Application identifier. The identifier is generated when application is registered in the developer portal.
  */
 - (void)startSessionWithAppID:(NSString *)appId;
@@ -723,25 +759,31 @@ typedef struct SMLocationCoordinate2D {
  @discussion This method is executed asynchronously with outcome communicated via @link sessionM:didTransitionToState: @/link or @link sessionM:didFailWithError: @/link delegate callbacks.
  This method has no effect if session is not started or if the specified application ID is equal to the current session's application ID.
  @param appId Application identifier. The identifier is generated when application is registered in the developer portal.
- @result BOOL indicating whether session restart will be requested.
+ @result <code>BOOL</code> indicating whether session restart will be requested.
  */
 - (BOOL)restartSessionWithAppID:(NSString *)appId;
 /*!
+ @abstract Stops the current session.
+ @discussion This method is executed asynchronously with outcome communicated via @link sessionM:didTransitionToState: @/link or @link sessionM:didFailWithError: @/link delegate callbacks.
+ This method has no effect if session is not started.
+ */
+- (void)stopSession;
+/*!
  @abstract Indicates if UI activity is available for presentation.
  @param type Activity type.
- @result Boolean indicating if activity available for presentation, false - otherwise
+ @result <code>BOOL</code> indicating if activity available for presentation, false - otherwise
  */
 - (BOOL)isActivityAvailable:(SMActivityType)type;
 /*!
  @abstract Presents activity of specified type. e.g. user portal or achievement.
  @discussion If activity is not available the @link SessionMDelegate @/link method @link sessionM:activityUnavailable: @/link is called to notify the application. An activity may not be available for display when, for example, session is in @link SessionMStateStartedOffline @/link state or, in case of achievement, the new achievement has not been earned. 
- When presenting an achievement this should be used in conjunction with delegate method @link sessionM:shouldAutopresentAchievement: @/link returning NO to control the timing of achievement presentation.
- Activity is presented using UIViewController or UIView as determined by Session M service. If activity has already been presented at a time of this call this method does nothing.
+ When presenting an achievement this should be used in conjunction with delegate method @link sessionM:shouldAutopresentAchievement: @/link returning <code>NO</code> to control the timing of achievement presentation.
+ Activity is presented using <code>UIViewController</code> or <code>UIView</code> as determined by SessionM service. If activity has already been presented at a time of this call this method does nothing.
  If an activity is already presented this method cancels new activity display, notifies application via @link sessionM:activityUnavailable: @/link and returns. 
  When new activity does get presented the delegate methods @link sessionM:willPresentActivity: @/link and @link sessionM:didPresentActivity: @/link will be invoked if implemented.
- If this method is not called from the main thread, it will return NO and the activity will not be presented.
+ If this method is not called from the main thread, it will return <code>NO</code> and the activity will not be presented.
  @param type Activity type.
- @result Boolean indicating if activity will be presented, false - otherwise
+ @result <code>BOOL</code> indicating if activity will be presented, false - otherwise
  */
 - (BOOL)presentActivity:(SMActivityType)type;
 /*!
@@ -749,7 +791,7 @@ typedef struct SMLocationCoordinate2D {
  @discussion Presents a portal activity with the content pointed to by the specified URL. Use this method to link to a particular page or ad in our portal. This method cannot be used to present achievement activities.
  @param type Activity type.
  @param url Path to content.
- @result Boolean indicating whether activity will be presented. Returns NO if type is not @link SMActivityTypePortal @/link or if url is nil.
+ @result <code>BOOL</code> indicating whether activity will be presented. Returns <code>NO</code> if type is not @link SMActivityTypePortal @/link or if url is <code>nil</code>.
  */
 - (BOOL)presentActivity:(SMActivityType)type withURL:(NSString *)url;
 /*!
@@ -782,7 +824,7 @@ typedef struct SMLocationCoordinate2D {
  @abstract Claims the specified achievement and presents an ad.
  @discussion The specified achievement cannot be claimed if the session is not online, if the achievement is not in the @link claimableAchievements @/link array, or if another activity is already presented.
  @param achievement Achievement to claim.
- @result BOOL representing whether the achievement can be claimed.
+ @result <code>BOOL</code> representing whether the achievement can be claimed.
  */
 - (BOOL)claimAchievement:(SMAchievementData *)achievement;
 /*!
@@ -807,14 +849,14 @@ typedef struct SMLocationCoordinate2D {
  <li>In the application delegate method <code>application:openURL:sourceApplication:annotation:</code> add a call to @link handleURL: @/link, passing the URL from the application delegate call. Alternatively, handleURL can be called directly without implementing this delegate.</li>
  </ol>
  @param url App launch URL.
- @result Boolean indicating whether the URL was handled by the SDK.
+ @result <code>BOOL</code> indicating whether the URL was handled by the SDK.
  */
 - (BOOL)handleURL:(NSURL *)url;
 /*!
  @abstract Opens the deep link to the specified page in the portal.
  @discussion Use this method to deep link to one of the pages listed under @link SMPortalPage @/link.
  @param page Portal page to open.
- @result Boolean indicating whether the URL was handled by the SDK.
+ @result <code>BOOL</code> indicating whether the URL was handled by the SDK.
  */
 - (BOOL)openURLForPortalPage:(SMPortalPage)page;
 
@@ -840,7 +882,7 @@ typedef struct SMLocationCoordinate2D {
  <li>@link SMUserDataGenderKey @/link - User's gender (required - accepts "m/f", "male/female". Case insensitive.)</li>
  <li>@link SMUserDataZipcodeKey @/link - User's zipcode (optional)</li>
  </ul>
- @result BOOL Returns NO if an input is invalid or if session has not been authenticated, and YES otherwise.
+ @result <code>BOOL</code> Returns <code>NO</code> if an input is invalid or if session has not been authenticated, and <code>YES</code> otherwise.
  */
 - (BOOL)signUpUserWithData:(NSDictionary *)userData;
 /*!
@@ -848,7 +890,7 @@ typedef struct SMLocationCoordinate2D {
  @discussion Can be used for user accounts created with @link signUpUserWithData: @/link.
  @param email User's email.
  @param password User's password.
- @result BOOL Returns NO if an input is invalid or if session has not been authenticated, and YES otherwise.
+ @result <code>BOOL</code> Returns <code>NO</code> if an input is invalid or if session has not been authenticated, and <code>YES</code> otherwise.
  */
 - (BOOL)logInUserWithEmail:(NSString *)email password:(NSString *)password;
 /*!
@@ -858,16 +900,21 @@ typedef struct SMLocationCoordinate2D {
 - (void)logOutUser;
 /*!
  @abstract Authenticates user with the specified OAuth token received from the specified provider.
- @discussion The @link sessionM:didUpdateUserRegistrationResult:errorMessages: @/link delegate method is called when the authentication is finished.
- @param provider OAuth token provider, such as "SessionM".
- @param token The token string from the provider.
- @result BOOL indicating whether the SDK will attempt to authenticate the user. Returns <code>NO</code> if session is not online, or if either <code>provider</code> or <code>token</code> is <code>nil</code> or empty. Returns <code>YES</code> otherwise.
+ @deprecated This method is deprecated - use @link authenticateWithToken:provider: @/link instead.
  */
-- (BOOL)authenticateWithProvider:(NSString *)provider token:(NSString *)token;
+- (BOOL)authenticateWithProvider:(NSString *)provider token:(NSString *)token __attribute__((deprecated));
+/*!
+ @abstract Authenticates user with the specified OAuth token received from the specified provider.
+ @discussion The @link sessionM:didUpdateUserRegistrationResult:errorMessages: @/link delegate method is called when the authentication is finished.
+ @param token The token string from the provider.
+ @param provider OAuth token provider, such as "SessionM".
+ @result <code>BOOL</code> indicating whether the SDK will attempt to authenticate the user. Returns <code>NO</code> if session is not online, or if either <code>token</code> or <code>provider</code> is <code>nil</code> or empty. Returns <code>YES</code> otherwise.
+ */
+- (BOOL)authenticateWithToken:(NSString *)token provider:(NSString *)provider;
 /*!
  @abstract Updates user's @link achievementsList @/link property.
  @discussion The @link sessionM:didUpdateUser: @/link delegate method is called and the @link SMSessionMDidUpdateUserInfoNotification @/link notification is sent when the achievements list is updated.
- @result BOOL indicating whether the SDK can make a request to update the achievements list.
+ @result <code>BOOL</code> indicating whether the SDK can make a request to update the achievements list.
  */
 - (BOOL)updateAchievementsList;
 /*!
@@ -883,42 +930,43 @@ typedef struct SMLocationCoordinate2D {
 - (void)removeCustomLoader;
 /*!
  @abstract Request user's permission to send remote notifications of all types.
- @discussion This method should be called from the developer's <code>application: didFinishLaunchingWithOptions:</code> delegate method.
+ @discussion This method should be called from the developer's <code>application:didFinishLaunchingWithOptions:</code> delegate method.
  */
 - (void)registerForRemoteNotifications;
 /*!
  @abstract Handles a remote notification sent by the SessionM platform.
- @discussion This method should be called from the developer's <code>application:didReceiveRemoteNotification:</code> and <code>application:didFinishLaunchingWithOptions:</code> delegate methods with the given NSDictionary payload. If the launch option for the push notification is a deep_link or open_ad, the developer will be notified of a pending action via the @link sessionM:didReceiveNotification: @/link method.
- @param userInfo The NSDictionary payload data.
- @result BOOL indicating notification was handled by SessionM SDK.
+ @discussion This method should be called from the developer's <code>application:didReceiveRemoteNotification:</code> and <code>application:didFinishLaunchingWithOptions:</code> delegate methods with the given <code>NSDictionary</code> payload. If the launch option for the push notification is a deep_link or open_ad, the developer will be notified of a pending action via the @link sessionM:didReceiveNotification: @/link method.
+ @param userInfo The <code>NSDictionary</code> payload data.
+ @result <code>BOOL</code> indicating notification was handled by SessionM SDK.
  */
 - (BOOL)handleRemoteNotification:(NSDictionary *)userInfo;
 /*!
  @abstract Stores user's device token (required to send remote notifications).
- @discussion This method should be called from the developer's <code>application: didRegisterForRemoteNotificationsWithDeviceToken:</code> delegate method with the given device token.
+ @discussion This method should be called from the developer's <code>application:didRegisterForRemoteNotificationsWithDeviceToken:</code> delegate method with the given device token.
  @param token The user's device token.
  */
 - (void)storeDeviceToken:(NSData *)token;
 /*!
  @abstract Tells SDK to act on pending notification action.
- @discussion If the SDK has a pending ad to display, show it, if not, if the SDK has a pending deep link to perform do so. If the deep link is not recognized by the SDK, forward to the delegate call @link sessionM:handleDeepLinkString: @/link.
+ @discussion Performs the pending notification action as specified by @link //apple_ref/occ/instp/SMMessage/actionType @/link. If the message has a deep link that is not recognized by the SDK, it is forwarded to the delegate call @link sessionM:handleDeepLinkString: @/link.
  */
 - (void)executePendingNotification;
 /*!
- @abstract Returns true if the SDK has a notification action pending.
- @discussion If a notification with a deep link or show ad action was received, but not yet displayed, this method will return YES. Otherwise will return NO.
+ @abstract Returns <code>YES</code> if the SDK has a notification action pending.
+ @discussion If a notification with a deep link or show ad action was received, but not yet displayed, this method will return <code>YES</code>. Otherwise will return <code>NO</code>.
  */
 - (BOOL)hasPendingNotification;
 /*!
- @abstract Convienence method for a message view.
- @discussion This method will return a basic view the user can use to display the notification received. Call present on the SMDefaultMessageView to display the UI.
- @param message The SMMessage you want to use to customize the view.
- @result SMDefaultMessageView customized to the message data.
+ @abstract Convienence method for creating a message view.
+ @discussion This method will return a basic view that can be used to display the specified message data. Call @link //apple_ref/occ/instm/SMDefaultMessageView/present @/link on the returned @link SMDefaultMessageView @/link instance to display the UI.
+ @param message The @link SMMessage @/link instance whose data will be displayed in the message view.
+ @result @link SMDefaultMessageView @/link instance customized to the message data.
  */
 - (SMDefaultMessageView *)viewForMessage:(SMMessage *)message;
 /*!
- @abstract Tells SDK to act on a given message's action.
- @discussion If the SMMessage has an ad to display, show it, if not, if the message has a pending deep link to perform do so. If the deep link is not recognized by the SDK, forward to the delegate call @link sessionM:handleDeepLinkString: @/link.
+ @abstract Tells SDK to act on the specified message's action.
+ @param message The @link SMMessage @/link instance whose action will be executed.
+ @discussion Performs the specified message's action as specified by @link //apple_ref/occ/instp/SMMessage/actionType @/link. If the message has a deep link that is not recognized by the SDK, it is forwarded to the delegate call @link sessionM:handleDeepLinkString: @/link.
  */
 - (void)executeMessageAction:(SMMessage *)message;
 
@@ -945,11 +993,12 @@ typedef struct SMLocationCoordinate2D {
 /*!
  @typedef SMAchievementDismissType
  @abstract Custom achievement dismiss type.
+
+ @constant SMAchievementDismissTypeClaimed Achievement was claimed.
+ @constant SMAchievementDismissTypeCanceled Achievement was not claimed.
  */
 typedef enum SMAchievementDismissType {
-    /*! Achievement is claimed */
     SMAchievementDismissTypeClaimed,
-    /*! Achievement is not claimed */
     SMAchievementDismissTypeCanceled
 } SMAchievementDismissType;
 
@@ -983,13 +1032,13 @@ typedef enum SMAchievementDismissType {
 - (id)initWithAchievementData:(SMAchievementData *)data;
 /*!
  @abstract Notifies that achievement alert has been presented.
- @result Boolean indicating if invocation was successful, YES, or not - NO.
+ @result <code>BOOL</code> indicating if invocation was successful, <code>YES</code>, or not - <code>NO</code>.
  */
 - (BOOL)notifyPresented;
 /*!
  @abstract Notifies that achievement alert has been dismissed. 
  @param dismissType Reason for dismissal.
- @result Boolean indicating if invocation was successful, YES, or not - NO.
+ @result <code>BOOL</code> indicating if invocation was successful, <code>YES</code>, or not - <code>NO</code>.
  */
 - (BOOL)notifyDismissed:(SMAchievementDismissType)dismissType;
 
@@ -1057,7 +1106,7 @@ typedef enum SMAchievementDismissType {
 
 
 /*!
- @group Session M Notifications
+ @group SessionM Notifications
  */
 
 /*!
@@ -1072,14 +1121,9 @@ extern NSString *const SMSessionMDidTransitionToStateNotification;
 extern NSString *const SMSessionMStateNotificationKey;
 /*!
  @const SMSessionMDidUpdateUserInfoNotification
- @abstract This notification is sent when the session m unclaimed achievement count changes.
+ @abstract This notification is sent when the user's unclaimed achievement count changes.
  */
 extern NSString *const SMSessionMDidUpdateUserInfoNotification;
-/*!
- @const SMSessionMDidUpdateMessagesNotification
- @abstract This notification is sent when the @link messagesList @/link array is updated.
- */
-extern NSString *const SMSessionMDidUpdateMessagesNotification;
 
 
 

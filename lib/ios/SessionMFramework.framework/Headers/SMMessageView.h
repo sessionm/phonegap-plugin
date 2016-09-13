@@ -2,7 +2,7 @@
 //  SMMessageView.h
 //  SessionM
 //
-//  Copyright (c) 2016 SessionM. All rights reserved.
+//  Copyright © 2016 SessionM. All rights reserved.
 //
 
 #ifndef __SM_MESSAGE_VIEW__
@@ -26,9 +26,9 @@
 
 /*!
  @abstract Initializes a view with the given message data.
- @discussion Sets @link message @/link to the given instance of @link SMMessage @/link. Once the session has started, messages can be accessed from the @link //apple_ref/occ/instp/SessionM/messagesList @/link property.
+ @discussion Sets @link //apple_ref/occ/instp/SMMessageView/message @/link to the given instance of @link SMMessage @/link. Messages can be accessed from the @link //apple_ref/occ/instp/SMCampaignsManager/feedMessages @/link property.
  @param data The data representing the message that will be presented.
- @result SMMessageView instance (result will be nil if <code>data</code> is nil).
+ @result <code>SMMessageView</code> instance (result will be nil if <code>data</code> is nil).
  */
 - (id)initWithMessage:(SMMessage *)data;
 /*!

@@ -2,7 +2,7 @@
 //  SMSVerification.h
 //  SessionM
 //
-//  Copyright (c) 2016 SessionM. All rights reserved.
+//  Copyright © 2016 SessionM. All rights reserved.
 //
 
 #ifndef __SMS_VERIFICATION__
@@ -13,18 +13,19 @@
 /*!
  @typedef SMSVerificationStatus
  @abstract User verification status.
+
+ @constant SMSVerificationStatusUnknown Verification status is unknown.
+ @constant SMSVerificationStatusValid Verification code was approved and user is verified.
+ @constant SMSVerificationStatusPending Verification code is pending validation.
+ @constant SMSVerificationStatusInvalid Verification code was rejected.
+ @constant SMSVerificationStatusExpired Verification code is expired, need to re-issue.
  */
 typedef enum SMSVerificationStatus {
-    /*! Verification status is unknown. */
-    SMSVerificationStatusUnknown,                                /* unknown */
-    /*! Verification code was approved and user is verified. */
-    SMSVerificationStatusValid,                                  /* valid */
-    /*! Verification code is pending validation. */
-    SMSVerificationStatusPending,                                /* pending */
-    /*! Verification code was rejected. */
-    SMSVerificationStatusInvalid,                                /* invalid */
-    /*! Verification code is expired, need to re-issue. */
-    SMSVerificationStatusExpired                                 /* expired */
+    SMSVerificationStatusUnknown,
+    SMSVerificationStatusValid,
+    SMSVerificationStatusPending,
+    SMSVerificationStatusInvalid,
+    SMSVerificationStatusExpired
 } SMSVerificationStatus;
 
 
@@ -49,6 +50,10 @@ typedef enum SMSVerificationStatus {
  @abstract Medium used to send verification code to user (e.g. "sms").
  */
 @property(nonatomic, strong, readonly) NSString *mode;
+/*!
+ @property extras
+ @abstract Any data values that do not have an associated class property.
+ */
 @property(nonatomic, strong, readonly) NSDictionary *extras;
 
 /*!

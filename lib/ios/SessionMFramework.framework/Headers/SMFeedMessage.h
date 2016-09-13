@@ -2,7 +2,7 @@
 //  SMFeedMessage.h
 //  SessionM
 //
-//  Copyright (c) 2016 SessionM. All rights reserved.
+//  Copyright © 2016 SessionM. All rights reserved.
 //
 
 #ifndef __SM_FEED_MESSAGE__
@@ -28,6 +28,11 @@
  @abstract URL for optional banner image displayed at bottom of @link //apple_ref/occ/cl/SMActivityFeedViewCell @/link instance.
  */
 @property(nonatomic, copy, readonly) NSString *imageURL;
+/*!
+ @property videoURL
+ @abstract URL for optional video content.
+ */
+@property(nonatomic, copy, readonly) NSString *videoURL;
 
 @end
 

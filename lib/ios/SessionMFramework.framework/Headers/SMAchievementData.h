@@ -2,7 +2,7 @@
 //  SMAchievementData.h
 //  SessionM 
 //
-//  Copyright (c) 2016 SessionM. All rights reserved.
+//  Copyright © 2016 SessionM. All rights reserved.
 //
 
 #ifndef __SM_ACHIEVEMENT_DATA__
@@ -88,7 +88,7 @@
 @property(nonatomic, readonly) NSInteger unclaimedCount;
 /*!
  @property distance
- @abstract Number of actions required to earn new achievement. -1 if achievment is unearnable in the current session. 
+ @abstract Number of actions required to earn new achievement. <code>-1</code> if achievment cannot be earned in the current session.
  */
 @property(nonatomic, readonly) NSInteger distance;
 @end

@@ -2,7 +2,7 @@
 //  SMRetailer.h
 //  SessionM
 //
-//  Copyright (c) 2016 SessionM. All rights reserved.
+//  Copyright © 2016 SessionM. All rights reserved.
 //
 
 #ifndef __SM_RETAILER__
@@ -46,8 +46,11 @@
  @abstract Indicates whether the current user has linked a loyalty card issued by the retailer.
  */
 @property(nonatomic, assign, readonly) BOOL      isLinked;
-
-@property(nonatomic, strong, readonly)NSDictionary *extras;
+/*!
+ @property extras
+ @abstract Any data values that do not have an associated class property.
+ */
+@property(nonatomic, strong, readonly) NSDictionary *extras;
 
 @end
 

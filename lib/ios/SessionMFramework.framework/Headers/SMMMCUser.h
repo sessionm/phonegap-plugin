@@ -2,37 +2,39 @@
 //  SMMMCUser.h
 //  SessionM
 //
-//  Copyright (c) 2016 SessionM. All rights reserved.
+//  Copyright © 2016 SessionM. All rights reserved.
 //
 
 #ifndef __SM_MMC_USER__
 #define __SM_MMC_USER__
 
 #import <Foundation/Foundation.h>
+#import <CoreLocation/CoreLocation.h>
 
 /*!
  @typedef SMAccountStatus
- @abstract User account status.
+ @abstract User account standing.
+
+ @constant SMAccountStatusUnknown Account status is unknown.
+ @constant SMAccountStatusGood User is in good standing.
+ @constant SMAccountStatusMultipleAccountsViolation User has been blocked due to having multiple accounts.
+ @constant SMAccountStatusReportedViolation User has been reported as violating the Terms of Service.
+ @constant SMAccountStatusRequestedSuspension User has requested that their account be suspended.
+ @constant SMAccountStatusReviewedReport User's reported Terms of Service violation has been reviewed by an admin.
+ @constant SMAccountStatusTOSViolation User has been blocked due to violating the Terms of Service.
+ @constant SMAccountStatusUnverified User's account has not been verified.
+ @constant SMAccountStatusWarned User has been warned for violating the Terms of Service.
  */
 typedef enum SMAccountStatus {
-    /*! Account status is unknown. */
-    SMAccountStatusUnknown,                                                                    /* unknown */
-    /*! User is in good standing. */
-    SMAccountStatusGood,                                                                       /* good */
-    /*! User has been blocked due to having multiple accounts. */
-    SMAccountStatusMultipleAccountsViolation,                                                  /* multi */
-    /*! User has been reported as violating the Terms of Service agreement. */
-    SMAccountStatusReportedViolation,                                                          /* reported */
-    /*! User has requested that their account be suspended. */
-    SMAccountStatusRequestedSuspension,                                                        /* vol */
-    /*! User's reported Terms of Service agreement violation has been reviewed by an admin. */
-    SMAccountStatusReviewedReport,                                                             /* rev */
-    /*! User has been blocked due to violating the Terms of Service agreement. */
-    SMAccountStatusTOSViolation,                                                               /* tos */
-    /*! User's account has not been verified. */
-    SMAccountStatusUnverified,                                                                 /* unverified */
-    /*! User has been warned for violating the Terms of Service agreement. */
-    SMAccountStatusWarned                                                                      /* warn */
+    SMAccountStatusUnknown,
+    SMAccountStatusGood,
+    SMAccountStatusMultipleAccountsViolation,
+    SMAccountStatusReportedViolation,
+    SMAccountStatusRequestedSuspension,
+    SMAccountStatusReviewedReport,
+    SMAccountStatusTOSViolation,
+    SMAccountStatusUnverified,
+    SMAccountStatusWarned
 } SMAccountStatus;
 
 
@@ -59,12 +61,12 @@ typedef enum SMAccountStatus {
 @property(nonatomic, strong, readonly) NSArray<NSString *> *proxyIDs;
 /*!
  @property createdTime
- @abstract Denotes when user data was created.
+ @abstract Indicates when user data was created.
  */
 @property(nonatomic, strong, readonly) NSString *createdTime;
 /*!
  @property updatedTime
- @abstract Denotes when user data was last updated.
+ @abstract Indicates when user data was last updated.
  */
 @property(nonatomic, strong, readonly) NSString *updatedTime;
 /*!
@@ -116,12 +118,12 @@ typedef enum SMAccountStatus {
  @property latitude
  @abstract User's current latitude.
  */
-@property(nonatomic, assign, readonly) double latitude;
+@property(nonatomic, assign, readonly) CLLocationDegrees latitude;
 /*!
  @property longitude
  @abstract User's current longitude.
  */
-@property(nonatomic, assign, readonly) double longitude;
+@property(nonatomic, assign, readonly) CLLocationDegrees longitude;
 /*!
  @property currentZipCode
  @abstract User's current zip code.
@@ -174,15 +176,18 @@ typedef enum SMAccountStatus {
 @property(nonatomic, assign, readonly) SMAccountStatus accountStatus;
 /*!
  @property isSuspended
- @abstract Denotes whether the user's account is suspended.
+ @abstract Indicates whether the user's account is suspended.
  */
 @property(nonatomic, assign, readonly) BOOL isSuspended;
 /*!
  @property isTestAccount
- @abstract Denotes whether the user's account is a test account.
+ @abstract Indicates whether the user's account is a test account.
  */
 @property(nonatomic, assign, readonly) BOOL isTestAccount;
-
+/*!
+ @property extras
+ @abstract Any data values that do not have an associated class property.
+ */
 @property(nonatomic, strong, readonly) NSDictionary *extras;
 
 /*!

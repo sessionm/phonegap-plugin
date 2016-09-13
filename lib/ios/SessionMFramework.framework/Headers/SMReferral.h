@@ -2,7 +2,7 @@
 //  SMReferral.h
 //  SessionM
 //
-//  Copyright (c) 2016 SessionM. All rights reserved.
+//  Copyright © 2016 SessionM. All rights reserved.
 //
 
 #ifndef __SM_REFERRAL__
@@ -12,25 +12,26 @@
 
 /*!
  @typedef SMReferralStatus
- @abstract Referral status.
+ @abstract Member referral status.
+
+ @constant SMReferralStatusUnknown Referral status is unknown.
+ @constant SMReferralStatusPending Referral is pending engagement by the referee.
+ @constant SMReferralStatusEngaged Referee engaged with the referral.
+ @constant SMReferralStatusRegistered Referee registered an account.
+ @constant SMReferralStatusConverted Referrer received loyalty points for the referral.
+ @constant SMReferralStatusLimitPeriod Referrer reached the referral limit for the current period - conversion will award 0 loyalty points.
+ @constant SMReferralStatusLimitLifetime Referrer reached the lifetime referral limit - conversion will award 0 loyalty points.
+ @constant SMReferralStatusVoided Referral was voided due to referee registering for an account through other means.
  */
 typedef enum SMReferralStatus {
-    /*! Referral status is unknown */
-    SMReferralStatusUnknown,                                                                                    /* unknown */
-    /*! Referral is pending engagement by the referee. */
-    SMReferralStatusPending,                                                                                    /* pending */
-    /*! Referee engaged with the referral. */
-    SMReferralStatusEngaged,                                                                                    /* engaged */
-    /*! Referee registered an account. */
-    SMReferralStatusRegistered,                                                                                 /* registered */
-    /*! Referrer received loyalty points for the referral. */
-    SMReferralStatusConverted,                                                                                  /* converted */
-    /*! Referrer reached the referral limit for the current period - conversion will award 0 loyalty points. */
-    SMReferralStatusLimitPeriod,                                                                                /* limit_period */
-    /*! Referrer reached the lifetime referral limit - conversion will award 0 loyalty points. */
-    SMReferralStatusLimitLifetime,                                                                              /* limit_lifetime */
-    /*! Referral was voided due to referee registering for an account through other means. */
-    SMReferralStatusVoided,                                                                                     /* voided */
+    SMReferralStatusUnknown,
+    SMReferralStatusPending,
+    SMReferralStatusEngaged,
+    SMReferralStatusRegistered,
+    SMReferralStatusConverted,
+    SMReferralStatusLimitPeriod,
+    SMReferralStatusLimitLifetime,
+    SMReferralStatusVoided,
 } SMReferralStatus;
 
 
@@ -50,6 +51,11 @@ typedef enum SMReferralStatus {
  @abstract Name of person being referred.
  */
 @property(nonatomic, strong, readonly) NSString *referee;
+/*!
+ @property referrer
+ @abstract Name of person who sent the referral.
+ */
+@property(nonatomic, strong, readonly) NSString *referrer;
 /*!
  @property email
  @abstract Referee's email address.
@@ -72,27 +78,27 @@ typedef enum SMReferralStatus {
 @property(nonatomic, strong, readonly) NSString *source;
 /*!
  @property pendingTime
- @abstract Denotes when referral was created.
+ @abstract Indicates when referral was created.
  */
 @property(nonatomic, strong, readonly) NSString *pendingTime;
 /*!
  @property engagedTime
- @abstract Denotes when referee engaged with the referral.
+ @abstract Indicates when referee engaged with the referral.
  */
 @property(nonatomic, strong, readonly) NSString *engagedTime;
 /*!
  @property registeredTime
- @abstract Denotes when referee registered for an account.
+ @abstract Indicates when referee registered for an account.
  */
 @property(nonatomic, strong, readonly) NSString *registeredTime;
 /*!
  @property convertedTime
- @abstract Denotes when referrer received loyalty points for the referral.
+ @abstract Indicates when referrer received loyalty points for the referral.
  */
 @property(nonatomic, strong, readonly) NSString *convertedTime;
 /*!
  @property voidedTime
- @abstract Denotes when referral was voided due to referee registering for an account through other means.
+ @abstract Indicates when referral was voided due to referee registering for an account through other means.
  */
 @property(nonatomic, strong, readonly) NSString *voidedTime;
 /*!
@@ -110,6 +116,10 @@ typedef enum SMReferralStatus {
  @abstract Referral status.
  */
 @property(nonatomic, assign, readonly) SMReferralStatus status;
+/*!
+ @property extras
+ @abstract Any data values that do not have an associated class property.
+ */
 @property(nonatomic, strong, readonly) NSDictionary *extras;
 
 /*!

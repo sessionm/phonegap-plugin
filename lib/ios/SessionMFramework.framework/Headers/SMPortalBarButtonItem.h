@@ -2,7 +2,7 @@
 //  SMPortalBarButtonItem.h
 //  SessionM
 //
-//  Copyright (c) 2016 SessionM. All rights reserved.
+//  Copyright © 2016 SessionM. All rights reserved.
 //
 
 #ifndef __SM_PORTAL_BAR_BUTTON_ITEM__
@@ -24,7 +24,7 @@
 
 /*!
  Returns new instance.
- @result New SMPortalBarButtonItem object
+ @result New <code>SMPortalBarButtonItem<code> object
  */
 + (SMPortalBarButtonItem *)newInstance;
 

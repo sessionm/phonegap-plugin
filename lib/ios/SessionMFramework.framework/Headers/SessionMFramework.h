@@ -2,7 +2,7 @@
 //  SessionMFramework.h
 //  SessionMFramework
 //
-//  Copyright (c) 2016 SessionM. All rights reserved.
+//  Copyright © 2016 SessionM. All rights reserved.
 //
 
 #ifndef __SESSIONM_FRAMEWORK__
@@ -31,11 +31,16 @@
 #import "SMAddress.h"
 #import "SMBaseDelegate.h"
 #import "SMCampaignsManager.h"
+#import "SMContent.h"
+#import "SMContentManager.h"
 #import "SMDefaultMessageView.h"
 #import "SMError.h"
 #import "SMFeedMessage.h"
+#import "SMInboxMessage.h"
+#import "SMInboxManager.h"
 #import "SMIdentityManager.h"
 #import "SMLoaderController.h"
+#import "SMLocationEvent.h"
 #import "SMLocationManager.h"
 #import "SMLoyaltyCard.h"
 #import "SMLoyaltyCardsManager.h"
@@ -56,6 +61,8 @@
 #import "SMReceiptsManager.h"
 #import "SMReceiptUploadViewController.h"
 #import "SMReferral.h"
+#import "SMReferralError.h"
+#import "SMReferralRequest.h"
 #import "SMReferralsManager.h"
 #import "SMRetailer.h"
 #import "SMRewardsManager.h"

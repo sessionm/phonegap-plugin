@@ -2,7 +2,7 @@
 //  SMMessage.h
 //  SessionM
 //
-//  Copyright (c) 2016 SessionM. All rights reserved.
+//  Copyright © 2016 SessionM. All rights reserved.
 //
 
 #ifndef __SM_MESSAGE__
@@ -12,14 +12,17 @@
 
 /*!
  @typedef SMMessageActionType
- @abstract Message type.
+ @abstract Determines how message content is displayed.
+
+ @constant SMMessageActionTypeUnknown Unknown action type.
+ @constant SMMessageActionTypeDeepLink Deep links into app.
+ @constant SMMessageActionTypeFullScreen Presents full screen rich media message.
+ @constant SMMessageActionTypeExternalLink Opens link in Safari.
  */
 typedef enum SMMessageActionType {
-    /*! Deep links into app. */
+    SMMessageActionTypeUnknown,
     SMMessageActionTypeDeepLink,
-    /*! Presents full screen rich media message. */
     SMMessageActionTypeFullScreen,
-    /*! Opens link in Safari. */
     SMMessageActionTypeExternalLink
 } SMMessageActionType;
 
@@ -43,12 +46,12 @@ typedef enum SMMessageActionType {
 @property(nonatomic, copy, readonly) NSString *campaignID;
 /*!
  @property startTime
- @abstract Denotes when the promotion began.
+ @abstract Indicates when the promotion began.
  */
 @property(nonatomic, copy, readonly) NSString *startTime;
 /*!
  @property endTime
- @abstract Denotes when the promotion ends.
+ @abstract Indicates when the promotion ends.
  */
 @property(nonatomic, copy, readonly) NSString *endTime;
 /*!

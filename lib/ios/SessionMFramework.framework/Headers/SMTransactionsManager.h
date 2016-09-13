@@ -2,7 +2,7 @@
 //  SMTransactionsManager.h
 //  SessionM
 //
-//  Copyright (c) 2016 SessionM. All rights reserved.
+//  Copyright © 2016 SessionM. All rights reserved.
 //
 
 #ifndef __SM_TRANSACTIONS_MANAGER__
@@ -12,16 +12,24 @@
 #import "SMTransaction.h"
 
 /*!
- @const SM_TRANSACTIONS_MANAGER_DEFAULT_FETCH_LIMIT
- @abstract The default maximum amount of transactions to fetch when calling @link fetchTransactions @/link and @link fetchTransactionsWithStartDate:endDate:limit: @/link.
+ @const SM_TRANSACTIONS_MANAGER_REQUEST_DID_FAIL_NOTIFICATION
+ @abstract Notifies observers that an API request failed.
+ @discussion An @link SMError @/link object containing information about why the request failed can be accessed from the notification's <code>userInfo</code> property with the @link SM_MANAGER_NOTIFICATION_DATA_KEY @/link key.
  */
-extern const int SM_TRANSACTIONS_MANAGER_DEFAULT_FETCH_LIMIT;
+extern NSString *const SM_TRANSACTIONS_MANAGER_REQUEST_DID_FAIL_NOTIFICATION;
 /*!
- @const SM_TRANSACTIONS_MANAGER_END_DATE_OFFSET
- @abstract The offset used to calculate <code>endDate</code> when calling @link fetchTransactions @/link and @link fetchTransactionsWithStartDate:endDate:limit: @/link.
+ @const SM_TRANSACTIONS_MANAGER_VALIDATION_DID_FAIL_NOTIFICATION
+ @abstract Notifies observers that a Transactions API validation failed.
+ @discussion An @link SMError @/link object containing information about why the validation failed can be accessed from the notification's <code>userInfo</code> property with the @link SM_MANAGER_NOTIFICATION_DATA_KEY @/link key.
  */
-extern const NSTimeInterval SM_TRANSACTIONS_MANAGER_END_DATE_OFFSET;
+extern NSString *const SM_TRANSACTIONS_MANAGER_VALIDATION_DID_FAIL_NOTIFICATION;
 
+/*!
+ @const SM_TRANSACTIONS_MANAGER_DID_FETCH_TRANSACTIONS
+ @abstract Notifies observers that transactions were fetched.
+ @discussion An <code>NSArray</code> of @link SMTransaction @/link objects can be accessed from the notification's <code>userInfo</code> property with the @link SM_MANAGER_NOTIFICATION_DATA_KEY @/link key.
+ */
+extern NSString *const SM_TRANSACTIONS_MANAGER_DID_FETCH_TRANSACTIONS;
 
 /*!
  @protocol SMTransactionsDelegate
@@ -36,10 +44,17 @@ extern const NSTimeInterval SM_TRANSACTIONS_MANAGER_END_DATE_OFFSET;
  @discussion This method is called in response to @link fetchTransactions @/link, @link fetchTransactionsWithStartDate:endDate:limit: @/link and @link fetchMoreTransactions @/link.
  @param transactions The points transactions.
  @param hasMore Indicates whether there are more transactions that can be fetched by calling @link fetchMoreTransactions @/link .
+ @deprecated Use block methods instead.
  */
-- (void)didFetchTransactions:(NSArray<SMTransaction *> *)transactions hasMore:(BOOL)hasMore;
+- (void)didFetchTransactions:(NSArray<SMTransaction *> *)transactions hasMore:(BOOL)hasMore __attribute__((deprecated("Use block methods instead")));
 
 @end
+
+/*!
+ @typedef didFetchTransactions
+ @abstract Completion handler block type for @link fetchTransactionsWithCompletionHandler: @/link, @link fetchTransactionsWithStartDate:endDate:limit:completionHandler: @/link and @link fetchMoreTransactionsWithCompletionHandler: @/link.
+ */
+typedef void (^didFetchTransactions)(NSArray<SMTransaction *>*transactions, BOOL hasMore, SMError *error);
 
 
 /*!
@@ -56,29 +71,55 @@ extern const NSTimeInterval SM_TRANSACTIONS_MANAGER_END_DATE_OFFSET;
 /*!
  @property transactions
  @abstract The current user's points transactions.
- @discussion This property is updated in response to a successful @link fetchTransactions @/link, @link fetchTransactionsWithStartDate:endDate:limit: @/link or @link fetchMoreTransactions @/link call.
+ @discussion This property is updated in response to a successful @link fetchTransactionsWithCompletionHandler: @/link, @link fetchTransactionsWithStartDate:endDate:limit:completionHandler: @/link or @link fetchMoreTransactionsWithCompletionHandler: @/link call.
  */
 @property(nonatomic, strong, readonly) NSArray<SMTransaction *> *transactions;
 
 /*!
- @abstract Makes a request to update @link transactions @/link with the current user's points transactions (limited to @link SM_TRANSACTIONS_MANAGER_DEFAULT_FETCH_LIMIT @/link transactions).
+ @abstract Makes a request to update @link transactions @/link with the current user's points transactions.
  @discussion @link didFetchTransactions:hasMore: @/link is called in response to this method.
+ @result <code>BOOL</code> indicating whether the request will be sent.
+ @deprecated Use @link fetchTransactionsWithCompletionHandler: @/link.
  */
-- (void)fetchTransactions;
+- (BOOL)fetchTransactions __attribute__((deprecated("Use fetchTransactionsWithCompletionHandler:")));
+/*!
+ @abstract Makes a request to update @link transactions @/link with the current user's points transactions.
+ @param onCompletion The block to execute after the request is processed.
+ @result <code>BOOL</code> indicating whether the request will be sent.
+ */
+- (BOOL)fetchTransactionsWithCompletionHandler:(didFetchTransactions)onCompletion;
 /*!
  @abstract Makes a request to update @link transactions @/link with a limited number of the current user's points transactions that took place between the specified start and end dates.
  @discussion @link didFetchTransactions:hasMore: @/link is called in response to this method.
- @param startDate Transactions after this date will not be fetched (optional - default value is current date).
- @param endDate Transactions before this date will not be fetched (optional - default value is <code>startDate - @link SM_TRANSACTIONS_MANAGER_END_DATE_OFFSET @/link </code>).
- @param limit The maximum amount of transactions to fetch (optional - default value is @link SM_TRANSACTIONS_MANAGER_DEFAULT_FETCH_LIMIT @/link; maximum value is 1000).
- @param locale The locale of the user (optional).
+ @param startDate Transactions after this date will not be fetched (optional).
+ @param endDate Transactions before this date will not be fetched (optional).
+ @param limit The maximum amount of transactions to fetch (optional).
+ @result <code>BOOL</code> indicating whether the request will be sent.
+ @deprecated Use @link fetchTransactionsWithStartDate:endDate:limit:completionHandler: @/link.
  */
-- (void)fetchTransactionsWithStartDate:(NSDate *)startDate endDate:(NSDate *)endDate limit:(int)limit;
+- (BOOL)fetchTransactionsWithStartDate:(NSDate *)startDate endDate:(NSDate *)endDate limit:(int)limit __attribute__((deprecated("Use fetchTransactionsWithStartDate:endDate:limit:completionHandler:")));
 /*!
- @abstract Makes a request to update @link transactions @/link with points transactions that were not included in the previous fetch (limited to @link SM_TRANSACTIONS_MANAGER_DEFAULT_FETCH_LIMIT @/link transactions).
- @discussion @link didFetchTransactions:hasMore: @/link is called in response to this method. This method should only be called if <code>hasMore</code> is set to <code>YES</code>.
+ @abstract Makes a request to update @link transactions @/link with a limited number of the current user's points transactions that took place between the specified start and end dates.
+ @param startDate Transactions after this date will not be fetched (optional).
+ @param endDate Transactions before this date will not be fetched (optional).
+ @param limit The maximum amount of transactions to fetch (optional).
+ @param onCompletion The block to execute after the request is processed.
+ @result <code>BOOL</code> indicating whether the request will be sent.
  */
-- (void)fetchMoreTransactions;
+- (BOOL)fetchTransactionsWithStartDate:(NSDate *)startDate endDate:(NSDate *)endDate limit:(int)limit completionHandler:(didFetchTransactions)onCompletion;
+/*!
+ @abstract Makes a request to update @link transactions @/link with points transactions that were not included in the previous fetch.
+ @discussion @link didFetchTransactions:hasMore: @/link is called in response to this method. This method should only be called if <code>hasMore</code> is set to <code>YES</code>.
+ @result <code>BOOL</code> indicating whether the request will be sent.
+ @deprecated Use @link fetchMoreTransactionsWithCompletionHandler: @/link.
+ */
+- (BOOL)fetchMoreTransactions __attribute__((deprecated("Use fetchMoreTransactionsWithCompletionHandler:")));
+/*!
+ @abstract Makes a request to update @link transactions @/link with points transactions that were not included in the previous fetch.
+ @param onCompletion The block to execute after the request is processed.
+ @result <code>BOOL</code> indicating whether the request will be sent.
+ */
+- (BOOL)fetchMoreTransactionsWithCompletionHandler:(didFetchTransactions)onCompletion;
 
 @end
 

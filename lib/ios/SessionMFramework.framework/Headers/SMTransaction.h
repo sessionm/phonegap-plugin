@@ -2,7 +2,7 @@
 //  SMTransaction.h
 //  SessionM
 //
-//  Copyright (c) 2016 SessionM. All rights reserved.
+//  Copyright © 2016 SessionM. All rights reserved.
 //
 
 #ifndef __SM_TRANSACTION__
@@ -13,61 +13,65 @@
 /*!
  @typedef SMTransactionKind
  @abstract Transaction kind.
+
+ @constant SMTransactionKindUnknown Transaction kind is unknown.
+ @constant SMTransactionKindCredit User earned points from the transaction.
+ @constant SMTransactionKindDebit User lost points from the transaction.
  */
 typedef enum SMTransactionKind {
-    /*! Transaction kind is unknown. */
-    SMTransactionKindUnknown,                        /* unknown */
-    /*! User earned points from the transaction. */
-    SMTransactionKindCredit,                         /* credit */
-    /*! User lost points from the transaction. */
-    SMTransactionKindDebit                           /* debit */
+    SMTransactionKindUnknown,
+    SMTransactionKindCredit,
+    SMTransactionKindDebit
 } SMTransactionKind;
 
 /*!
  @typedef SMTransactionSource
  @abstract Transaction source.
+
+ @constant SMTransactionSourceUnknown Transaction source is unknown.
+ @constant SMTransactionSourceAchievement Points were earned by claiming an achievement.
+ @constant SMTransactionSourceContest Points were earned or lost from a contest.
+ @constant SMTransactionSourceSponsor Points were earned by engaging with sponsored content.
+ @constant SMTransactionSourceMerchantRewards Points were earned or lost from a loyalty rewards program transaction.
+ @constant SMTransactionSourceEnterprise Points were earned through a server-to-server API call.
+ @constant SMTransactionSourceComp Points were given to user as compensation.
+ @constant SMTransactionSourceUsed Points were lost from making a rewards store purchase.
  */
 typedef enum SMTransactionSource {
-    /*! Transaction source is unknown. */
-    SMTransactionSourceUnknown,                                                    /* unknown */
-    /*! Points were earned by claiming an achievement. */
-    SMTransactionSourceAchievement,                                                /* achievement */
-    /*! Points were earned or lost from a contest. */
-    SMTransactionSourceContest,                                                    /* contest */
-    /*! Points were earned by engaging with sponsored content. */
-    SMTransactionSourceSponsor,                                                    /* sponsor */
-    /*! Points were earned or lost from a loyalty rewards program transaction. */
-    SMTransactionSourceMerchantRewards,                                            /* merchant_rewards */
-    /*! Points were earned through a server-to-server API call. */
-    SMTransactionSourceEnterprise,                                                 /* enterprise */
-    /*! Points were given to user as compensation. */
-    SMTransactionSourceComp,                                                       /* comp */
-    /*! Points were lost from making a rewards store purchase. */
-    SMTransactionSourceUsed                                                        /* used */
+    SMTransactionSourceUnknown,
+    SMTransactionSourceAchievement,
+    SMTransactionSourceContest,
+    SMTransactionSourceSponsor,
+    SMTransactionSourceMerchantRewards,
+    SMTransactionSourceEnterprise,
+    SMTransactionSourceComp,
+    SMTransactionSourceUsed
 } SMTransactionSource;
 
 /*!
  @typedef SMTransactionPointsType
  @abstract Transaction points type.
+
+ @constant SMTransactionPointsTypeUnknown Transaction points type is unknown.
+ @constant SMTransactionPointsTypeDonation A donation was made.
+ @constant SMTransactionPointsTypeSweepstakes A sweepstakes was won or entered.
+ @constant SMTransactionPointsTypeMerchandise Merchandise from a loyalty rewards program was purchased.
+ @constant SMTransactionPointsTypeDigital A digital reward was purchased from the rewards store.
+ @constant SMTransactionPointsTypePhysical A physical reward was purchased from the rewards store.
+ @constant SMTransactionPointsTypeReceipt Points were earned from a receipt capture campaign.
+ @constant SMTransactionPointsTypeLoyaltyCard Points were earned from a loyalty card transaction.
+ @constant SMTransactionPointsTypeHistorical Indicates that the transaction data was migrated into the SessionM Mobile Marketing Cloud from an external rewards system.
  */
 typedef enum SMTransactionPointsType {
-    /*! Transaction points type is unknown. */
-    SMTransactionPointsTypeUnknown,                                   /* unknown */
-    /*! A donation was made. */
-    SMTransactionPointsTypeDonation,                                  /* donation */
-    /*! A sweepstakes was won or entered. */
-    SMTransactionPointsTypeSweepstakes,                               /* sweepstakes */
-    /*! Merchandise from a loyalty rewards program was purchased. */
-    SMTransactionPointsTypeMerchandise,                               /* merchandise */
-    /*! A digital reward was purchased from the rewards store. */
-    SMTransactionPointsTypeDigital,                                   /* digital */
-    /*! A physical reward was purchased from the rewards store. */
-    SMTransactionPointsTypePhysical,                                  /* physical */
-    /*! Points were earned from a receipt capture campaign. */
-    SMTransactionPointsTypeReceipt,                                   /* receipt */
-    /*! Points were earned from a loyalty card transaction. */
-    SMTransactionPointsTypeLoyaltyCard,                               /* loyalty_card */
-    SMTransactionPointsTypeHistorical                                 /* historical */
+    SMTransactionPointsTypeUnknown,
+    SMTransactionPointsTypeDonation,
+    SMTransactionPointsTypeSweepstakes,
+    SMTransactionPointsTypeMerchandise,
+    SMTransactionPointsTypeDigital,
+    SMTransactionPointsTypePhysical,
+    SMTransactionPointsTypeReceipt,
+    SMTransactionPointsTypeLoyaltyCard,
+    SMTransactionPointsTypeHistorical
 } SMTransactionPointsType;
 
 
