@@ -417,10 +417,6 @@ public class SessionMPlugin extends CordovaPlugin implements SessionListener,
         updateUserCallback.sendPluginResult(result);
     }
 
-    @Override
-    public void onNotificationMessage(SessionM sessionM, NotificationMessage notificationMessage) {
-    }
-
     // ActivityListener
     @Override
     public void onDismissed(SessionM instance) {
