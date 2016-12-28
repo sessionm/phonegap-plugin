@@ -10,6 +10,8 @@
 
 #import "SMAddress.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /*!
  @typedef SMOrderStatus
  @abstract Order redemption status.
@@ -20,13 +22,13 @@
  @constant SMOrderStatusPending Order is pending review.
  @constant SMOrderStatusRedemptionError Error was received while attempting to redeem order.
  */
-typedef enum SMOrderStatus {
-    SMOrderStatusUnknown,
-    SMOrderStatusApproved,
-    SMOrderStatusRejected,
-    SMOrderStatusPending,
-    SMOrderStatusRedemptionError
-} SMOrderStatus;
+typedef NS_ENUM(NSInteger, SMOrderStatus) {
+    SMOrderStatusUnknown NS_SWIFT_NAME(unknown),
+    SMOrderStatusApproved NS_SWIFT_NAME(approved),
+    SMOrderStatusRejected NS_SWIFT_NAME(rejected),
+    SMOrderStatusPending NS_SWIFT_NAME(pending),
+    SMOrderStatusRedemptionError NS_SWIFT_NAME(redemptionError)
+};
 
 
 /*!
@@ -39,17 +41,17 @@ typedef enum SMOrderStatus {
  @property userID
  @abstract ID of user who made the order.
  */
-@property(nonatomic, strong, readonly) NSString *userID;
+@property(nonnull, nonatomic, strong, readonly) NSString *userID;
 /*!
  @property availablePoints
  @abstract User's current loyalty points balance.
  */
-@property(nonatomic, assign, readonly) int availablePoints;
+@property(nonatomic, assign, readonly) NSInteger availablePoints;
 /*!
  @property testPoints
  @abstract The number of loyalty points that the user has earned from apps that are in development mode.
  */
-@property(nonatomic, assign, readonly) int testPoints;
+@property(nonatomic, assign, readonly) NSInteger testPoints;
 
 @end
 
@@ -64,57 +66,57 @@ typedef enum SMOrderStatus {
  @property orderID
  @abstract Unique ID for order.
  */
-@property(nonatomic, strong, readonly) NSString *orderID;
+@property(nonnull, nonatomic, strong, readonly) NSString *orderID;
 /*!
  @property offerID
  @abstract ID of offer that was redeemed.
  */
-@property(nonatomic, strong, readonly) NSString *offerID;
+@property(nonnull, nonatomic, strong, readonly) NSString *offerID;
 /*!
  @property user
  @abstract Data associated with the user who made the order.
  */
-@property(nonatomic, strong, readonly) SMOrderUser *user;
+@property(nullable, nonatomic, strong, readonly) SMOrderUser *user;
 /*!
  @property quantity
  @abstract Amount of items redeemed in the order.
  */
-@property(nonatomic, assign, readonly) int quantity;
+@property(nonatomic, assign, readonly) NSInteger quantity;
 /*!
  @property points
  @abstract Amount of points spent in the order.
  */
-@property(nonatomic, assign, readonly) int points;
+@property(nonatomic, assign, readonly) NSInteger points;
 /*!
  @property createdTime
  @abstract Indicates when the order was created.
  */
-@property(nonatomic, strong, readonly) NSString *createdTime;
+@property(nullable, nonatomic, strong, readonly) NSString *createdTime;
 /*!
  @property name
  @abstract Name of offer redeemed in the order.
  */
-@property(nonatomic, strong, readonly) NSString *name;
+@property(nullable, nonatomic, strong, readonly) NSString *name;
 /*!
  @property logoURL
  @abstract URL to image associated with the offer redeemed in the order.
  */
-@property(nonatomic, strong, readonly) NSString *logoURL;
+@property(nullable, nonatomic, strong, readonly) NSString *logoURL;
 /*!
  @property descriptionText
  @abstract Description of offer redeemed in the order.
  */
-@property(nonatomic, strong, readonly) NSString *descriptionText;
+@property(nullable, nonatomic, strong, readonly) NSString *descriptionText;
 /*!
  @property shippingAddress
  @abstract Where physical items will be shipped after the order is processed.
  */
-@property(nonatomic, strong, readonly) SMAddress *shippingAddress;
+@property(nullable, nonatomic, strong, readonly) SMAddress *shippingAddress;
 /*!
  @property data
  @abstract Contains voucher data associated with order.
  */
-@property(nonatomic, strong, readonly) NSDictionary *data;
+@property(nullable, nonatomic, strong, readonly) NSDictionary<NSString *, NSObject *> *data;
 /*!
  @property status
  @abstract Order redemption status.
@@ -124,27 +126,29 @@ typedef enum SMOrderStatus {
  @property extras
  @abstract Any data values that do not have an associated class property.
  */
-@property(nonatomic, strong, readonly) NSDictionary *extras;
+@property(nullable, nonatomic, strong, readonly) NSDictionary<NSString *, NSObject *> *extras;
 
 /*!
  @abstract Converts current order status to the corresponding string value.
  @result <code>NSString</code> value.
  */
-- (NSString *)stringForCurrentStatus;
+- (NSString *)stringForCurrentStatus NS_SWIFT_NAME(stringFromCurrentStatus());
 
 /*!
  @abstract Converts specified string value to the corresponding @link SMOrderStatus @/link enum value.
  @param string String to convert.
  @result @link SMOrderStatus @/link enum value.
  */
-+ (SMOrderStatus)statusForString:(NSString *)string;
++ (SMOrderStatus)statusForString:(NSString *)string NS_SWIFT_NAME(orderStatus(from:));
 /*!
  @abstract Converts specified @link SMOrderStatus @/link enum value to the corresponding string value.
  @param status Status to convert.
  @result <code>NSString</code> value.
  */
-+ (NSString *)stringForStatus:(SMOrderStatus)status;
++ (NSString *)stringForStatus:(SMOrderStatus)status NS_SWIFT_NAME(string(from:));
 
 @end
+
+NS_ASSUME_NONNULL_END
 
 #endif /* __SM_ORDER__ */

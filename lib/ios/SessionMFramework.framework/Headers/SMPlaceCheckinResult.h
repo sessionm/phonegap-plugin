@@ -11,6 +11,8 @@
 #import <Foundation/Foundation.h>
 #import "SMFeedMessage.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /*!
  @class SMPlaceCheckinResult
  @abstract Defines the data associated with the server-side response for checking into a location.
@@ -21,12 +23,12 @@
  @property message
  @abstract Defines data associated with a bonus opportunity earned for a successful checkin.
  */
-@property(nonatomic, strong, readonly) SMFeedMessage *message;
+@property(nullable, nonatomic, strong, readonly) SMFeedMessage *message;
 /*!
  @property placeID
  @abstract ID of place that was checked into.
  */
-@property(nonatomic, strong, readonly) NSString *placeID;
+@property(nonnull, nonatomic, strong, readonly) NSString *placeID;
 /*!
  @property state
  @abstract Checkin state.
@@ -36,13 +38,15 @@
  @property canCheckInAgainAt
  @abstract Indicates when place can be checked into again.
  */
-@property(nonatomic, assign, readonly) NSString *canCheckInAgainAt;
+@property(nullable, nonatomic, assign, readonly) NSString *canCheckInAgainAt;
 /*!
  @property extras
  @abstract Any data values that do not have an associated class property.
  */
-@property(nonatomic, strong, readonly) NSDictionary *extras;
+@property(nullable, nonatomic, strong, readonly) NSDictionary<NSString *, NSObject *>*extras;
 
 @end
+
+NS_ASSUME_NONNULL_END
 
 #endif /* __SM_PLACE_CHECKIN_RESULT__ */

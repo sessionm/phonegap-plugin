@@ -8,6 +8,8 @@
 #ifndef __SM_SKILL_QUESTION__
 #define __SM_SKILL_QUESTION__
 
+NS_ASSUME_NONNULL_BEGIN
+
 /*!
  @class SMSkillQuestion
  @abstract Defines the data associated with a skill testing question used to gate sweepstakes entries.
@@ -28,8 +30,10 @@
  @property extras
  @abstract Any data values that do not have an associated class property.
  */
-@property(nonatomic, strong, readonly) NSDictionary *extras;
+@property(nullable, nonatomic, strong, readonly) NSDictionary<NSString *, NSObject *> *extras;
 
 @end
+
+NS_ASSUME_NONNULL_END
 
 #endif /* __SM_SKILL_QUESTION__ */

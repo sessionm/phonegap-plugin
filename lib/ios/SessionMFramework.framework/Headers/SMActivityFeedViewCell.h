@@ -11,6 +11,8 @@
 #import <UIKit/UIKit.h>
 #import "SMFeedMessage.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 #define TILE_MARGIN_TOP 22
 #define TILE_MARGIN_BOTTOM 22
 #define TILE_MARGIN_LEFT 12
@@ -33,7 +35,7 @@
  */
 @protocol SMActivityFeedViewCellDelegate
 
-- (void)reloadCellForFeedMessage:(SMFeedMessage *)message;
+- (void)reloadCellForFeedMessage:(SMFeedMessage *)message NS_SWIFT_NAME(reloadCell(havingFeedMessage:));
 
 @end
 
@@ -58,19 +60,21 @@
  @property delegate
  @abstract @link SMActivityFeedViewCellDelegate @/link object to tell to reload this cell after all images are loaded.
  */
-@property(nonatomic, strong) id<SMActivityFeedViewCellDelegate> delegate;
+@property(nonatomic, weak) id<SMActivityFeedViewCellDelegate> delegate;
 
 /*!
  @abstract Asynchronously loads the icon and banner image for each message in the specified message list.
- @param messageList Current message list.
+ @param messages Current message list.
  */
-- (void)seedMessages:(NSArray*)messageList;
+- (void)seedMessages:(NSArray*)messages NS_SWIFT_NAME(seedMessages(_:));
 /*!
  @abstract Returns the height of the cell (including content and margins).
  @result <code>CGFloat</code> cell height.
  */
-- (CGFloat)heightForCell;
+- (CGFloat)heightForCell NS_SWIFT_NAME(height());
 
 @end
+
+NS_ASSUME_NONNULL_END
 
 #endif /* __SM_ACTIVITY_FEED_VIEW_CELL__ */

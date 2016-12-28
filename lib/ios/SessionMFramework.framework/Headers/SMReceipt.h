@@ -10,6 +10,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /*!
  @typedef SMReceiptStatus
  @abstract Receipt upload status.
@@ -20,13 +22,13 @@
  @constant SMReceiptStatusInvalid Upload was rejected.
  @constant SMReceiptStatusIncomplete Multiple image upload is partially finished.
  */
-typedef enum SMReceiptStatus {
-    SMReceiptStatusUnknown,
-    SMReceiptStatusPending,
-    SMReceiptStatusValid,
-    SMReceiptStatusInvalid,
-    SMReceiptStatusIncomplete
-} SMReceiptStatus;
+typedef NS_ENUM(NSInteger, SMReceiptStatus) {
+    SMReceiptStatusUnknown NS_SWIFT_NAME(unknown),
+    SMReceiptStatusPending NS_SWIFT_NAME(pending),
+    SMReceiptStatusValid NS_SWIFT_NAME(valid),
+    SMReceiptStatusInvalid NS_SWIFT_NAME(invalid),
+    SMReceiptStatusIncomplete NS_SWIFT_NAME(incomplete)
+};
 
 
 /*!
@@ -40,17 +42,17 @@ typedef enum SMReceiptStatus {
  @abstract Unique ID for result.
  @discussion This ID will be equal to @link //apple_ref/occ/instp/SMTransaction/recordModelID @/link in the corresponding transaction record.
  */
-@property(nonatomic, strong, readonly) NSString *resultID;
+@property(nonnull, nonatomic, strong, readonly) NSString *resultID;
 /*!
  @property name
  @abstract Item name.
  */
-@property(nonatomic, strong, readonly) NSString *name;
+@property(nullable, nonatomic, strong, readonly) NSString *name;
 /*!
  @property descriptionText
  @abstract Item description.
  */
-@property(nonatomic, strong, readonly) NSString *descriptionText;
+@property(nullable, nonatomic, strong, readonly) NSString *descriptionText;
 /*!
  @property price
  @abstract Individual item price.
@@ -60,17 +62,17 @@ typedef enum SMReceiptStatus {
  @property quantity
  @abstract Amount of item purchased.
  */
-@property(nonatomic, assign, readonly) int quantity;
+@property(nonatomic, assign, readonly) NSInteger quantity;
 /*!
  @property points
  @abstract Amount of points user earned for uploading the receipt.
  */
-@property(nonatomic, assign, readonly) int points;
+@property(nonatomic, assign, readonly) NSInteger points;
 /*!
  @property extras
  @abstract Any data values that do not have an associated class property.
  */
-@property(nonatomic, strong, readonly) NSDictionary *extras;
+@property(nullable, nonatomic, strong, readonly) NSDictionary<NSString *, NSObject *> *extras;
 
 @end
 
@@ -85,27 +87,27 @@ typedef enum SMReceiptStatus {
  @property receiptID
  @abstract Unique ID for receipt.
  */
-@property(nonatomic, strong, readonly) NSString *receiptID;
+@property(nonnull, nonatomic, strong, readonly) NSString *receiptID;
 /*!
  @property campaignID
  @abstract ID of promotional campaign associated with the receipt.
  */
-@property(nonatomic, strong, readonly) NSString *campaignID;
+@property(nullable, nonatomic, strong, readonly) NSString *campaignID;
 /*!
  @property placementID
  @abstract ID of receipt placement.
  */
-@property(nonatomic, strong, readonly) NSString *placementID;
+@property(nullable, nonatomic, strong, readonly) NSString *placementID;
 /*!
  @property userID
  @abstract ID of user that uploaded the receipt images.
  */
-@property(nonatomic, strong, readonly) NSString *userID;
+@property(nullable, nonatomic, strong, readonly) NSString *userID;
 /*!
  @property groupID
  @abstract ID used to identify partially-finished multiple image upload.
  */
-@property(nonatomic, strong, readonly) NSString *groupID;
+@property(nullable, nonatomic, strong, readonly) NSString *groupID;
 /*!
  @property invalidCode
  @abstract Error code for a rejected receipt upload.
@@ -126,78 +128,74 @@ typedef enum SMReceiptStatus {
     <li>13 Multiple submissions not allowed for this campaign</li>
  </ul>
  */
-@property(nonatomic, assign, readonly) int invalidCode;
+@property(nonatomic, assign, readonly) NSInteger invalidCode;
 /*!
  @property invalidReason
  @abstract Explains why a receipt upload was rejected.
  */
-@property(nonatomic, strong, readonly) NSString *invalidReason;
+@property(nullable, nonatomic, strong, readonly) NSString *invalidReason;
 /*!
  @property imageCount
  @abstract Number of images uploaded for the receipt.
  */
-@property(nonatomic, assign, readonly) int imageCount;
+@property(nonatomic, assign, readonly) NSInteger imageCount;
 /*!
  @property imageURLs
  @abstract URLs of uploaded receipt images.
  */
-@property(nonatomic, strong, readonly) NSArray<NSString *> *imageURLs;
+@property(nullable, nonatomic, strong, readonly) NSArray<NSString *> *imageURLs;
 /*!
  @property createdTime
  @abstract Indicates when receipt data was created.
  */
-@property(nonatomic, strong, readonly) NSString *createdTime;
+@property(nullable, nonatomic, strong, readonly) NSString *createdTime;
 /*!
  @property updatedTime
  @abstract Indicates when receipt data was last updated.
  */
-@property(nonatomic, strong, readonly) NSString *updatedTime;
+@property(nullable, nonatomic, strong, readonly) NSString *updatedTime;
 /*!
  @property status
  @abstract Receipt upload status.
  */
 @property(nonatomic, assign, readonly) SMReceiptStatus status;
 /*!
- @property data
- @abstract Custom, developer-defined data associated with the receipt.
- @discussion This data is sent when the receipt is uploaded.
- */
-@property(nonatomic, strong, readonly) NSDictionary *data;
-/*!
  @property results
  @abstract Returns results of processing receipt images for purchase data.
  @discussion Each array element represents purchase data for a single item.
  */
-@property(nonatomic, strong, readonly) NSArray<SMReceiptResult *> *results;
+@property(nullable, nonatomic, strong, readonly) NSArray<SMReceiptResult *> *results;
 /*!
  @property storeName
  @abstract The name of the store from which the receipt was issued.
  */
-@property(nonatomic, strong, readonly) NSString *storeName;
+@property(nullable, nonatomic, strong, readonly) NSString *storeName;
 /*!
  @property receiptDate
  @abstract The date on which the receipt was issued.
  */
-@property(nonatomic, strong, readonly) NSString *receiptDate;
+@property(nullable, nonatomic, strong, readonly) NSString *receiptDate;
 /*!
  @property extras
  @abstract Any data values that do not have an associated class property.
  */
-@property(nonatomic, strong, readonly) NSDictionary *extras;
+@property(nullable, nonatomic, strong, readonly) NSDictionary<NSString *, NSObject *> *extras;
 
 /*!
  @abstract Converts specified string value to the corresponding @link SMReceiptStatus @/link enum value.
  @param string String to convert.
  @result @link SMReceiptStatus @/link enum value.
  */
-+ (SMReceiptStatus)statusForString:(NSString *)string;
++ (SMReceiptStatus)statusForString:(NSString *)string NS_SWIFT_NAME(receiptStatus(from:));
 /*!
  @abstract Converts specified @link SMReceiptStatus @/link enum value to the corresponding string value.
  @param status Status to convert.
  @result <code>NSString</code> value.
  */
-+ (NSString *)stringForStatus:(SMReceiptStatus)status;
++ (NSString *)stringForStatus:(SMReceiptStatus)status NS_SWIFT_NAME(string(from:));
 
 @end
+
+NS_ASSUME_NONNULL_END
 
 #endif /* __SM_RECEIPT__ */

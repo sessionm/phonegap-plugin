@@ -12,6 +12,8 @@
 #import "SMFeedMessage.h"
 #import "SMCampaignsManager.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 #define TABLEVIEW_BACKGROUND_COLOR [UIColor colorWithRed:224.f/255.f green:224.f/255.f blue:224.f/255.f alpha:1]
 
 /*!
@@ -32,14 +34,16 @@
  @param style The section grouping style.
  @result <code>SMActivityFeedViewController</code> instance with the specified frame and style.
  */
-- (instancetype)initWithFrame:(CGRect)frame andStyle:(UITableViewStyle)style;
+- (instancetype)initWithFrame:(CGRect)frame andStyle:(UITableViewStyle)style NS_SWIFT_NAME(init(frame:style:));
 /*!
  @abstract Gets the message data corresponding to the specified index path.
  @param indexPath An index path in the activity feed.
  @result @link SMFeedMessage @/link instance at the specified index path.
  */
-- (SMFeedMessage *)messageAtIndexPath:(NSIndexPath *)indexPath;
+- (SMFeedMessage *)messageAtIndexPath:(NSIndexPath *)indexPath NS_SWIFT_NAME(message(at:));
 
 @end
+
+NS_ASSUME_NONNULL_END
 
 #endif /* __SM_ACTIVITY_FEED_VIEW_CONTROLLER__ */

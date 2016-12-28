@@ -11,6 +11,8 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /*!
  @typedef SMAccountStatus
  @abstract User account standing.
@@ -25,18 +27,17 @@
  @constant SMAccountStatusUnverified User's account has not been verified.
  @constant SMAccountStatusWarned User has been warned for violating the Terms of Service.
  */
-typedef enum SMAccountStatus {
-    SMAccountStatusUnknown,
-    SMAccountStatusGood,
-    SMAccountStatusMultipleAccountsViolation,
-    SMAccountStatusReportedViolation,
-    SMAccountStatusRequestedSuspension,
-    SMAccountStatusReviewedReport,
-    SMAccountStatusTOSViolation,
-    SMAccountStatusUnverified,
-    SMAccountStatusWarned
-} SMAccountStatus;
-
+typedef NS_ENUM(NSInteger, SMAccountStatus) {
+    SMAccountStatusUnknown NS_SWIFT_NAME(unknown),
+    SMAccountStatusGood NS_SWIFT_NAME(good),
+    SMAccountStatusMultipleAccountsViolation NS_SWIFT_NAME(multipleAccountsViolation),
+    SMAccountStatusReportedViolation NS_SWIFT_NAME(reported),
+    SMAccountStatusRequestedSuspension NS_SWIFT_NAME(suspensionRequested),
+    SMAccountStatusReviewedReport NS_SWIFT_NAME(reportReviewed),
+    SMAccountStatusTOSViolation NS_SWIFT_NAME(tosViolation),
+    SMAccountStatusUnverified NS_SWIFT_NAME(unverified),
+    SMAccountStatusWarned NS_SWIFT_NAME(warned)
+};
 
 /*!
  @class SMMMCUser
@@ -48,72 +49,72 @@ typedef enum SMAccountStatus {
  @property userID
  @abstract Unique ID for user.
  */
-@property(nonatomic, strong, readonly) NSString *userID;
+@property(nonnull, nonatomic, strong, readonly) NSString *userID;
 /*!
  @property externalID
  @abstract Developer-defined ID associated with the user.
  */
-@property(nonatomic, strong, readonly) NSString *externalID;
+@property(nullable, nonatomic, strong, readonly) NSString *externalID;
 /*!
  @property proxyIDs
  @abstract IDs defined by third-party organizations that are associated with the user.
  */
-@property(nonatomic, strong, readonly) NSArray<NSString *> *proxyIDs;
+@property(nullable, nonatomic, strong, readonly) NSArray<NSString *> *proxyIDs;
 /*!
  @property createdTime
  @abstract Indicates when user data was created.
  */
-@property(nonatomic, strong, readonly) NSString *createdTime;
+@property(nullable, nonatomic, strong, readonly) NSString *createdTime;
 /*!
  @property updatedTime
  @abstract Indicates when user data was last updated.
  */
-@property(nonatomic, strong, readonly) NSString *updatedTime;
+@property(nullable, nonatomic, strong, readonly) NSString *updatedTime;
 /*!
  @property firstName
  @abstract User's first name.
  */
-@property(nonatomic, strong, readonly) NSString *firstName;
+@property(nullable, nonatomic, strong, readonly) NSString *firstName;
 /*!
  @property lastName
  @abstract User's last name.
  */
-@property(nonatomic, strong, readonly) NSString *lastName;
+@property(nullable, nonatomic, strong, readonly) NSString *lastName;
 /*!
  @property email
  @abstract User's email address.
  */
-@property(nonatomic, strong, readonly) NSString *email;
+@property(nullable, nonatomic, strong, readonly) NSString *email;
 /*!
  @property dateOfBirth
  @abstract User's date of birth.
  */
-@property(nonatomic, strong, readonly) NSString *dateOfBirth;
+@property(nullable, nonatomic, strong, readonly) NSString *dateOfBirth;
 /*!
  @property gender
  @abstract User's gender.
  */
-@property(nonatomic, strong, readonly) NSString *gender;
+@property(nullable, nonatomic, strong, readonly) NSString *gender;
 /*!
  @property zipCode
  @abstract User's home zip code.
  */
-@property(nonatomic, strong, readonly) NSString *zipCode;
+@property(nullable, nonatomic, strong, readonly) NSString *zipCode;
 /*!
  @property DMA
  @abstract User's home designated market area.
  */
-@property(nonatomic, strong, readonly) NSString *DMA;
+@property(nullable, nonatomic, strong, readonly) NSString *DMA;
 /*!
  @property state
  @abstract User's state or province of residence.
  */
-@property(nonatomic, strong, readonly) NSString *state;
+@property(nullable, nonatomic, strong, readonly) NSString *state;
 /*!
  @property country
  @abstract User's country of residence.
  */
-@property(nonatomic, strong, readonly) NSString *country;
+@property(nullable, nonatomic, strong, readonly) NSString *country;
 /*!
  @property latitude
  @abstract User's current latitude.
@@ -128,42 +129,42 @@ typedef enum SMAccountStatus {
  @property currentZipCode
  @abstract User's current zip code.
  */
-@property(nonatomic, strong, readonly) NSString *currentZipCode;
+@property(nullable, nonatomic, strong, readonly) NSString *currentZipCode;
 /*!
  @property currentDMA
  @abstract User's current designated market area.
  */
-@property(nonatomic, strong, readonly) NSString *currentDMA;
+@property(nullable, nonatomic, strong, readonly) NSString *currentDMA;
 /*!
  @property currentState
  @abstract User's current state or province.
  */
-@property(nonatomic, strong, readonly) NSString *currentState;
+@property(nullable, nonatomic, strong, readonly) NSString *currentState;
 /*!
  @property currentCountry
  @abstract User's current country.
  */
-@property(nonatomic, strong, readonly) NSString *currentCountry;
+@property(nullable, nonatomic, strong, readonly) NSString *currentCountry;
 /*!
  @property userProfile
  @abstract Developer-defined attributes that can be used for analytics, targeting ads, etc.
  */
-@property(nonatomic, strong, readonly) NSDictionary *userProfile;
+@property(nullable, nonatomic, strong, readonly) NSDictionary<NSString *, NSObject *> *userProfile;
 /*!
  @property availablePoints
  @abstract User's current loyalty points balance.
  */
-@property(nonatomic, assign, readonly) int availablePoints;
+@property(nonatomic, assign, readonly) NSInteger availablePoints;
 /*!
  @property testPoints
  @abstract The number of loyalty points that the user has earned from apps that are in development mode.
  */
-@property(nonatomic, assign, readonly) int testPoints;
+@property(nonatomic, assign, readonly) NSInteger testPoints;
 /*!
  @property unclaimedAchievementCount
  @abstract The number of achievements that the user has earned, but not claimed.
  */
-@property(nonatomic, assign, readonly) int unclaimedAchievementCount;
+@property(nonatomic, assign, readonly) NSInteger unclaimedAchievementCount;
 /*!
  @property nextTierPercentage
  @abstract User's progress towards the next rewards tier.
@@ -188,13 +189,7 @@ typedef enum SMAccountStatus {
  @property extras
  @abstract Any data values that do not have an associated class property.
  */
-@property(nonatomic, strong, readonly) NSDictionary *extras;
-
-/*!
- @abstract Returns user data in a formatted string.
- @result Formatted <code>NSString</code> representation of user data.
- */
-- (NSString *)asString;
+@property(nullable, nonatomic, strong, readonly) NSDictionary<NSString *, NSObject *> *extras;
 
 /*!
  @abstract Returns user data in a dictionary format.
@@ -207,14 +202,16 @@ typedef enum SMAccountStatus {
  @param string String to convert.
  @result @link SMAccountStatus @/link enum value.
  */
-+ (SMAccountStatus)statusForString:(NSString *)string;
++ (SMAccountStatus)statusForString:(NSString *)string NS_SWIFT_NAME(accountStatus(from:));
 /*!
  @abstract Converts specified @link SMAccountStatus @/link enum value to the corresponding string value.
  @param status Status to convert.
  @result <code>NSString</code> value.
  */
-+ (NSString *)stringForStatus:(SMAccountStatus)status;
++ (NSString *)stringForStatus:(SMAccountStatus)status NS_SWIFT_NAME(string(from:));
 
 @end
+
+NS_ASSUME_NONNULL_END
 
 #endif /* __SM_MMC_USER__ */

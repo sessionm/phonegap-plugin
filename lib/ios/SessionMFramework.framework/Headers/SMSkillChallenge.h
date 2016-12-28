@@ -8,6 +8,8 @@
 #ifndef __SM_SKILL_CHALLENGE__
 #define __SM_SKILL_CHALLENGE__
 
+NS_ASSUME_NONNULL_BEGIN
+
 /*!
  @class SMSkillChallenge
  @abstract Defines the data associated with the server-side response for a user's answer to a skill testing question (see @link //apple_ref/occ/cl/SMSkillTestQuestion @/link).
@@ -28,8 +30,10 @@
  @property extras
  @abstract Any data values that do not have an associated class property.
  */
-@property(nonatomic, strong, readonly) NSDictionary *extras;
+@property(nullable, nonatomic, strong, readonly) NSDictionary<NSString *, NSObject *> *extras;
 
 @end
+
+NS_ASSUME_NONNULL_END
 
 #endif /* __SM_SKILL_CHALLENGE__ */

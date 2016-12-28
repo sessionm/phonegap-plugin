@@ -10,6 +10,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /*!
  @typedef SMReferralStatus
  @abstract Member referral status.
@@ -23,16 +25,16 @@
  @constant SMReferralStatusLimitLifetime Referrer reached the lifetime referral limit - conversion will award 0 loyalty points.
  @constant SMReferralStatusVoided Referral was voided due to referee registering for an account through other means.
  */
-typedef enum SMReferralStatus {
-    SMReferralStatusUnknown,
-    SMReferralStatusPending,
-    SMReferralStatusEngaged,
-    SMReferralStatusRegistered,
-    SMReferralStatusConverted,
-    SMReferralStatusLimitPeriod,
-    SMReferralStatusLimitLifetime,
-    SMReferralStatusVoided,
-} SMReferralStatus;
+typedef NS_ENUM(NSInteger, SMReferralStatus) {
+    SMReferralStatusUnknown NS_SWIFT_NAME(unknown),
+    SMReferralStatusPending NS_SWIFT_NAME(pending),
+    SMReferralStatusEngaged NS_SWIFT_NAME(engaged),
+    SMReferralStatusRegistered NS_SWIFT_NAME(registered),
+    SMReferralStatusConverted NS_SWIFT_NAME(converted),
+    SMReferralStatusLimitPeriod NS_SWIFT_NAME(limitPeriod),
+    SMReferralStatusLimitLifetime NS_SWIFT_NAME(limitLifetime),
+    SMReferralStatusVoided NS_SWIFT_NAME(voided)
+};
 
 
 /*!
@@ -45,72 +47,72 @@ typedef enum SMReferralStatus {
  @property referralID
  @abstract Unique ID for referral.
  */
-@property(nonatomic, strong, readonly) NSString *referralID;
+@property(nonnull, nonatomic, strong, readonly) NSString *referralID;
 /*!
  @property referee
  @abstract Name of person being referred.
  */
-@property(nonatomic, strong, readonly) NSString *referee;
+@property(nullable, nonatomic, strong, readonly) NSString *referee;
 /*!
  @property referrer
  @abstract Name of person who sent the referral.
  */
-@property(nonatomic, strong, readonly) NSString *referrer;
+@property(nullable, nonatomic, strong, readonly) NSString *referrer;
 /*!
  @property email
  @abstract Referee's email address.
  */
-@property(nonatomic, strong, readonly) NSString *email;
+@property(nullable, nonatomic, strong, readonly) NSString *email;
 /*!
  @property phoneNumber
  @abstract Referee's phone number.
  */
-@property(nonatomic, strong, readonly) NSString *phoneNumber;
+@property(nullable, nonatomic, strong, readonly) NSString *phoneNumber;
 /*!
  @property origin
  @abstract Referral origin.
  */
-@property(nonatomic, strong, readonly) NSString *origin;
+@property(nullable, nonatomic, strong, readonly) NSString *origin;
 /*!
  @property source
  @abstract Referral source.
  */
-@property(nonatomic, strong, readonly) NSString *source;
+@property(nullable, nonatomic, strong, readonly) NSString *source;
 /*!
  @property pendingTime
  @abstract Indicates when referral was created.
  */
-@property(nonatomic, strong, readonly) NSString *pendingTime;
+@property(nullable, nonatomic, strong, readonly) NSString *pendingTime;
 /*!
  @property engagedTime
  @abstract Indicates when referee engaged with the referral.
  */
-@property(nonatomic, strong, readonly) NSString *engagedTime;
+@property(nullable, nonatomic, strong, readonly) NSString *engagedTime;
 /*!
  @property registeredTime
  @abstract Indicates when referee registered for an account.
  */
-@property(nonatomic, strong, readonly) NSString *registeredTime;
+@property(nullable, nonatomic, strong, readonly) NSString *registeredTime;
 /*!
  @property convertedTime
  @abstract Indicates when referrer received loyalty points for the referral.
  */
-@property(nonatomic, strong, readonly) NSString *convertedTime;
+@property(nullable, nonatomic, strong, readonly) NSString *convertedTime;
 /*!
  @property voidedTime
  @abstract Indicates when referral was voided due to referee registering for an account through other means.
  */
-@property(nonatomic, strong, readonly) NSString *voidedTime;
+@property(nullable, nonatomic, strong, readonly) NSString *voidedTime;
 /*!
  @property clientData
  @abstract Opaque developer-defined data.
  */
-@property(nonatomic, strong, readonly) id clientData;
+@property(nullable, nonatomic, strong, readonly) id clientData;
 /*!
  @property conversionPoints
  @abstract The number of points the referrer will or did receive when the referee registers for an account.
  */
-@property(nonatomic, assign, readonly) int conversionPoints;
+@property(nonatomic, assign, readonly) NSInteger conversionPoints;
 /*!
  @property status
  @abstract Referral status.
@@ -120,21 +122,23 @@ typedef enum SMReferralStatus {
  @property extras
  @abstract Any data values that do not have an associated class property.
  */
-@property(nonatomic, strong, readonly) NSDictionary *extras;
+@property(nullable, nonatomic, strong, readonly) NSDictionary<NSString *, NSObject *> *extras;
 
 /*!
  @abstract Converts specified string value to the corresponding @link SMReferralStatus @/link enum value.
  @param string String to convert.
  @result @link SMReferralStatus @/link enum value.
  */
-+ (SMReferralStatus)statusForString:(NSString *)string;
++ (SMReferralStatus)statusForString:(NSString *)string NS_SWIFT_NAME(referralStatus(from:));
 /*!
  @abstract Converts specified @link SMReferralStatus @/link enum value to the corresponding string value.
  @param status Status to convert.
  @result <code>NSString</code> value.
  */
-+ (NSString *)stringForStatus:(SMReferralStatus)status;
++ (NSString *)stringForStatus:(SMReferralStatus)status NS_SWIFT_NAME(string(from:));
 
 @end
+
+NS_ASSUME_NONNULL_END
 
 #endif /* __SM_REFERRAL__ */

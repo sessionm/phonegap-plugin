@@ -10,6 +10,8 @@
 
 #import "SMRetailer.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /*!
  @class SMLoyaltyCard
  @abstract Defines the data associated with a loyalty card that has been linked with a user's account.
@@ -20,17 +22,17 @@
  @property cardID
  @abstract Unique ID for loyalty card.
  */
-@property(nonatomic, strong, readonly) NSString *cardID;
+@property(nonnull, nonatomic, strong, readonly) NSString *cardID;
 /*!
  @property cardNumber
  @abstract Number associated with loyalty card (issued by retailer).
  */
-@property(nonatomic, strong, readonly) NSString *cardNumber;
+@property(nullable, nonatomic, strong, readonly) NSString *cardNumber;
 /*!
  @property retailer
  @abstract Retailer associated with loyalty card.
  */
-@property(nonatomic, strong, readonly) SMRetailer *retailer;
+@property(nullable, nonatomic, strong, readonly) SMRetailer *retailer;
 /*!
  @property isLinked
  @abstract Indicates whether the current user has linked a loyalty card issued by the associated retailer.
@@ -40,8 +42,10 @@
  @property extras
  @abstract Any data values that do not have an associated class property.
  */
-@property(nonatomic, strong, readonly) NSDictionary *extras;
+@property(nullable, nonatomic, strong, readonly) NSDictionary<NSString *, NSObject *> *extras;
 
 @end
+
+NS_ASSUME_NONNULL_END
 
 #endif /* __SM_LOYALTY_CARD__ */

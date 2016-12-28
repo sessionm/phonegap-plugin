@@ -11,6 +11,8 @@
 #import <UIKit/UIKit.h>
 #import "SMMessage.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /*!
  @class SMMessageView
  @abstract Stores message data for presentation and provides methods for notifying the SDK that a message view was presented or tapped.
@@ -27,10 +29,10 @@
 /*!
  @abstract Initializes a view with the given message data.
  @discussion Sets @link //apple_ref/occ/instp/SMMessageView/message @/link to the given instance of @link SMMessage @/link. Messages can be accessed from the @link //apple_ref/occ/instp/SMCampaignsManager/feedMessages @/link property.
- @param data The data representing the message that will be presented.
+ @param message The data representing the message that will be presented.
  @result <code>SMMessageView</code> instance (result will be nil if <code>data</code> is nil).
  */
-- (id)initWithMessage:(SMMessage *)data;
+- (instancetype)initWithMessage:(SMMessage *)message NS_SWIFT_NAME(init(message:));
 /*!
  @abstract Notifies the SDK that the message was presented.
  @discussion If you are inheriting from this class to use a custom presentation, be sure to call this method after the message view is presented.
@@ -43,5 +45,7 @@
 - (void)notifyTapped;
 
 @end
+
+NS_ASSUME_NONNULL_END
 
 #endif /* __SM_MESSAGE_VIEW__ */

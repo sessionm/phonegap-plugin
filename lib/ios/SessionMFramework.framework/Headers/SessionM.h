@@ -1,13 +1,12 @@
 //
 //  SessionM.h
-//  SessionM
 //
 //  Copyright © 2016 SessionM. All rights reserved.
 //
 
 #ifndef __SESSIONM__
 #define __SESSIONM__
-#define __SESSIONM_SDK_VERSION__ @"2.1.0"
+#define __SESSIONM_SDK_VERSION__ @"2.1.3"
 #define __SESSIONM_SDK_MIN_SUPPORTED_DEVICE_VERSION__ 8.0f
 
 #import <UIKit/UIKit.h>
@@ -16,6 +15,7 @@
 #import "SMDefaultMessageView.h"
 #import "SMNotificationMessage.h"
 #import "SMLoaderController.h"
+
 #import "SMCampaignsManager.h"
 #import "SMContentManager.h"
 #import "SMInboxManager.h"
@@ -27,6 +27,7 @@
 #import "SMRewardsManager.h"
 #import "SMTransactionsManager.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 /*!
  @defined SMStart
@@ -72,11 +73,11 @@
  @constant SessionMStateStartedOnline SessionM service is started and is working in online state, i.e. connected to the network.
  @constant SessionMStateStartedOffline SessionM service is started and is working in offline state, i.e. without network connection. Unlike online state, some operations, e.g. activity display may not be available in this state. SessionM tries to reconnect automatically and will transition to @link SessionMStateStartedOnline @/link state once it is able to do so.
  */
-typedef enum SessionMState {
-    SessionMStateStopped,
-    SessionMStateStartedOnline,
-    SessionMStateStartedOffline
-} SessionMState;
+typedef NS_ENUM(NSInteger, SessionMState) {
+    SessionMStateStopped NS_SWIFT_NAME(stopped),
+    SessionMStateStartedOnline NS_SWIFT_NAME(startedOnline),
+    SessionMStateStartedOffline NS_SWIFT_NAME(startedOffline)
+};
 
 
 
@@ -89,13 +90,13 @@ typedef enum SessionMState {
  @constant SMActivityTypeIntroduction SessionM service introduction UI activity.
  @constant SMActivityTypeInterstitial Interstitial activity.
  */
-typedef enum SMActivityType {
-    SMActivityTypeAchievement = 1,
-    SMActivityTypePortal,
+typedef NS_ENUM(NSInteger, SMActivityType) {
+    SMActivityTypeAchievement NS_SWIFT_NAME(achievement) = 1,
+    SMActivityTypePortal NS_SWIFT_NAME(portal),
     /*! @deprecated <code>SMActivityTypeIntroduction</code> is deprecated. Use @link SMActivityTypePortal @/link instead. */
-    SMActivityTypeIntroduction  __attribute__((deprecated)),
-    SMActivityTypeInterstitial
-} SMActivityType;
+    SMActivityTypeIntroduction NS_SWIFT_NAME(introduction)  __attribute__((deprecated)),
+    SMActivityTypeInterstitial NS_SWIFT_NAME(interstitial)
+};
 
 
 
@@ -118,36 +119,22 @@ typedef enum SMActivityType {
  @constant SMCheckinCompletedAction User checked into an mPLUS Places location. Action dictionary data includes properties with the following keys: venue - venue name, lat - latitude, long - longitude, distance - distance from venue in meters.
  @constant SMVirtualItemRewardAction Virtual item reward. Action dictionary data includes properties with the following keys: name - reward name, # - reward amount, token - ad ID.
  */
-typedef enum SMActivityUserAction {
-    SMAchievementViewAction = 100,
-    SMAchievementEngagedAction = 101,
-    SMAchievementDismissedAction = 102,
-    SMSponsorContentViewedAction = 103,
-    SMSponsorContentEngagedAction = 104,
-    SMSponsorContentDismissedAction = 105,
-    SMPortalViewedAction = 106,
-    SMSignInAction = 107,
-    SMSignOutAction = 108,
-    SMRegisteredAction = 109,
-    SMPortalDismissedAction = 110,
-    SMRedeemedRewardAction = 111,
-    SMCheckinCompletedAction = 112,
-    SMVirtualItemRewardAction = 113
-} SMActivityUserAction;
-
-
-
-/*!
- @typedef SMActivityAutoDismissStyle
- @abstract Activity auto dismiss style.
-
- @constant SMActivityAutoDismissStyleBackground Activity is automatically dismissed when application is backgrounded. This is the default.
- @constant SMActivityAutoDismissStyleResignActive Activity is automatically dismissed when application loses focus which may be due to temporary interruptions such as notification or system alert or application backgrounding.
- */
-typedef enum SMActivityAutoDismissStyle {
-    SMActivityAutoDismissStyleBackground,
-    SMActivityAutoDismissStyleResignActive
-} SMActivityAutoDismissStyle;
+typedef NS_ENUM(NSInteger, SMActivityUserAction) {
+    SMAchievementViewAction NS_SWIFT_NAME(viewedAchievement) = 100,
+    SMAchievementEngagedAction NS_SWIFT_NAME(engagedAchievement) = 101,
+    SMAchievementDismissedAction NS_SWIFT_NAME(dismissedAchievement) = 102,
+    SMSponsorContentViewedAction NS_SWIFT_NAME(viewedSponsorContent) = 103,
+    SMSponsorContentEngagedAction NS_SWIFT_NAME(engagedSponsorContent) = 104,
+    SMSponsorContentDismissedAction NS_SWIFT_NAME(dismissedSponsorContent) = 105,
+    SMPortalViewedAction NS_SWIFT_NAME(viewedPortal) = 106,
+    SMSignInAction NS_SWIFT_NAME(signedIn) = 107,
+    SMSignOutAction NS_SWIFT_NAME(signedOut) = 108,
+    SMRegisteredAction NS_SWIFT_NAME(registered) = 109,
+    SMPortalDismissedAction NS_SWIFT_NAME(dismissedPortal) = 110,
+    SMRedeemedRewardAction NS_SWIFT_NAME(redeemedReward) = 111,
+    SMCheckinCompletedAction NS_SWIFT_NAME(checkedIn) = 112,
+    SMVirtualItemRewardAction NS_SWIFT_NAME(virtualItemReward) = 113
+};
 
 
 
@@ -160,12 +147,12 @@ typedef enum SMActivityAutoDismissStyle {
  @constant SMServiceRegionUSA United States service region (default value if service region is not set before starting session).
  @constant SMServiceRegionCustom Custom service region (use this value to set custom server URLs).
  */
-typedef enum SMServiceRegion {
-    SMServiceRegionUnknown,
-    SMServiceRegionJapan,
-    SMServiceRegionUSA,
-    SMServiceRegionCustom
-} SMServiceRegion;
+typedef NS_ENUM(NSInteger, SMServiceRegion) {
+    SMServiceRegionUnknown NS_SWIFT_NAME(unknown),
+    SMServiceRegionJapan NS_SWIFT_NAME(japan),
+    SMServiceRegionUSA NS_SWIFT_NAME(usa),
+    SMServiceRegionCustom NS_SWIFT_NAME(custom)
+};
 
 
 
@@ -179,15 +166,15 @@ typedef enum SMServiceRegion {
  @constant SMUserRegistrationResultTypeServerFailure Received error response from server for user registration request.
  @constant SMUserRegistrationResultTypeProcessingFailure Received error when processing the server response. Possible processing errors include receiving a blank password or an unknown email.
  */
-typedef enum SMUserRegistrationResultType {
-    SMUserRegistrationResultTypeUnavailable,
-    SMUserRegistrationResultTypeSuccess,
-    SMUserRegistrationResultTypeFailure,
+typedef NS_ENUM(NSInteger, SMUserRegistrationResultType) {
+    SMUserRegistrationResultTypeUnavailable NS_SWIFT_NAME(unavailable),
+    SMUserRegistrationResultTypeSuccess NS_SWIFT_NAME(success),
+    SMUserRegistrationResultTypeFailure NS_SWIFT_NAME(failure),
     /*! @deprecated <code>SMUserRegistrationResultTypeServerFailure</code> is deprecated. Use @link SMUserRegistrationResultTypeFailure @/link instead. */
-    SMUserRegistrationResultTypeServerFailure __attribute__((deprecated)),
+    SMUserRegistrationResultTypeServerFailure NS_SWIFT_NAME(serverFailure) __attribute__((deprecated)),
     /*! @deprecated <code>SMUserRegistrationResultTypeProcessingFailure</code> is deprecated. Use @link SMUserRegistrationResultTypeFailure @/link instead. */
-    SMUserRegistrationResultTypeProcessingFailure __attribute__((deprecated))
-} SMUserRegistrationResultType;
+    SMUserRegistrationResultTypeProcessingFailure NS_SWIFT_NAME(processingFailure) __attribute__((deprecated))
+};
 
 
 
@@ -203,15 +190,15 @@ typedef enum SMUserRegistrationResultType {
  @constant SMPortalPageCharities Charities page.
  @constant SMPortalPageSignUp Sign up page.
  */
-typedef enum SMPortalPage {
-    SMPortalPageHome,
-    SMPortalPageAchievements,
-    SMPortalPageFeatured,
-    SMPortalPageSweepstakes,
-    SMPortalPageRewards,
-    SMPortalPageCharities,
-    SMPortalPageSignUp
-} SMPortalPage;
+typedef NS_ENUM(NSInteger, SMPortalPage) {
+    SMPortalPageHome NS_SWIFT_NAME(home),
+    SMPortalPageAchievements NS_SWIFT_NAME(achievements),
+    SMPortalPageFeatured NS_SWIFT_NAME(featured),
+    SMPortalPageSweepstakes NS_SWIFT_NAME(sweepstakes),
+    SMPortalPageRewards NS_SWIFT_NAME(rewards),
+    SMPortalPageCharities NS_SWIFT_NAME(charities),
+    SMPortalPageSignUp NS_SWIFT_NAME(signUp)
+};
 
 
 
@@ -229,15 +216,13 @@ extern NSString * const SessionMErrorDomain;
  @constant SessionMIneligibleError Indicates that user is ineligible for SessionM service.
  @constant SessionMInvalidAppIdError Indicates invalid application ID.
  */
-typedef enum SessionMSessionErrorType {
-    SessionMServiceUnavailable = 100,
+typedef NS_ENUM(NSInteger, SessionMSessionErrorType) {
+    SessionMServiceUnavailable NS_SWIFT_NAME(unavailable) = 100,
     /*! @deprecated <code>SessionMIneligibleError</code> is deprecated. Use @link SessionMServiceUnavailable @/link instead. */
-    SessionMIneligibleError __attribute__((deprecated)) = 101,
+    SessionMIneligibleError NS_SWIFT_NAME(ineligible) __attribute__((deprecated)) = 101,
     /*! @deprecated <code>SessionMInvalidAppIdError</code> is deprecated. Use @link SessionMServiceUnavailable @/link instead. */
-    SessionMInvalidAppIdError __attribute__((deprecated)) = 102
-} SessionMSessionErrorType;
-
-
+    SessionMInvalidAppIdError NS_SWIFT_NAME(invalidAppID) __attribute__((deprecated)) = 102
+};
 
 @class SessionM;
 @class SMActivity;
@@ -257,7 +242,7 @@ typedef enum SessionMSessionErrorType {
  @param sessionM SessionM service object.
  @param state SessionM state.
  */
-- (void)sessionM:(SessionM *)sessionM didTransitionToState:(SessionMState)state;
+- (void)sessionM:(SessionM *)sessionM didTransitionToState:(SessionMState)state NS_SWIFT_NAME(sessionM(_:didTransitionToState:));
 /*!
  @abstract Notifies that @link SessionM @/link service is permanently unavailable.
  @discussion This method indicates permanent failure to start SessionM service. This can be the case when invalid application ID is supplied by the application or when SessionM service is not available in current device locale or
@@ -265,23 +250,32 @@ typedef enum SessionMSessionErrorType {
  @param sessionM SessionM service object.
  @param error Error object.
  */
-- (void)sessionM:(SessionM *)sessionM didFailWithError:(NSError *)error;
+- (void)sessionM:(SessionM *)sessionM didFailWithError:(NSError *)error NS_SWIFT_NAME(sessionM(_:didFailWithError:));
 /*!
  @abstract Notifies that the @link userRegistrationResult @/link property has been updated.
  @discussion This method is called after the server response for a signup, login or token authentication request is processed. These requests can be made by calling the @link signUpUserWithData: @/link, @link logInUserWithEmail:password: @/link and @link authenticateWithToken:provider: @/link methods.
  @param sessionM SessionM service object.
  @param result @link SMUserRegistrationResultType @/link the new value for the @link userRegistrationResult @/link property.
- @deprecated This method is deprecated. Use @link sessionM:didUpdateUserRegistrationResult:errorMessages: @/link instead.
+ @deprecated This method is deprecated. Use @link sessionM:didUpdateUserRegistrationResult:errors: @/link instead.
  */
-- (void)sessionM:(SessionM *)sessionM didUpdateUserRegistrationResult:(SMUserRegistrationResultType)result __attribute__((deprecated));
+- (void)sessionM:(SessionM *)sessionM didUpdateUserRegistrationResult:(SMUserRegistrationResultType)result NS_SWIFT_NAME(sessionM(_:didUpdateUserRegistrationResult:)) __attribute__((deprecated));
 /*!
  @abstract Notifies that the @link userRegistrationResult @/link property has been updated.
  @discussion This method is called after the server response for a signup, login or token authentication request is processed. These requests can be made by calling the @link signUpUserWithData: @/link, @link logInUserWithEmail:password: @/link and @link authenticateWithToken:provider: @/link methods.
  @param sessionM SessionM service object.
  @param result @link SMUserRegistrationResultType @/link the new value for the @link userRegistrationResult @/link property.
  @param errorMessages <code>NSArray</code> of error messages (value will be <code>nil</code> for successful registration).
+ @deprecated This method is deprecated. Use @link sessionM:didUpdateUserRegistrationResult:errors: @/link instead.
  */
-- (void)sessionM:(SessionM *)sessionM didUpdateUserRegistrationResult:(SMUserRegistrationResultType)result errorMessages:(NSArray *)errorMessages;
+- (void)sessionM:(SessionM *)sessionM didUpdateUserRegistrationResult:(SMUserRegistrationResultType)result errorMessages:(NSArray * _Nullable)errorMessages NS_SWIFT_NAME(sessionM(_:didUpdateUserRegistrationResult:errorMessages:)) __attribute__((deprecated));
+/*!
+ @abstract Notifies that the @link userRegistrationResult @/link property has been updated.
+ @discussion This method is called after the server response for a signup, login or token authentication request is processed. These requests can be made by calling the @link signUpUserWithData: @/link, @link logInUserWithEmail:password: @/link and @link authenticateWithToken:provider: @/link methods.
+ @param sessionM SessionM service object.
+ @param result @link SMUserRegistrationResultType @/link the new value for the @link userRegistrationResult @/link property.
+ @param errors <code>NSDictionary</code> of error messages (value will be <code>nil</code> for successful registration).
+ */
+- (void)sessionM:(SessionM *)sessionM didUpdateUserRegistrationResult:(SMUserRegistrationResultType)result errors:(NSDictionary<NSString *, NSObject *> * _Nullable)errors NS_SWIFT_NAME(sessionM(_:didUpdateUserRegistrationResult:errors:));
 /*!
  @abstract Indicates if newly earned achievement UI activity should be presented.
  @discussion This method is called when achievement is earned and will occur when application calls @link logAction: @/link or starts a session.
@@ -290,14 +284,14 @@ typedef enum SessionMSessionErrorType {
  @param achievement Achievement data object.
  @result <code>BOOL</code> indicating if achievement activity should be presented.
  */
-- (BOOL)sessionM:(SessionM *)sessionM shouldAutopresentAchievement:(SMAchievementData *)achievement;
+- (BOOL)sessionM:(SessionM *)sessionM shouldAutopresentAchievement:(SMAchievementData *)achievement NS_SWIFT_NAME(sessionM(_:shouldAutopresentAchievement:));
 /*!
  @abstract Returns <code>UIView</code> object to use as a superview for SessionM view objects.
  @param sessionM SessionM service object.
  @param type Activity type.
  @result <code>UIView</code> object.
  */
-- (UIView *)sessionM:(SessionM *)session viewForActivity:(SMActivityType)type;
+- (UIView * _Nullable)sessionM:(SessionM *)session viewForActivity:(SMActivityType)type NS_SWIFT_NAME(sessionM(_:viewForActivityType:));
 /*!
  @abstract Returns <code>UIViewController</code> object to use as a presenting controller for SessionM view controller.
  @discussion This method is only called when application's root view controller is <code>nil</code>. In this case SessionM tries to determine appropriate view controller in the view hierarchy to use as a 'presenting controller'.
@@ -307,52 +301,52 @@ typedef enum SessionMSessionErrorType {
  @param type Activity type.
  @result <code>UIViewController</code> object.
  */
- - (UIViewController *)sessionM:(SessionM *)session viewControllerForActivity:(SMActivityType)type;
+ - (UIViewController * _Nullable)sessionM:(SessionM *)session viewControllerForActivity:(SMActivityType)type NS_SWIFT_NAME(sessionM(_:viewControllerForActivityType:));
 /*!
  @abstract Notifies that UI activity will be presented.
  @param sessionM SessionM service object.
  @param activity Activity object.
  */
-- (void)sessionM:(SessionM *)sessionM willPresentActivity:(SMActivity *)activity;
+- (void)sessionM:(SessionM *)sessionM willPresentActivity:(SMActivity *)activity NS_SWIFT_NAME(sessionM(_:willPresentActivity:));
 /*!
  @abstract Notifies that UI activity was presented.
  @param sessionM SessionM service object.
  @param activity Activity object.
  */
-- (void)sessionM:(SessionM *)sessionM didPresentActivity:(SMActivity *)activity;
+- (void)sessionM:(SessionM *)sessionM didPresentActivity:(SMActivity *)activity NS_SWIFT_NAME(sessionM(_:didPresentActivity:));
 /*!
  @abstract Notifies that UI activity will be dismissed.
  @param sessionM SessionM service object.
  @param activity Activity object.
  */
-- (void)sessionM:(SessionM *)sessionM willDismissActivity:(SMActivity *)activity;
+- (void)sessionM:(SessionM *)sessionM willDismissActivity:(SMActivity *)activity NS_SWIFT_NAME(sessionM(_:willDismissActivity:));
 /*!
  @abstract Notifies that UI activity was dismissed.
  @param sessionM SessionM service object.
  @param activity Activity object.
  */
-- (void)sessionM:(SessionM *)sessionM didDismissActivity:(SMActivity *)activity;
+- (void)sessionM:(SessionM *)sessionM didDismissActivity:(SMActivity *)activity NS_SWIFT_NAME(sessionM(_:didDismissActivity:));
 /*!
  @abstract Notifies that user info was updated.
  @discussion User info is updated when earned achievement count, opt out status or other user relevant state changes. 
  @param sessionM SessionM service object.
  @param user User object.
  */
-- (void)sessionM:(SessionM *)sessionM didUpdateUser:(SMUser *)user;
+- (void)sessionM:(SessionM *)sessionM didUpdateUser:(SMUser *)user NS_SWIFT_NAME(sessionM(_:didUpdateUser:));
 /*!
  @abstract Notifies that media (typically video) will start playing.
  @discussion Application should use this method to suspend its own media playback if any.
  @param sessionM SessionM service object.
  @param activity Activity object.
  */
-- (void)sessionM:(SessionM *)sessionM willStartPlayingMediaForActivity:(SMActivity *)activity;
+- (void)sessionM:(SessionM *)sessionM willStartPlayingMediaForActivity:(SMActivity *)activity NS_SWIFT_NAME(sessionM(_:willStartPlayingMediaForActivity:));
 /*!
  @abstract Notifies that media (typically video) finished playing
  @discussion Application should use this method to resume its own media playback if any.
  @param sessionM SessionM service object.
  @param activity Activity object.
  */
-- (void)sessionM:(SessionM *)sessionM didFinishPlayingMediaForActivity:(SMActivity *)activity;
+- (void)sessionM:(SessionM *)sessionM didFinishPlayingMediaForActivity:(SMActivity *)activity NS_SWIFT_NAME(sessionM(_:didFinishPlayingMediaForActivity:));
 /*!
  @abstract Notifies that user performed an action in currently presented UI activity.
  @param sessionM SessionM service object.
@@ -361,7 +355,7 @@ typedef enum SessionMSessionErrorType {
  @param activity Activity object.
  @param data <code>NSDictionary</code> object with action specific data.
  */
-- (void)sessionM:(SessionM *)sessionM user:(SMUser *)user didPerformAction:(SMActivityUserAction)action forActivity:(SMActivity *)activity withData:(NSDictionary *)data;
+- (void)sessionM:(SessionM *)sessionM user:(SMUser *)user didPerformAction:(SMActivityUserAction)action forActivity:(SMActivity *)activity withData:(NSDictionary<NSString *, NSObject *> * _Nullable)data NS_SWIFT_NAME(sessionM(_:user:didPerformAction:forActivity:data:));
 /*!
  * @abstract Returns center point to use when presenting built-in achievement alert <code>UIView</code>.
  * @discussion Application can use this method to refine the positioning of achievement alert <code>UIView</code>. The default layout is specified in the developer portal as part of achievement configuration.
@@ -371,7 +365,7 @@ typedef enum SessionMSessionErrorType {
  * @param size Activity <code>UIView</code> size.
  * @result <code>CGPoint</code> <code>UIView</code> center.
  */
-- (CGPoint)sessionM:(SessionM *)sessionM centerForActivity:(SMActivity *)activity withSize:(CGSize)size;
+- (CGPoint)sessionM:(SessionM *)sessionM centerForActivity:(SMActivity *)activity withSize:(CGSize)size NS_SWIFT_NAME(sessionM(_:centerForActivity:size:));
 
 /*!
  @abstract Deprecated. Notifies that UI activity is not available for presentation.
@@ -380,7 +374,7 @@ typedef enum SessionMSessionErrorType {
  @param type Activity type.
  @deprecated This method is deprecated. Use boolean value returned from @link presentActivity: @/link as an indicator if activity will be presented or not.
  */
-- (void)sessionM:(SessionM *)sessionM activityUnavailable:(SMActivityType)type __attribute__((deprecated));
+- (void)sessionM:(SessionM *)sessionM activityUnavailable:(SMActivityType)type NS_SWIFT_NAME(sessionM(_:activityUnavailable:)) __attribute__((deprecated));
 /*!
  @abstract Deprecated. Notifies that unclaimed achievement is available or not, if <code>nil</code>, for presentation.
  @discussion This method should be used by application to customize an achievement presentation. SessionM service invokes this method when new achievement is earned or to notify about one of the previously earned
@@ -390,7 +384,7 @@ typedef enum SessionMSessionErrorType {
  @param achievement Achievement data object or <code>nil</code> if no unclaimed achievement is available.
  @deprecated This method is deprecated. Use @link sessionM:shouldAutopresentAchievement: @/link to get notified about new achievements.
  */
-- (void)sessionM:(SessionM *)sessionM didUpdateUnclaimedAchievement:(SMAchievementData *)achievement __attribute__((deprecated));
+- (void)sessionM:(SessionM *)sessionM didUpdateUnclaimedAchievement:(SMAchievementData *)achievement NS_SWIFT_NAME(sessionM(_:didUpdateUnclaimedAchievement:)) __attribute__((deprecated));
 /*!
  @abstract Deprecated. Indicates if newly earned achievement UI activity should be presented.
  @param sessionM SessionM service object.
@@ -398,7 +392,7 @@ typedef enum SessionMSessionErrorType {
  @result <code>BOOL</code> indicating if achievement activity should be presented.
  @deprecated This method is deprecated - use @link sessionM:shouldAutopresentAchievement: @/link instead.
  */
-- (BOOL)sessionM:(SessionM *)sessionM shouldAutopresentActivity:(SMActivityType)type __attribute__((deprecated));
+- (BOOL)sessionM:(SessionM *)sessionM shouldAutopresentActivity:(SMActivityType)type NS_SWIFT_NAME(sessionM(_:shouldAutopresentActivity:)) __attribute__((deprecated));
 
 /*!
  @abstract Notifies the developer a deep link url was receieved.
@@ -406,7 +400,7 @@ typedef enum SessionMSessionErrorType {
  @param sessionM SessionM service object.
  @param deepLink The deepLink string configured in the SessionM Mobile Marketing Cloud portal.
  */
-- (void)sessionM:(SessionM *)sessionM handleDeepLinkString:(NSString*)deepLink;
+- (void)sessionM:(SessionM *)sessionM handleDeepLinkString:(NSString*)deepLink NS_SWIFT_NAME(sessionM(_:didReceiveDeepLinkString:));
 
 /*!
  @abstract Notifies the developer an ad or deep link action from a notification is ready.
@@ -414,15 +408,16 @@ typedef enum SessionMSessionErrorType {
  @param sessionM SessionM service object. You can call @link hasPendingNotification @/link at any time to see if a pending action is available.
  @param notification SMNotificationMessage object that represents the data sent in the notification.
  */
-- (void)sessionM:(SessionM *)sessionM didReceiveNotification:(SMNotificationMessage *)notification;
+- (void)sessionM:(SessionM *)sessionM didReceiveNotification:(SMNotificationMessage *)notification NS_SWIFT_NAME(sessionM(_:didReceiveNotification:));
 
 /*!
- @abstract Notifies the developer of the CLCircularRegions being monitored.
- @discussion When the SMLocationManager is told to monitor regions, it will call this method to send to the developer all the CLCircularRegions currently being monitored. This is purely for developer custom UI they may wish to display. Will never be called unless SessionMLocation library is used and region monitoring started.
+ @abstract Notifies the developer of the geofence regions being monitored.
+ @deprecated This method is deprecated, use the <code>NSNotification</code> @link //apple_ref/c/data/SMLocationManagerDidUpdateGeoLocations @/link instead.
+ @discussion When the <code>SMLocationManager</code> is told to monitor regions, it will call this method to send to the developer all the <code>CLCircularRegion</code> objects currently being monitored. This is purely for custom UI the developer may wish to display. Will never be called unless the SessionMLocation library is used and region monitoring is started.
  @param sessionM SessionM service object. 
- @param regions As <code>NSArray</code> of all CLCircularRegions being monitored.
+ @param regions As <code>NSArray</code> of all <code>CLCircularRegion</code> objects being monitored.
  */
-- (void)sessionM:(SessionM*)sessionM didStartMonitoringRegions:(NSArray<__kindof CLRegion *> *)regions;
+- (void)sessionM:(SessionM*)sessionM didStartMonitoringRegions:(NSArray<__kindof CLRegion *> *)regions NS_SWIFT_NAME(sessionM(_:didStartMonitoringRegions:)) __attribute__((deprecated));
 @end
 
 
@@ -435,11 +430,11 @@ typedef enum SessionMSessionErrorType {
  @constant SMLogLevelInfo Enables logging of key API events such as action logging, achievement display, etc.
  @constant SMLogLevelDebug Enables logging of detailed information about SDK operations such as, for example, network activity in addition to basic API tracing. This level should be used when diagnosing SDK integration problems.
  */
-typedef enum SMLogLevel {
-    SMLogLevelOff,
-    SMLogLevelInfo,
-    SMLogLevelDebug
-} SMLogLevel;
+typedef NS_ENUM(NSInteger, SMLogLevel) {
+    SMLogLevelOff NS_SWIFT_NAME(off),
+    SMLogLevelInfo NS_SWIFT_NAME(info),
+    SMLogLevelDebug NS_SWIFT_NAME(debug)
+};
 
 
 /*!
@@ -453,15 +448,16 @@ typedef enum SMLogLevel {
  @constant SMLogCategorySession Receive logging for session state changes.
  @constant SMLogCategoryCPI Receive logging for CPI activity.
  */
-typedef enum SMLogCategory {
-    SMLogCategoryAll = 0xFF,
-    SMLogCategoryAPI = 0x01,
-    SMLogCategoryUI = 0x02,
-    SMLogCategoryNetwork = 0x04,
-    SMLogCategorySession = 0x08,
+typedef NS_OPTIONS(NSInteger, SMLogCategory) {
+    SMLogCategoryAll NS_SWIFT_NAME(all)                             = 0xFF,
+    SMLogCategoryAPI NS_SWIFT_NAME(api)                             = 0x01,
+    SMLogCategoryUI NS_SWIFT_NAME(ui)                               = 0x02,
+    SMLogCategoryNetwork NS_SWIFT_NAME(network)                     = 0x04,
+    SMLogCategorySession NS_SWIFT_NAME(session)                     = 0x08,
     /*! @deprecated SMLogCategoryCPI is deprecated. */
-    SMLogCategoryCPI __attribute__((deprecated)) = 0x10
-} SMLogCategory;
+    SMLogCategoryCPI NS_SWIFT_NAME(cpi) __attribute__((deprecated)) = 0x10,
+    SMLogCategoryGeo NS_SWIFT_NAME(geo)                             = 0x20
+};
 
 
 /*!
@@ -552,7 +548,7 @@ typedef struct SMLocationCoordinate2D {
  It is highly recommended to capture and provide debug output when reporting a problem to SessionM technical support.
 */
 
-@interface SessionM : NSObject 
+@interface SessionM : NSObject
 
 /*!
  @property campaignsManager
@@ -609,7 +605,7 @@ typedef struct SMLocationCoordinate2D {
  @property delegate
  @abstract SessionMDelegate object.
  */
-@property(nonatomic, weak) id<SessionMDelegate> delegate;
+@property(nullable, nonatomic, weak) id<SessionMDelegate> delegate;
 /*!
  @property sessionState
  @abstract SessionM state.
@@ -619,17 +615,12 @@ typedef struct SMLocationCoordinate2D {
  @property sessionID
  @abstract The current session ID. Returns <code>nil</code> if the session is not online.
  */
-@property(nonatomic, readonly) NSString *sessionID;
+@property(nullable, nonatomic, readonly) NSString *sessionID;
 /*!
  @property currentActivity
  @abstract Current UI activity.
  */
-@property(nonatomic, readonly) SMActivity *currentActivity;
-/*!
- @property activityAutoDismissStyle
- @abstract Auto-dismiss style.
- */
-@property(nonatomic) SMActivityAutoDismissStyle activityAutoDismissStyle;
+@property(nullable, nonatomic, readonly) SMActivity *currentActivity;
 /*!
  @property logLevel
  @abstract Log level.
@@ -639,7 +630,7 @@ typedef struct SMLocationCoordinate2D {
  @property logCategories
  @abstract Log category.
  */
-@property(nonatomic) int logCategories;
+@property(nonatomic) SMLogCategory logCategories;
 
 /*!
  @property displayInAppWelcomeFlow
@@ -650,7 +641,7 @@ typedef struct SMLocationCoordinate2D {
  @property inAppPromotionTile
  @abstract in-app promotion tile.
  */
-@property(nonatomic, strong, readwrite) NSDictionary *inAppPromotionTile;
+@property(nullable, nonatomic, strong, readwrite) NSDictionary *inAppPromotionTile;
 /*!
  @property locationCoordinate
  @abstract Location coordinate info.
@@ -663,7 +654,7 @@ typedef struct SMLocationCoordinate2D {
 @property(nonatomic, readonly) SMUser *user;
 /*!
  @property userRegistrationResult
- @abstract The result of the most recent attempt to sign up, log in, or log out a user. Note: should be accessed in the @link sessionM:didUpdateUserRegistrationResult:errorMessages: @/link delegate.
+ @abstract The result of the most recent attempt to sign up, log in, or log out a user. Note: should be accessed in the @link sessionM:didUpdateUserRegistrationResult:errorMessages: @/link or @link sessionM:didUpdateUserRegistrationResult:errors: @/link delegate methods.
  */
 @property(nonatomic, readonly) SMUserRegistrationResultType userRegistrationResult;
 /*!
@@ -678,7 +669,7 @@ typedef struct SMLocationCoordinate2D {
  @property unclaimedAchievement
  @abstract Last earned unclaimed achievement object or <code>nil</code> if not available.
  */
-@property(nonatomic, readonly) SMAchievementData *unclaimedAchievement;
+@property(nullable, nonatomic, readonly) SMAchievementData *unclaimedAchievement;
 /*!
  @property sessionCount
  @abstract Number of sessions started by the app.
@@ -693,12 +684,12 @@ typedef struct SMLocationCoordinate2D {
  @property pluginSDK
  @abstract The name of the plug-in SDK.
  */
-@property(nonatomic, strong) NSString *pluginSDK;
+@property(nullable, nonatomic, strong) NSString *pluginSDK;
 /*!
  @property pluginSDKVersion
  @abstract The version number of the plug-in SDK being used.
  */
-@property(nonatomic, strong) NSString *pluginSDKVersion;
+@property(nullable, nonatomic, strong) NSString *pluginSDKVersion;
 /*!
  @property shouldAutoUpdateAchievementsList
  @abstract Determines whether achievement list is updated automatically when user's unclaimed achievement count changes, or only when requested by calling @link updateAchievementsList @/link (default behavior).
@@ -711,17 +702,16 @@ typedef struct SMLocationCoordinate2D {
  */
 @property(nonatomic, strong, readonly) SMLoaderController *currentLoaderController;
 /*!
- @property isDebugMode
- @abstract Returns whether the app scheme is Debug (the default value is <code>NO</code>).
- @discussion Before starting a session, set this property based on the <code>DEBUG</code> preprocessor macro. This property is used to notify our servers whether the development or production environment should be used for the Apple Push Notification service.
- */
-@property(nonatomic) BOOL isDebugMode;
-/*!
  @property customLocale
  @abstract Determines the default locale to use when making API calls (<code>[NSLocale currentLocale]</code> is used as the default locale when this property is set to <code>nil</code>).
  @discussion This property can only be set when the session is stopped.
  */
-@property(nonatomic, strong, readwrite) NSLocale *customLocale;
+@property(nullable, nonatomic, strong, readwrite) NSLocale *customLocale;
+/*!
+ @property shouldCollectIDFA
+ @abstract Indicates whether the SDK will request the user's advertising identifier when starting a session (default value is <code>YES</code>).
+ */
+@property(nonatomic, assign, readwrite) BOOL shouldCollectIDFA;
 
 /*!
  @abstract Returns singleton SessionM service instance. If the server is not supported on the current platform (as indicated by @link isSupportedPlatform @/link) <code>nil</code> is returned.
@@ -736,32 +726,37 @@ typedef struct SMLocationCoordinate2D {
  */
 + (BOOL)isSupportedPlatform;
 /*!
+ @abstract The currently set service region - indicates where API requests will be directed.
+ @discussion Defaults to @link SMServiceRegionUSA @/link if not set before session is started.
+ */
++ (SMServiceRegion)serviceRegion;
+/*!
  @abstract Sets the service region (defaults to @link SMServiceRegionUSA @/link if not set before session is started).
  @discussion Use this method or call @link SM_SetServiceRegion_Japan @/link or @link SM_SetServiceRegion_USA @/link before calling @link startSessionWithAppID: @/link to set the service region. Once set, the service region cannot be changed.
  @param region The service region that will be used.
  */
-+ (void)setServiceRegion:(SMServiceRegion)region;
++ (void)setServiceRegion:(SMServiceRegion)region NS_SWIFT_NAME(setServiceRegion(_:));
 /*!
  @abstract Sets the service region to a custom region defined by the developer using the given server URL name.
  @discussion Use this method or call @link SM_SET_SERVER_URL @/link before calling @link startSessionWithAppID: @/link to set the service region. Once set, the service region cannot be changed.
  @param serverURL The server URL that will be used for your custom service region.
  */
-+ (void)setCustomServiceRegionWithServerURL:(NSString *)serverURL;
++ (void)setCustomServiceRegionWithServerURL:(NSString *)serverURL NS_SWIFT_NAME(setCustomServiceRegionWithServerURL(_:));
 /*!
  @abstract Starts session with specified application ID. 
  @discussion This method is executed asynchronously with outcome communicated via @link sessionM:didTransitionToState: @/link or @link sessionM:didFailWithError: @/link delegate callbacks. 
  This method should be called as early as possible in the application lifecycle, typically in <code>application:didFinishLaunchingWithOptions:</code> method of <code>UIApplicationDelegate</code>.
- @param appId Application identifier. The identifier is generated when application is registered in the developer portal.
+ @param appID Application identifier. The identifier is generated when application is registered in the developer portal.
  */
-- (void)startSessionWithAppID:(NSString *)appId;
+- (void)startSessionWithAppID:(NSString *)appID NS_SWIFT_NAME(startSession(appID:));
 /*!
  @abstract Restarts session with specified application ID.
  @discussion This method is executed asynchronously with outcome communicated via @link sessionM:didTransitionToState: @/link or @link sessionM:didFailWithError: @/link delegate callbacks.
  This method has no effect if session is not started or if the specified application ID is equal to the current session's application ID.
- @param appId Application identifier. The identifier is generated when application is registered in the developer portal.
+ @param appID Application identifier. The identifier is generated when application is registered in the developer portal.
  @result <code>BOOL</code> indicating whether session restart will be requested.
  */
-- (BOOL)restartSessionWithAppID:(NSString *)appId;
+- (BOOL)restartSessionWithAppID:(NSString *)appID NS_SWIFT_NAME(restartSession(appID:));
 /*!
  @abstract Stops the current session.
  @discussion This method is executed asynchronously with outcome communicated via @link sessionM:didTransitionToState: @/link or @link sessionM:didFailWithError: @/link delegate callbacks.
@@ -773,7 +768,7 @@ typedef struct SMLocationCoordinate2D {
  @param type Activity type.
  @result <code>BOOL</code> indicating if activity available for presentation, false - otherwise
  */
-- (BOOL)isActivityAvailable:(SMActivityType)type;
+- (BOOL)isActivityAvailable:(SMActivityType)type NS_SWIFT_NAME(isActivityAvailable(for:));
 /*!
  @abstract Presents activity of specified type. e.g. user portal or achievement.
  @discussion If activity is not available the @link SessionMDelegate @/link method @link sessionM:activityUnavailable: @/link is called to notify the application. An activity may not be available for display when, for example, session is in @link SessionMStateStartedOffline @/link state or, in case of achievement, the new achievement has not been earned. 
@@ -785,7 +780,7 @@ typedef struct SMLocationCoordinate2D {
  @param type Activity type.
  @result <code>BOOL</code> indicating if activity will be presented, false - otherwise
  */
-- (BOOL)presentActivity:(SMActivityType)type;
+- (BOOL)presentActivity:(SMActivityType)type NS_SWIFT_NAME(presentActivity(for:));
 /*!
  @abstract Presents activity of specified type with the specified URL.
  @discussion Presents a portal activity with the content pointed to by the specified URL. Use this method to link to a particular page or ad in our portal. This method cannot be used to present achievement activities.
@@ -793,7 +788,7 @@ typedef struct SMLocationCoordinate2D {
  @param url Path to content.
  @result <code>BOOL</code> indicating whether activity will be presented. Returns <code>NO</code> if type is not @link SMActivityTypePortal @/link or if url is <code>nil</code>.
  */
-- (BOOL)presentActivity:(SMActivityType)type withURL:(NSString *)url;
+- (BOOL)presentActivity:(SMActivityType)type withURL:(NSString *)url NS_SWIFT_NAME(presentActivity(for:url:));
 /*!
  @abstract Dismisses currently presented activity.
  @discussion Delegate methods @link sessionM:willDismissActivity: @/link and @link sessionM:didDismissActivity: @/link will be invoked if implemented.
@@ -804,14 +799,14 @@ typedef struct SMLocationCoordinate2D {
  @discussion If new achievement is earned as a result of the action delegate method @link sessionM:shouldAutopresentAchievement: @/link, if implemented, is called to determine if achievement alert should be presented.
  @param action Action name.
  */
-- (void)logAction:(NSString *)action;
+- (void)logAction:(NSString *)action NS_SWIFT_NAME(logAction(_:));
 /*!
  @abstract Logs specified number of actions and presents an achievement activity if new achievement is earned.
  @discussion If activity becomes available as a result of the action delegate method @link sessionM:shouldAutopresentActivity: @/link, if implemented, is called to determine if activity should be presented.
  @param action Action name.
  @param count Number of actions.
  */
-- (void)logAction:(NSString *)action withCount:(NSUInteger)count;
+- (void)logAction:(NSString *)action withCount:(NSUInteger)count NS_SWIFT_NAME(logAction(_:count:));
 /*!
  @abstract Logs specified number of actions and presents an achievement activity if new achievement is earned.
  @discussion If activity becomes available as a result of the action delegate method @link sessionM:shouldAutopresentActivity: @/link, if implemented, is called to determine if activity should be presented.
@@ -819,28 +814,28 @@ typedef struct SMLocationCoordinate2D {
  @param count Number of actions.
  @param payloads Any additional developer-defined data associated with the action.
  */
-- (void)logAction:(NSString *)action withCount:(NSUInteger)count payloads:(NSDictionary *)payloads;
+- (void)logAction:(NSString *)action withCount:(NSUInteger)count payloads:(NSDictionary<NSString *, NSObject *> * _Nullable)payloads NS_SWIFT_NAME(logAction(_:count:payloads:));
 /*!
  @abstract Claims the specified achievement and presents an ad.
  @discussion The specified achievement cannot be claimed if the session is not online, if the achievement is not in the @link claimableAchievements @/link array, or if another activity is already presented.
  @param achievement Achievement to claim.
  @result <code>BOOL</code> representing whether the achievement can be claimed.
  */
-- (BOOL)claimAchievement:(SMAchievementData *)achievement;
+- (BOOL)claimAchievement:(SMAchievementData *)achievement NS_SWIFT_NAME(claimAchievement(_:));
 /*!
  @abstract Sends meta data to SessionM. 
  @discussion Please refer to the documentation for more information on common keys. Data should only be supplied in accordance with your applications terms of service and privacy policy.
  @param data Meta data value.
  @param key Meta data key.
  */
-- (void)setMetaData:(NSString *)data forKey:(NSString *)key;
+- (void)setMetaData:(NSString *)data forKey:(NSString *)key NS_SWIFT_NAME(setMetaData(_:forKey:));
 /*!
  @abstract Sets the SessionM plug-in SDK name and version number.
  @discussion This method should be called from the plug-in SDK before a session is started.
- @param sdk The plug-in SDK name
+ @param name The plug-in SDK name
  @param version The plug-in SDK version number
  */
-- (void)setPluginSDK:(NSString *)sdk version:(NSString *)version;
+- (void)setPluginSDK:(NSString *)name version:(NSString *)version NS_SWIFT_NAME(setPluginSDKName(_:version:));
 /*!
  @abstract Handles application launch URL.
  @discussion Your application can be configured to launch the portal using the application URL scheme mechanism. In order to enable this feature, follow the steps below:
@@ -851,14 +846,14 @@ typedef struct SMLocationCoordinate2D {
  @param url App launch URL.
  @result <code>BOOL</code> indicating whether the URL was handled by the SDK.
  */
-- (BOOL)handleURL:(NSURL *)url;
+- (BOOL)handleURL:(NSURL *)url NS_SWIFT_NAME(handleURL(_:));
 /*!
  @abstract Opens the deep link to the specified page in the portal.
  @discussion Use this method to deep link to one of the pages listed under @link SMPortalPage @/link.
  @param page Portal page to open.
  @result <code>BOOL</code> indicating whether the URL was handled by the SDK.
  */
-- (BOOL)openURLForPortalPage:(SMPortalPage)page;
+- (BOOL)openURLForPortalPage:(SMPortalPage)page NS_SWIFT_NAME(openPortalPage(_:));
 
 
 /*!
@@ -869,7 +864,7 @@ typedef struct SMLocationCoordinate2D {
  @param exception Exception object.
  @deprecated This method is deprecated. 
  */
-- (void)logError:(NSString *)errorName message:(NSString *)message exception:(NSException *)exception __attribute__((deprecated));
+- (void)logError:(NSString *)errorName message:(NSString *)message exception:(NSException *)exception NS_SWIFT_NAME(logError(name:message:exception:)) __attribute__((deprecated));
 
 /*!
  @abstract Signs user up for an account in the SessionM rewards program with specified user data.
@@ -884,7 +879,7 @@ typedef struct SMLocationCoordinate2D {
  </ul>
  @result <code>BOOL</code> Returns <code>NO</code> if an input is invalid or if session has not been authenticated, and <code>YES</code> otherwise.
  */
-- (BOOL)signUpUserWithData:(NSDictionary *)userData;
+- (BOOL)signUpUserWithData:(NSDictionary<NSString *, NSObject *> *)userData NS_SWIFT_NAME(signUpUser(withData:));
 /*!
  @abstract Logs in the user associated with the provided email.
  @discussion Can be used for user accounts created with @link signUpUserWithData: @/link.
@@ -892,7 +887,7 @@ typedef struct SMLocationCoordinate2D {
  @param password User's password.
  @result <code>BOOL</code> Returns <code>NO</code> if an input is invalid or if session has not been authenticated, and <code>YES</code> otherwise.
  */
-- (BOOL)logInUserWithEmail:(NSString *)email password:(NSString *)password;
+- (BOOL)logInUserWithEmail:(NSString *)email password:(NSString *)password NS_SWIFT_NAME(logInUser(withEmail:password:));
 /*!
  @abstract Logs out the current user.
  @discussion Can be used for user accounts created with @link signUpUserWithData: @/link.
@@ -902,15 +897,15 @@ typedef struct SMLocationCoordinate2D {
  @abstract Authenticates user with the specified OAuth token received from the specified provider.
  @deprecated This method is deprecated - use @link authenticateWithToken:provider: @/link instead.
  */
-- (BOOL)authenticateWithProvider:(NSString *)provider token:(NSString *)token __attribute__((deprecated));
+- (BOOL)authenticateWithProvider:(NSString *)provider token:(NSString *)token NS_SWIFT_NAME(authenticate(withProvider:token:)) __attribute__((deprecated));
 /*!
  @abstract Authenticates user with the specified OAuth token received from the specified provider.
- @discussion The @link sessionM:didUpdateUserRegistrationResult:errorMessages: @/link delegate method is called when the authentication is finished.
+ @discussion The @link sessionM:didUpdateUserRegistrationResult:errorMessages: @/link and @link sessionM:didUpdateUserRegistrationResult:errors: @/link delegate methods are called when the authentication is finished.
  @param token The token string from the provider.
  @param provider OAuth token provider, such as "SessionM".
  @result <code>BOOL</code> indicating whether the SDK will attempt to authenticate the user. Returns <code>NO</code> if session is not online, or if either <code>token</code> or <code>provider</code> is <code>nil</code> or empty. Returns <code>YES</code> otherwise.
  */
-- (BOOL)authenticateWithToken:(NSString *)token provider:(NSString *)provider;
+- (BOOL)authenticateWithToken:(NSString *)token provider:(NSString *)provider NS_SWIFT_NAME(authenticate(withToken:provider:));
 /*!
  @abstract Updates user's @link achievementsList @/link property.
  @discussion The @link sessionM:didUpdateUser: @/link delegate method is called and the @link SMSessionMDidUpdateUserInfoNotification @/link notification is sent when the achievements list is updated.
@@ -922,7 +917,7 @@ typedef struct SMLocationCoordinate2D {
  @discussion Use this method to display a custom load screen when presenting portal content. The developer should define a class that inherits from @link SMLoaderController @/link, and call this method with an instance of that class. If this method is called multiple times, the controller specified in the most recent call will be used.
  @param controller The developer's custom view controller that will display the portal load screen.
  */
-- (void)addCustomLoaderController:(SMLoaderController *)controller;
+- (void)addCustomLoaderController:(SMLoaderController *)controller NS_SWIFT_NAME(addCustomLoaderController(_:));
 /*!
  @abstract Sets the value of @link currentLoaderController @/link to the standard loader controller.
  @discussion Use this method to return to using the standard load screen after calling @link addCustomLoaderController: @/link.
@@ -936,16 +931,16 @@ typedef struct SMLocationCoordinate2D {
 /*!
  @abstract Handles a remote notification sent by the SessionM platform.
  @discussion This method should be called from the developer's <code>application:didReceiveRemoteNotification:</code> and <code>application:didFinishLaunchingWithOptions:</code> delegate methods with the given <code>NSDictionary</code> payload. If the launch option for the push notification is a deep_link or open_ad, the developer will be notified of a pending action via the @link sessionM:didReceiveNotification: @/link method.
- @param userInfo The <code>NSDictionary</code> payload data.
+ @param payload The <code>NSDictionary</code> payload data.
  @result <code>BOOL</code> indicating notification was handled by SessionM SDK.
  */
-- (BOOL)handleRemoteNotification:(NSDictionary *)userInfo;
+- (BOOL)handleRemoteNotification:(NSDictionary<NSString *, NSObject *> *)payload NS_SWIFT_NAME(handleRemoteNotification(payload:));
 /*!
  @abstract Stores user's device token (required to send remote notifications).
  @discussion This method should be called from the developer's <code>application:didRegisterForRemoteNotificationsWithDeviceToken:</code> delegate method with the given device token.
  @param token The user's device token.
  */
-- (void)storeDeviceToken:(NSData *)token;
+- (void)storeDeviceToken:(NSData *)token NS_SWIFT_NAME(storeDeviceToken(_:));
 /*!
  @abstract Tells SDK to act on pending notification action.
  @discussion Performs the pending notification action as specified by @link //apple_ref/occ/instp/SMMessage/actionType @/link. If the message has a deep link that is not recognized by the SDK, it is forwarded to the delegate call @link sessionM:handleDeepLinkString: @/link.
@@ -962,13 +957,13 @@ typedef struct SMLocationCoordinate2D {
  @param message The @link SMMessage @/link instance whose data will be displayed in the message view.
  @result @link SMDefaultMessageView @/link instance customized to the message data.
  */
-- (SMDefaultMessageView *)viewForMessage:(SMMessage *)message;
+- (SMDefaultMessageView *)viewForMessage:(SMMessage *)message NS_SWIFT_NAME(view(forMessage:));
 /*!
  @abstract Tells SDK to act on the specified message's action.
  @param message The @link SMMessage @/link instance whose action will be executed.
  @discussion Performs the specified message's action as specified by @link //apple_ref/occ/instp/SMMessage/actionType @/link. If the message has a deep link that is not recognized by the SDK, it is forwarded to the delegate call @link sessionM:handleDeepLinkString: @/link.
  */
-- (void)executeMessageAction:(SMMessage *)message;
+- (void)executeMessageAction:(SMMessage *)message NS_SWIFT_NAME(executeAction(forMessage:));
 
 @end
 
@@ -997,10 +992,10 @@ typedef struct SMLocationCoordinate2D {
  @constant SMAchievementDismissTypeClaimed Achievement was claimed.
  @constant SMAchievementDismissTypeCanceled Achievement was not claimed.
  */
-typedef enum SMAchievementDismissType {
-    SMAchievementDismissTypeClaimed,
-    SMAchievementDismissTypeCanceled
-} SMAchievementDismissType;
+typedef NS_ENUM(NSInteger, SMAchievementDismissType) {
+    SMAchievementDismissTypeClaimed NS_SWIFT_NAME(claimed),
+    SMAchievementDismissTypeCanceled NS_SWIFT_NAME(canceled)
+};
 
 
 /*!
@@ -1028,8 +1023,8 @@ typedef enum SMAchievementDismissType {
  @abstract Initializes achievement activity object with achievement data.
  @param data Custom achievement data object.
  */
-- (id)initWithAchievmentData:(SMAchievementData *)data __attribute__((deprecated));
-- (id)initWithAchievementData:(SMAchievementData *)data;
+- (instancetype)initWithAchievmentData:(SMAchievementData *)data NS_SWIFT_UNAVAILABLE("Deprecated - use init(data:).") __attribute__((deprecated));
+- (instancetype)initWithAchievementData:(SMAchievementData *)data NS_SWIFT_NAME(init(data:));
 /*!
  @abstract Notifies that achievement alert has been presented.
  @result <code>BOOL</code> indicating if invocation was successful, <code>YES</code>, or not - <code>NO</code>.
@@ -1040,7 +1035,7 @@ typedef enum SMAchievementDismissType {
  @param dismissType Reason for dismissal.
  @result <code>BOOL</code> indicating if invocation was successful, <code>YES</code>, or not - <code>NO</code>.
  */
-- (BOOL)notifyDismissed:(SMAchievementDismissType)dismissType;
+- (BOOL)notifyDismissed:(SMAchievementDismissType)dismissType NS_SWIFT_NAME(notifyDismissed(dismissType:));
 
 @end
 
@@ -1089,17 +1084,17 @@ typedef enum SMAchievementDismissType {
  @property achievements
  @abstract Returns an array of @link SMAchievementData @/link objects.
  */
-@property(nonatomic, strong, readonly) NSArray *achievements;
+@property(nonatomic, strong, readonly) NSArray<SMAchievementData *> *achievements;
 /*!
  @property achievementsList
  @abstract Returns an array of @link SMAchievementData @/link objects representing the user's achievement forecast.
  */
-@property(nonatomic, strong, readonly) NSArray *achievementsList;
+@property(nonatomic, strong, readonly) NSArray<SMAchievementData *> *achievementsList;
 /*!
  @property claimableAchievements
  @abstract Returns the subarray of @link achievementsList @/link that contains all achievements that the user can currently claim.
  */
-@property(nonatomic, strong, readonly) NSArray *claimableAchievements;
+@property(nonatomic, strong, readonly) NSArray<SMAchievementData *> *claimableAchievements;
 
 @end
 
@@ -1113,17 +1108,22 @@ typedef enum SMAchievementDismissType {
  @const SMSessionMDidTransitionToStateNotification
  @abstract This notification is sent when session changes its session state.
  */
-extern NSString *const SMSessionMDidTransitionToStateNotification;
+extern NSString *const SMSessionMDidTransitionToStateNotification NS_SWIFT_NAME(sessionStateTransitionNotification);
 /*!
  @const SMSessionMStateNotificationKey
  @abstract Key for accessing the state in the @link SMSessionMDidTransitionToStateNotification @/link <code>userInfo</code> dictionary. State is sent as an <code>NSNumber</code>.
  */
-extern NSString *const SMSessionMStateNotificationKey;
+extern NSString *const SMSessionMStateNotificationKey NS_SWIFT_NAME(kSessionState);
 /*!
  @const SMSessionMDidUpdateUserInfoNotification
  @abstract This notification is sent when the user's unclaimed achievement count changes.
  */
-extern NSString *const SMSessionMDidUpdateUserInfoNotification;
+extern NSString *const SMSessionMDidUpdateUserInfoNotification NS_SWIFT_NAME(updatedUserInfoNotification);
+/*!
+ @const SMSessionMDidFailRequestNotification
+ @abstract This notification is sent when there is an SDK error.
+ */
+extern NSString *const SMSessionMDidFailRequestNotification NS_SWIFT_NAME(sdkRequestFailureNotification);
 
 
 
@@ -1135,22 +1135,22 @@ extern NSString *const SMSessionMDidUpdateUserInfoNotification;
  @const SMUserActionAchievementNameKey
  @abstract Achievement name key.
  */
-extern NSString *const SMUserActionAchievementNameKey;
+extern NSString *const SMUserActionAchievementNameKey NS_SWIFT_NAME(kUserActionAchievementName);
 /*!
  @const SMUserActionSponsorContentNameKey
  @abstract Sponsor content name key.
  */
-extern NSString *const SMUserActionSponsorContentNameKey;
+extern NSString *const SMUserActionSponsorContentNameKey NS_SWIFT_NAME(kUserActionSponsorContentName);
 /*!
  @const SMUserActionPageNameKey
  @abstract User portal page name key.
  */
-extern NSString *const SMUserActionPageNameKey;
+extern NSString *const SMUserActionPageNameKey NS_SWIFT_NAME(kUserActionPageName);
 /*!
  @const SMUserActionRewardNameKey
  @abstract Reward name key.
  */
-extern NSString *const SMUserActionRewardNameKey;
+extern NSString *const SMUserActionRewardNameKey NS_SWIFT_NAME(kUserActionRewardName);
 
 
 
@@ -1162,52 +1162,53 @@ extern NSString *const SMUserActionRewardNameKey;
  @const SMUserDataEmailKey
  @abstract Email key.
  */
-extern NSString *const SMUserDataEmailKey;
+extern NSString *const SMUserDataEmailKey NS_SWIFT_NAME(kUserEmail);
 /*!
  @const SMUserDataPasswordKey
  @abstract Password key.
  */
-extern NSString *const SMUserDataPasswordKey;
+extern NSString *const SMUserDataPasswordKey NS_SWIFT_NAME(kUserPassword);
 /*!
  @const SMUserDataYOBKey
  @abstract Year of birth key.
  */
-extern NSString *const SMUserDataYOBKey;
+extern NSString *const SMUserDataYOBKey NS_SWIFT_NAME(kUserYearOfBirth);
 /*!
  @const SMUserDataBirthYearKey
  @abstract Year of birth key.
  */
-extern NSString *const SMUserDataBirthYearKey;
+extern NSString *const SMUserDataBirthYearKey NS_SWIFT_NAME(kUserBirthYear);
 /*!
  @const SMUserDataAgeKey
  @abstract Age key.
  */
-extern NSString *const SMUserDataAgeKey;
+extern NSString *const SMUserDataAgeKey NS_SWIFT_NAME(kUserAge);
 /*!
  @const SMUserDataGenderKey
  @abstract Gender key.
  */
-extern NSString *const SMUserDataGenderKey;
+extern NSString *const SMUserDataGenderKey NS_SWIFT_NAME(kUserGender);
 /*!
  @const SMUserDataProfileImageURLKey
  @abstract Profile image URL key.
  */
-extern NSString *const SMUserDataProfileImageURLKey;
+extern NSString *const SMUserDataProfileImageURLKey NS_SWIFT_NAME(kUserProfileImageURL);
 /*!
  @const SMUserDataFirstNameKey
  @abstract First name key.
  */
-extern NSString *const SMUserDataFirstNameKey;
+extern NSString *const SMUserDataFirstNameKey NS_SWIFT_NAME(kUserFirstName);
 /*!
  @const SMUserDataLastNameKey
  @abstract Last name key.
  */
-extern NSString *const SMUserDataLastNameKey;
+extern NSString *const SMUserDataLastNameKey NS_SWIFT_NAME(kUserLastName);
 /*!
  @const SMUserDataZipcodeKey
  @abstract Zipcode key.
  */
-extern NSString *const SMUserDataZipcodeKey;
+extern NSString *const SMUserDataZipcodeKey NS_SWIFT_NAME(kUserZipCode);
 
+NS_ASSUME_NONNULL_END
 
 #endif /* __SESSIONM__ */

@@ -13,6 +13,8 @@
 #import "SMReferral.h"
 #import "SMReferralRequest.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /*!
  @class SMReferralError
  @abstract Defines the data associated with a registration referral error.
@@ -31,5 +33,7 @@
 @property(nonatomic, strong, readonly) SMReferralRequest *referral;
 
 @end
+
+NS_ASSUME_NONNULL_END
 
 #endif /* __SM_REFERRAL_ERROR__ */

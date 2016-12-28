@@ -10,6 +10,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /*!
  @typedef SMSVerificationStatus
  @abstract User verification status.
@@ -20,13 +22,13 @@
  @constant SMSVerificationStatusInvalid Verification code was rejected.
  @constant SMSVerificationStatusExpired Verification code is expired, need to re-issue.
  */
-typedef enum SMSVerificationStatus {
-    SMSVerificationStatusUnknown,
-    SMSVerificationStatusValid,
-    SMSVerificationStatusPending,
-    SMSVerificationStatusInvalid,
-    SMSVerificationStatusExpired
-} SMSVerificationStatus;
+typedef NS_ENUM(NSInteger, SMSVerificationStatus) {
+    SMSVerificationStatusUnknown NS_SWIFT_NAME(unknown),
+    SMSVerificationStatusValid NS_SWIFT_NAME(valid),
+    SMSVerificationStatusPending NS_SWIFT_NAME(pending),
+    SMSVerificationStatusInvalid NS_SWIFT_NAME(invalid),
+    SMSVerificationStatusExpired NS_SWIFT_NAME(expired)
+};
 
 
 /*!
@@ -39,7 +41,7 @@ typedef enum SMSVerificationStatus {
  @property verificationID
  @abstract Unique ID for verification.
  */
-@property(nonatomic, strong, readonly) NSString *verificationID;
+@property(nonnull, nonatomic, strong, readonly) NSString *verificationID;
 /*!
  @property status
  @abstract User verification status.
@@ -49,32 +51,28 @@ typedef enum SMSVerificationStatus {
  @property mode
  @abstract Medium used to send verification code to user (e.g. "sms").
  */
-@property(nonatomic, strong, readonly) NSString *mode;
+@property(nullable, nonatomic, strong, readonly) NSString *mode;
 /*!
  @property extras
  @abstract Any data values that do not have an associated class property.
  */
-@property(nonatomic, strong, readonly) NSDictionary *extras;
-
-/*!
- @abstract Returns verification data in a formatted string.
- @result Formatted <code>NSString</code>.
- */
-- (NSString *)asString;
+@property(nullable, nonatomic, strong, readonly) NSDictionary<NSString *, NSObject *> *extras;
 
 /*!
  @abstract Converts specified string value to the corresponding @link SMSVerificationStatus @/link enum value.
  @param string String to convert.
  @result @link SMSVerificationStatus @/link enum value.
  */
-+ (SMSVerificationStatus)statusForString:(NSString *)string;
++ (SMSVerificationStatus)statusForString:(NSString *)string NS_SWIFT_NAME(verificationStatus(from:));
 /*!
  @abstract Converts specified @link SMSVerificationStatus @/link enum value to the corresponding string value.
  @param status Status to convert.
  @result <code>NSString</code> value.
  */
-+ (NSString *)stringForStatus:(SMSVerificationStatus)status;
++ (NSString *)stringForStatus:(SMSVerificationStatus)status NS_SWIFT_NAME(string(from:));
 
 @end
+
+NS_ASSUME_NONNULL_END
 
 #endif /* __SMS_VERIFICATION__ */

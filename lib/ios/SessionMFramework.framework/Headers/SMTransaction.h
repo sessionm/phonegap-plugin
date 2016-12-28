@@ -10,6 +10,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /*!
  @typedef SMTransactionKind
  @abstract Transaction kind.
@@ -18,11 +20,11 @@
  @constant SMTransactionKindCredit User earned points from the transaction.
  @constant SMTransactionKindDebit User lost points from the transaction.
  */
-typedef enum SMTransactionKind {
-    SMTransactionKindUnknown,
-    SMTransactionKindCredit,
-    SMTransactionKindDebit
-} SMTransactionKind;
+typedef NS_ENUM (NSInteger, SMTransactionKind) {
+    SMTransactionKindUnknown NS_SWIFT_NAME(unknown),
+    SMTransactionKindCredit NS_SWIFT_NAME(credit),
+    SMTransactionKindDebit NS_SWIFT_NAME(debit)
+};
 
 /*!
  @typedef SMTransactionSource
@@ -37,16 +39,16 @@ typedef enum SMTransactionKind {
  @constant SMTransactionSourceComp Points were given to user as compensation.
  @constant SMTransactionSourceUsed Points were lost from making a rewards store purchase.
  */
-typedef enum SMTransactionSource {
-    SMTransactionSourceUnknown,
-    SMTransactionSourceAchievement,
-    SMTransactionSourceContest,
-    SMTransactionSourceSponsor,
-    SMTransactionSourceMerchantRewards,
-    SMTransactionSourceEnterprise,
-    SMTransactionSourceComp,
-    SMTransactionSourceUsed
-} SMTransactionSource;
+typedef NS_ENUM (NSInteger, SMTransactionSource) {
+    SMTransactionSourceUnknown NS_SWIFT_NAME(unknown),
+    SMTransactionSourceAchievement NS_SWIFT_NAME(achievement),
+    SMTransactionSourceContest NS_SWIFT_NAME(contest),
+    SMTransactionSourceSponsor NS_SWIFT_NAME(sponsor),
+    SMTransactionSourceMerchantRewards NS_SWIFT_NAME(merchantRewards),
+    SMTransactionSourceEnterprise NS_SWIFT_NAME(enterprise),
+    SMTransactionSourceComp NS_SWIFT_NAME(comp),
+    SMTransactionSourceUsed NS_SWIFT_NAME(used)
+};
 
 /*!
  @typedef SMTransactionPointsType
@@ -62,17 +64,17 @@ typedef enum SMTransactionSource {
  @constant SMTransactionPointsTypeLoyaltyCard Points were earned from a loyalty card transaction.
  @constant SMTransactionPointsTypeHistorical Indicates that the transaction data was migrated into the SessionM Mobile Marketing Cloud from an external rewards system.
  */
-typedef enum SMTransactionPointsType {
-    SMTransactionPointsTypeUnknown,
-    SMTransactionPointsTypeDonation,
-    SMTransactionPointsTypeSweepstakes,
-    SMTransactionPointsTypeMerchandise,
-    SMTransactionPointsTypeDigital,
-    SMTransactionPointsTypePhysical,
-    SMTransactionPointsTypeReceipt,
-    SMTransactionPointsTypeLoyaltyCard,
-    SMTransactionPointsTypeHistorical
-} SMTransactionPointsType;
+typedef NS_ENUM (NSInteger, SMTransactionPointsType) {
+    SMTransactionPointsTypeUnknown NS_SWIFT_NAME(unknown),
+    SMTransactionPointsTypeDonation NS_SWIFT_NAME(donation),
+    SMTransactionPointsTypeSweepstakes NS_SWIFT_NAME(sweepstakes),
+    SMTransactionPointsTypeMerchandise NS_SWIFT_NAME(merchandise),
+    SMTransactionPointsTypeDigital NS_SWIFT_NAME(digital),
+    SMTransactionPointsTypePhysical NS_SWIFT_NAME(physical),
+    SMTransactionPointsTypeReceipt NS_SWIFT_NAME(receipt),
+    SMTransactionPointsTypeLoyaltyCard NS_SWIFT_NAME(loyaltyCard),
+    SMTransactionPointsTypeHistorical NS_SWIFT_NAME(historical)
+};
 
 
 /*!
@@ -90,7 +92,7 @@ typedef enum SMTransactionPointsType {
  @property balance
  @abstract User's loyalty points balance after the transaction was made.
  */
-@property(nonatomic, assign, readonly) int balance;
+@property(nonatomic, assign, readonly) NSInteger balance;
 /*!
  @property date
  @abstract Date of transaction.
@@ -105,12 +107,12 @@ typedef enum SMTransactionPointsType {
  @property points
  @abstract Amount of points earned or lost from the transaction.
  */
-@property(nonatomic, assign, readonly) int points;
+@property(nonatomic, assign, readonly) NSInteger points;
 /*!
  @property recordModelID
  @abstract Associated ID for corresponding receipt submission result or loyalty card transaction.
  */
-@property(nonatomic, strong, readonly) NSString *recordModelID;
+@property(nullable, nonatomic, strong, readonly) NSString *recordModelID;
 /*!
  @property transaction
  @abstract Kind of transaction.
@@ -130,46 +132,48 @@ typedef enum SMTransactionPointsType {
  @property extras
  @abstract Any data values that do not have an associated class property.
  */
-@property(nonatomic, strong, readonly) NSDictionary *extras;
+@property(nullable, nonatomic, strong, readonly) NSDictionary<NSString *, NSObject *> *extras;
 
 /*!
  @abstract Converts specified string value to the corresponding @link SMTransactionKind @/link enum value.
  @param string String to convert.
  @result @link SMTransactionKind @/link enum value.
  */
-+ (SMTransactionKind)transactionKindForString:(NSString *)string;
++ (SMTransactionKind)transactionKindForString:(NSString *)string NS_SWIFT_NAME(transactionKind(from:));
 /*!
  @abstract Converts specified string value to the corresponding @link SMTransactionSource @/link enum value.
  @param string String to convert.
  @result @link SMTransactionSource @/link enum value.
  */
-+ (SMTransactionSource)transactionSourceForString:(NSString *)string;
++ (SMTransactionSource)transactionSourceForString:(NSString *)string NS_SWIFT_NAME(transactionSource(from:));
 /*!
  @abstract Converts specified string value to the corresponding @link SMTransactionPointsType @/link enum value.
  @param string String to convert.
  @result @link SMTransactionPointsType @/link enum value.
  */
-+ (SMTransactionPointsType)transactionPointsTypeForString:(NSString *)string;
++ (SMTransactionPointsType)transactionPointsTypeForString:(NSString *)string NS_SWIFT_NAME(transactionPointsType(from:));
 
 /*!
  @abstract Converts specified @link SMTransactionKind @/link enum value to the corresponding string value.
  @param kind Transaction kind to convert.
  @result <code>NSString</code> value.
  */
-+ (NSString *)stringForTransactionKind:(SMTransactionKind)kind;
++ (NSString *)stringForTransactionKind:(SMTransactionKind)kind NS_SWIFT_NAME(string(from:));
 /*!
  @abstract Converts specified @link SMTransactionSource @/link enum value to the corresponding string value.
  @param source Transaction source to convert.
  @result <code>NSString</code> value.
  */
-+ (NSString *)stringForTransactionSource:(SMTransactionSource)source;
++ (NSString *)stringForTransactionSource:(SMTransactionSource)source NS_SWIFT_NAME(string(from:));
 /*!
  @abstract Converts specified @link SMTransactionPointsType @/link enum value to the corresponding string value.
  @param type Transaction points type to convert.
  @result <code>NSString</code> value.
  */
-+ (NSString *)stringForTransactionPointsType:(SMTransactionPointsType)type;
++ (NSString *)stringForTransactionPointsType:(SMTransactionPointsType)type NS_SWIFT_NAME(string(from:));
 
 @end
+
+NS_ASSUME_NONNULL_END
 
 #endif /* __SM_TRANSACTION__ */

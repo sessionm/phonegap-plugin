@@ -10,6 +10,8 @@
 
 #import "SMMessage.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /*!
  @class SMNotificationMessage
  @abstract Defines the data associated with a push notification or behavior notification message.
@@ -18,5 +20,7 @@
 @interface SMNotificationMessage : SMMessage
 
 @end
+
+NS_ASSUME_NONNULL_END
 
 #endif /* __SM_NOTIFICATION_MESSAGE__ */

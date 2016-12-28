@@ -10,6 +10,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /*!
  @typedef SMContentState
  @abstract Content development state.
@@ -18,11 +20,11 @@
  @constant SMContentStateLive Content is live and should be made visible to users.
  @constant SMContentStatePreview Content is in development and should not be made visible to users.
  */
-typedef enum SMContentState {
-    SMContentStateUnknown,
-    SMContentStateLive,
-    SMContentStatePreview
-} SMContentState;
+typedef NS_ENUM (NSInteger, SMContentState) {
+    SMContentStateUnknown NS_SWIFT_NAME(unknown),
+    SMContentStateLive NS_SWIFT_NAME(live),
+    SMContentStatePreview NS_SWIFT_NAME(preview)
+};
 
 
 /*!
@@ -30,17 +32,16 @@ typedef enum SMContentState {
  @abstract Defines the data associated with a promotional item in a content feed.
  */
 @interface SMContent : NSObject
-
 /*!
  @property contentID
  @abstract Unique ID for content.
  */
-@property(nonatomic, strong, readonly) NSString *contentID;
+@property(nonnull, nonatomic, strong, readonly) NSString *contentID;
 /*!
  @property externalID
  @abstract Developer-defined ID associated with the content.
  */
-@property(nonatomic, strong, readonly) NSString *externalID;
+@property(nullable, nonatomic, strong, readonly) NSString *externalID;
 /*!
  @property name
  @abstract Content name.
@@ -65,7 +66,7 @@ typedef enum SMContentState {
  @property descriptionText
  @abstract Content description.
  */
-@property(nonatomic, strong, readonly) NSString *descriptionText;
+@property(nullable, nonatomic, strong, readonly) NSString *descriptionText;
 /*!
  @property weight
  @abstract Developer-defined numerical value that can be used to sort contents.
@@ -75,7 +76,7 @@ typedef enum SMContentState {
  @property imageURL
  @abstract URL to image associated with the content.
  */
-@property(nonatomic, strong, readonly) NSString *imageURL;
+@property(nullable, nonatomic, strong, readonly) NSString *imageURL;
 /*!
  @property createdTime
  @abstract Indicates when content was created.
@@ -85,36 +86,38 @@ typedef enum SMContentState {
  @property updatedTime
  @abstract Indicates when content was updated.
  */
-@property(nonatomic, strong, readonly) NSString *updatedTime;
+@property(nullable, nonatomic, strong, readonly) NSString *updatedTime;
 /*!
  @property expiresTime
  @abstract Indicates when content will expire.
  */
-@property(nonatomic, strong, readonly) NSString *expiresTime;
+@property(nullable, nonatomic, strong, readonly) NSString *expiresTime;
 /*!
  @property metadata
  @abstract Metadata associated with the content.
  */
-@property(nonatomic, strong, readonly) NSDictionary *metadata;
+@property(nullable, nonatomic, strong, readonly) NSDictionary<NSString *, NSObject *> *metadata;
 /*!
  @property extras
  @abstract Any data values that do not have an associated class property.
  */
-@property(nonatomic, strong, readonly) NSDictionary *extras;
+@property(nullable, nonatomic, strong, readonly) NSDictionary<NSString *, NSObject *> *extras;
 
 /*!
  @abstract Converts specified string value to the corresponding @link SMContentState @/link enum value.
  @param string String to convert.
  @result @link SMContentState @/link enum value.
  */
-+ (SMContentState)stateForString:(NSString *)string;
++ (SMContentState)stateForString:(NSString *)string NS_SWIFT_NAME(contentState(from:));
 /*!
  @abstract Converts specified @link SMContentState @/link enum value to the corresponding string value.
  @param state State to convert.
  @result <code>NSString</code> value.
  */
-+ (NSString *)stringForState:(SMContentState)state;
++ (NSString *)stringForState:(SMContentState)state NS_SWIFT_NAME(string(from:));
 
 @end
+
+NS_ASSUME_NONNULL_END
 
 #endif /* __SM_CONTENT__ */

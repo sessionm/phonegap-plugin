@@ -10,6 +10,8 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /*!
  @typedef SMLoaderControllerLoadStatus
  @abstract Status of the current load.
@@ -18,11 +20,11 @@
  @constant SMLoaderControllerLoadStatusFailed Indicates session is online, but content could not be reached.
  @constant SMLoaderControllerLoadStatusUnavailable Indicates content is unavailable (because session is not online, etc.).
  */
-typedef enum SMLoaderControllerLoadStatus {
-    SMLoaderControllerLoadStatusLoading = 100,
-    SMLoaderControllerLoadStatusFailed = 101,
-    SMLoaderControllerLoadStatusUnavailable = 102
-} SMLoaderControllerLoadStatus;
+typedef NS_ENUM(NSInteger, SMLoaderControllerLoadStatus) {
+    SMLoaderControllerLoadStatusLoading NS_SWIFT_NAME(loading) = 100,
+    SMLoaderControllerLoadStatusFailed NS_SWIFT_NAME(failed) = 101,
+    SMLoaderControllerLoadStatusUnavailable NS_SWIFT_NAME(unavailable) = 102
+};
 
 
 /*!
@@ -36,14 +38,14 @@ typedef enum SMLoaderControllerLoadStatus {
  @property loadStatus
  @abstract SMLoaderControllerLoadStatus - represents the status of the current load.
  */
-@property(nonatomic, readonly) SMLoaderControllerLoadStatus loadStatus;
+@property(nonatomic, assign, readonly) SMLoaderControllerLoadStatus loadStatus;
 
 /*!
  @abstract Updates the view based on the current load status.
  @discussion Called when the value of @link loadStatus @/link changes. This method should not be called directly, but the developer should override it to update their custom view based on the current load status.
  @param status Current load status.
  */
-- (void)updateViewForLoadStatus:(SMLoaderControllerLoadStatus)status;
+- (void)updateViewForLoadStatus:(SMLoaderControllerLoadStatus)status NS_SWIFT_NAME(updateView(for:));
 /*!
  @abstract Attempts to reload the portal content after a failed attempt.
  @discussion Called by the developer when implementing a custom load screen. Note: this method has no effect unless the current load status is @link SMLoaderControllerLoadStatusFailed @/link.
@@ -56,5 +58,7 @@ typedef enum SMLoaderControllerLoadStatus {
 - (void)dismissPortal;
 
 @end
+
+NS_ASSUME_NONNULL_END
 
 #endif /* __SM_LOADER_CONTROLLER__ */

@@ -11,6 +11,8 @@
 #import <UIKit/UIKit.h>
 #import "SMMessage.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /*!
  @class SMFeedMessage
  @abstract Defines the data associated with an activity feed message.
@@ -22,18 +24,20 @@
  @property iconURL
  @abstract URL for icon displayed in @link //apple_ref/occ/cl/SMActivityFeedViewCell @/link instance.
  */
-@property(nonatomic, copy, readonly) NSString *iconURL;
+@property(nullable, nonatomic, copy, readonly) NSString *iconURL;
 /*!
  @property imageURL
  @abstract URL for optional banner image displayed at bottom of @link //apple_ref/occ/cl/SMActivityFeedViewCell @/link instance.
  */
-@property(nonatomic, copy, readonly) NSString *imageURL;
+@property(nullable, nonatomic, copy, readonly) NSString *imageURL;
 /*!
  @property videoURL
  @abstract URL for optional video content.
  */
-@property(nonatomic, copy, readonly) NSString *videoURL;
+@property(nullable, nonatomic, copy, readonly) NSString *videoURL;
 
 @end
+
+NS_ASSUME_NONNULL_END
 
 #endif /* __SM_FEED_MESSAGE__ */

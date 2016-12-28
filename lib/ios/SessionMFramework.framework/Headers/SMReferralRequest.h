@@ -11,6 +11,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /*!
  @class SMReferralRequest
  @abstract Defines the data associated with a registration referral request.
@@ -26,27 +28,27 @@
  @property name
  @abstract Name of person being referred.
  */
-@property(nonatomic, strong, readonly) NSString *name;
+@property(nullable, nonatomic, strong, readonly) NSString *name;
 /*!
  @property phoneNumber
  @abstract Referee's phone number.
  */
-@property(nonatomic, strong, readonly) NSString *phoneNumber;
+@property(nullable, nonatomic, strong, readonly) NSString *phoneNumber;
 /*!
  @property origin
  @abstract Referral origin.
  */
-@property(nonatomic, strong, readonly) NSString *origin;
+@property(nullable, nonatomic, strong, readonly) NSString *origin;
 /*!
  @property source
  @abstract Referral source.
  */
-@property(nonatomic, strong, readonly) NSString *source;
+@property(nullable, nonatomic, strong, readonly) NSString *source;
 /*!
  @property clientData
  @abstract Opaque developer-defined data.
  */
-@property(nonatomic, strong, readonly) id clientData;
+@property(nullable, nonatomic, strong, readonly) id clientData;
 
 /*!
  @abstract Creates a new instance of <code>SMReferralRequest</code> with the specified parameters.
@@ -58,7 +60,7 @@
  @param clientData Opaque developer-defined data (optional).
  @result <code>SMReferralRequest</code> instance.
  */
-- (instancetype)initWithEmail:(NSString *)email name:(NSString *)name phoneNumber:(NSString *)phoneNumber origin:(NSString *)origin source:(NSString *)source clientData:(id)clientData;
+- (instancetype)initWithEmail:(NSString *)email name:(NSString * _Nullable)name phoneNumber:(NSString * _Nullable)phoneNumber origin:(NSString * _Nullable)origin source:(NSString * _Nullable)source clientData:(id _Nullable)clientData NS_SWIFT_NAME(init(email:name:phoneNumber:origin:source:clientData:));
 /*!
  @abstract Returns referral request data in a dictionary format.
  @result <code>NSDictionary</code> respresentation of referral request data.
@@ -82,7 +84,7 @@
  @property referrer
  @abstract Name of user sending referrals.
  */
-@property(nonatomic, strong, readonly) NSString *referrer;
+@property(nullable, nonatomic, strong, readonly) NSString *referrer;
 
 /*!
  @abstract Creates a new instance of <code>SMReferralsRequest</code> with the specified parameters.
@@ -90,8 +92,10 @@
  @param referrer Name of user sending referrals (optional).
  @result <code>SMReferralsRequest</code> instance.
  */
-- (instancetype)initWithRequests:(NSArray<SMReferralRequest *> *)requests referrer:(NSString *)referrer;
+- (instancetype)initWithRequests:(NSArray<SMReferralRequest *> *)requests referrer:(NSString * _Nullable)referrer NS_SWIFT_NAME(init(requests:referrer:));
 
 @end
+
+NS_ASSUME_NONNULL_END
 
 #endif /* __SM_REFERRAL_REQUEST__ */

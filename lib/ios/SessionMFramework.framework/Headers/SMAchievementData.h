@@ -10,6 +10,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /*!
  @class Achievement data class.
  @abstract Defines information about achievement used to customize achievement alert presentation.
@@ -24,22 +26,22 @@
  @property importID
  @abstract ID assigned to the achievement in the csv file exported from the SessionM Developer Portal.
  */
-@property(nonatomic, copy, readonly) NSString *importID;
+@property(nullable, nonatomic, copy, readonly) NSString *importID;
 /*!
  @property instructions
  @abstract Instructions explaining how to earn achievement.
  */
-@property(nonatomic, copy, readonly) NSString *instructions;
+@property(nullable, nonatomic, copy, readonly) NSString *instructions;
 /*!
  @property name
  @abstract Achievement name.
  */
-@property(nonatomic, copy, readonly) NSString *name;
+@property(nullable, nonatomic, copy, readonly) NSString *name;
 /*!
  @property message
  @abstract Message describing the achievement.
  */
-@property(nonatomic, copy, readonly) NSString *message;
+@property(nullable, nonatomic, copy, readonly) NSString *message;
 /*!
  @property action
  @abstract Action name.
@@ -49,7 +51,7 @@
  @property limitText
  @abstract Description of amount of times achievement can be earned (e.g. "Once" or "1 time every day").
  */
-@property(nonatomic, copy, readonly) NSString *limitText;
+@property(nullable, nonatomic, copy, readonly) NSString *limitText;
 /*!
  @property mpointValue
  @abstract Achievement mPoint value.
@@ -65,7 +67,7 @@
  @property achievementIconURL
  @abstract Icon URL.
  */
-@property(nonatomic, copy, readonly) NSString *achievementIconURL;
+@property(nullable, nonatomic, copy, readonly) NSString *achievementIconURL;
 /*!
  @property isCustom
  @abstract Boolean indicating if achievement presentation is custom.
@@ -75,7 +77,7 @@
  @property lastEarnedDate
  @abstract Date the unclaimed achievement was last earned.
  */
-@property(nonatomic, readonly) NSDate *lastEarnedDate;
+@property(nullable, nonatomic, readonly) NSDate *lastEarnedDate;
 /*!
  @property timesEarned
  @abstract Amount of times the achievement has been earned by the user.
@@ -92,5 +94,7 @@
  */
 @property(nonatomic, readonly) NSInteger distance;
 @end
+
+NS_ASSUME_NONNULL_END
 
 #endif /* __SM_ACHIEVEMENT_DATA__ */

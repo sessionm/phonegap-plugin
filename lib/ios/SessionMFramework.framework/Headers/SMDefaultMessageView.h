@@ -10,6 +10,8 @@
 
 #import "SMMessageView.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /*!
  @class SMDefaultMessageView
  @abstract Standard implementation of @link SMMessageView @/link.
@@ -47,5 +49,7 @@
 - (void)dismiss;
 
 @end
+
+NS_ASSUME_NONNULL_END
 
 #endif /* __SM_DEFAULT_MESSAGE_VIEW__ */

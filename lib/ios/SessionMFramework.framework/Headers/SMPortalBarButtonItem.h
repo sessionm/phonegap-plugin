@@ -10,6 +10,8 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /*!
  @class SMPortalBarButtonItem
  @abstract Portal bar button item.
@@ -20,14 +22,16 @@
  @property presentingController
  @discussion UIViewController object to use as presenting controller for portal view controller.
  */
-@property(nonatomic, strong) UIViewController *presentingController;
+@property(nullable, nonatomic, strong, readwrite) UIViewController *presentingController;
 
 /*!
  Returns new instance.
  @result New <code>SMPortalBarButtonItem<code> object
  */
-+ (SMPortalBarButtonItem *)newInstance;
++ (instancetype _Nullable)newInstance NS_SWIFT_NAME(init());
 
 @end
+
+NS_ASSUME_NONNULL_END
 
 #endif /* __SM_PORTAL_BAR_BUTTON_ITEM__ */

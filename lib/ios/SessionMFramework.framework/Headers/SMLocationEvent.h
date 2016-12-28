@@ -8,6 +8,8 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /*!
  @typedef SMLocationEventTriggerType
  @abstract Specifies how the location event is triggered.
@@ -16,11 +18,11 @@
  @constant SMLocationEventTriggerTypeEnter Location event is triggered by entering the associated geofence.
  @constant SMLocationEventTriggerTypeDwell Location event is triggered by remaining in the associated geofence for the amount of time specified by @link delay @/link.
  */
-typedef enum SMLocationEventTriggerType {
-    SMLocationEventTriggerTypeExit,
-    SMLocationEventTriggerTypeEnter,
-    SMLocationEventTriggerTypeDwell
-} SMLocationEventTriggerType;
+typedef NS_ENUM(NSInteger, SMLocationEventTriggerType) {
+    SMLocationEventTriggerTypeExit NS_SWIFT_NAME(exit),
+    SMLocationEventTriggerTypeEnter NS_SWIFT_NAME(enter),
+    SMLocationEventTriggerTypeDwell NS_SWIFT_NAME(dwell)
+};
 
 
 /*!
@@ -36,6 +38,11 @@ typedef enum SMLocationEventTriggerType {
  */
 @property(nonatomic, strong, readonly) NSString *eventName;
 /*!
+ @property identifier
+ @abstract Unique identifier that is tied to the geo location entry.
+ */
+@property(nonatomic, strong, readonly) NSString *identifier;
+/*!
  @property latitude
  @abstract Latitude for the geofence center point.
  */
@@ -49,12 +56,13 @@ typedef enum SMLocationEventTriggerType {
  @property radius
  @abstract Geofence radius of effect (in meters).
  */
-@property(nonatomic, assign, readonly) int radius;
+@property(nonatomic, assign, readonly) NSInteger radius;
 /*!
  @property triggerType
  @abstract Specifies how the location event is triggered.
  */
 @property(nonatomic, assign, readonly) SMLocationEventTriggerType triggerType;
+@property(nonatomic, strong, readonly) NSString *triggerTypeString;
 /*!
  @property delay
  @abstract Specifies how long a user must remain in the geofence to trigger the location event when @link triggerType @/link is set to <code>SMLocationEventTriggerTypeDwell</code>.
@@ -65,7 +73,7 @@ typedef enum SMLocationEventTriggerType {
  @property metaData
  @abstract Meta data associated with the location event.
  */
-@property(nonatomic, strong, readonly) NSDictionary *metaData;
+@property(nonatomic, strong, readonly) NSDictionary<NSString *, NSObject *> *metaData;
 /*!
  @property distance
  @abstract Distance from @link //apple_ref/occ/instp/SMLocationManager/currentGeoLocation @/link to the geofence center point.
@@ -73,3 +81,5 @@ typedef enum SMLocationEventTriggerType {
 @property(nonatomic, assign, readonly) CLLocationDistance distance;
 
 @end
+
+NS_ASSUME_NONNULL_END
